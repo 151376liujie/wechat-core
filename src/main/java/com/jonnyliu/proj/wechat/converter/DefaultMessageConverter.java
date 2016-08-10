@@ -5,9 +5,10 @@ import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
 import com.jonnyliu.proj.wechat.message.request.ImageRequestMessage;
 import com.jonnyliu.proj.wechat.message.request.TextRequestMessage;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,11 +18,7 @@ import java.util.Map;
 @Component
 public class DefaultMessageConverter implements MessageConvert {
 
-    private static final Map<MessageType, Class<? extends MessageConvert>> convertMap = new HashMap<>();
-
-    static {
-//        convertMap.put(MessageType.TEXT_MESSAGE,)
-    }
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultMessageConverter.class);
 
     @Override
     public BaseRequestMessage doConvert(Map<String, String> xmlMap) {
@@ -30,8 +27,12 @@ public class DefaultMessageConverter implements MessageConvert {
 
         switch (messageType) {
             case TEXT_MESSAGE:
+                if (LOGGER.isInfoEnabled()) {
+                    LOGGER.info("do convert from text message type to TextRequestMessage=====");
+                }
                 String content = xmlMap.get("Content");
                 TextRequestMessage textRequestMessage = new TextRequestMessage();
+                //填充消息对象
                 MessageUtils.inflateBaseRequestMessage(xmlMap, textRequestMessage);
                 textRequestMessage.setContent(content);
                 return textRequestMessage;
@@ -43,6 +44,7 @@ public class DefaultMessageConverter implements MessageConvert {
                 imageRequestMessage.setMediaId(mediaId);
                 imageRequestMessage.setPicUrl(picUrl);
                 return imageRequestMessage;
+            //TODO:其他类的转换
         }
         return null;
     }

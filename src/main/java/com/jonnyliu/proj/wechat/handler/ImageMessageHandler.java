@@ -3,7 +3,6 @@ package com.jonnyliu.proj.wechat.handler;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
 import com.jonnyliu.proj.wechat.message.request.ImageRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
-import com.jonnyliu.proj.wechat.utils.MessageUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,11 +18,7 @@ public class ImageMessageHandler extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
         if (baseRequestMessage instanceof ImageRequestMessage) {
-            ImageRequestMessage imageRequestMessage = (ImageRequestMessage) baseRequestMessage;
-            String mediaId = imageRequestMessage.getMediaId();
-            String picUrl = imageRequestMessage.getPicUrl();
-            LOGGER.info(imageRequestMessage.toString());
-            return MessageUtils.buildImageResponseMessage(baseRequestMessage, mediaId, picUrl);
+            //在这里实现图片消息处理的逻辑
         }
         return null;
     }
