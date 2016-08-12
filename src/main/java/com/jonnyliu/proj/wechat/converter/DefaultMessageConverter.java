@@ -27,9 +27,6 @@ public class DefaultMessageConverter implements MessageConvert {
 
         switch (messageType) {
             case TEXT_MESSAGE:
-                if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("do convert from text message type to TextRequestMessage=====");
-                }
                 String content = xmlMap.get("Content");
                 TextRequestMessage textRequestMessage = new TextRequestMessage();
                 //填充消息对象
