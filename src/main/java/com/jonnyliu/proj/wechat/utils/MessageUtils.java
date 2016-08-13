@@ -209,6 +209,14 @@ public class MessageUtils {
         return requestMessage;
     }
 
+    /**
+     * 构建图片响应消息
+     *
+     * @param baseRequestMessage
+     * @param mediaId
+     * @param picUrl
+     * @return
+     */
     public static ImageResponseMessage buildImageResponseMessage(BaseRequestMessage baseRequestMessage, String mediaId, String picUrl) {
         ImageResponseMessage imageResponseMessage = new ImageResponseMessage();
         imageResponseMessage.setMsgType(MessageType.IMAGE_MESSAGE.getTypeStr());
@@ -220,4 +228,6 @@ public class MessageUtils {
         imageResponseMessage.setImage(image);
         return imageResponseMessage;
     }
+
+    //TODO:构建其他各种类型响应消息
 }

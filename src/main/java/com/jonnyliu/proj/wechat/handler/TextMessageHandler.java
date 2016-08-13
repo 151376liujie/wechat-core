@@ -10,8 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 文本消息处理器
- * Created by jonnyliu on 2016/8/6 10:57.
+ * 文本消息处理器事例 <br/>
+ * author : 980463316@qq.com
+ * Created on 2016/8/6 10:57.
  */
 @MessageWorker(type = MessageType.TEXT_MESSAGE)
 public class TextMessageHandler extends AbstractMessageHandler {

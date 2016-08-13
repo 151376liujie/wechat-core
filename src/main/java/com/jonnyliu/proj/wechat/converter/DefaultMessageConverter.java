@@ -13,7 +13,8 @@ import java.util.Map;
 
 /**
  * 默认的消息转换器，将用户发送至公众号的消息xml字符串转换为消息对象
- * Created by liujie on 2016/8/6 15:31.
+ * author : 980463316@qq.com <br/>
+ * Created on 2016/8/6 15:31.
  */
 @Component
 public class DefaultMessageConverter implements MessageConvert {

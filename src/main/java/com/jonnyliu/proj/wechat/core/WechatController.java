@@ -23,10 +23,10 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * 微信消息处理器的入口
- * Created by liujie-ds8 on 2016/8/5.
+ * 微信消息处理器的入口 <br/>
+ * author : 980463316@qq.com <br/>
+ * Created on 2016/8/5 16:29
  */
-
 @Controller
 @RequestMapping(value = "/wechat")
 public class WechatController {
@@ -65,8 +65,7 @@ public class WechatController {
     }
 
     /**
-     * 接收微信服务器的post请求
-     *
+     * 接收微信服务器的post请求并响应
      * @return
      */
     @ResponseBody

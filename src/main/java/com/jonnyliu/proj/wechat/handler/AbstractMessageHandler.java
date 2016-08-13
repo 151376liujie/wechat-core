@@ -6,8 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 消息处理器接口
- * Created by liujie on 2016/8/6 10:55.
+ * 消息处理器的抽象类，可继承该类实现在处理消息时执行一些额外工作，例如消息过滤 <br/>
+ * author : 980463316@qq.com <br/>
+ * Created on 2016/8/6 10:55.
  */
 public abstract class AbstractMessageHandler implements MessageHandler {
 

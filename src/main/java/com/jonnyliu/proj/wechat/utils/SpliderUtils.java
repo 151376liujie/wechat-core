@@ -11,17 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 爬虫工具类
- * Created by liujie on 2016/8/7 16:38.
+ * 爬虫工具类 <br/>
+ * author : 980463316@qq.com
+ * Created on 2016/8/7 16:38.
  */
 public class SpliderUtils {
 
     private static final String FUN_URL = "http://www.lsw1994.com/api/xh/";
 
-    private static final String SONG_URL = "http://www.lsw1994.com/api/xh/";
-
     private static final Logger LOGGER = LoggerFactory.getLogger(SpliderUtils.class);
 
+    /**
+     * 抓取网页内容，提取感兴趣的内容
+     *
+     * @param url
+     * @return
+     */
     public static List<String> parseUrl(String url) {
         List<String> list = new ArrayList<>();
         try {

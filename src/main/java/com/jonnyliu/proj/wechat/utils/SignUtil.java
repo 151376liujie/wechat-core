@@ -9,7 +9,8 @@ import java.util.Arrays;
 
 /**
  * 请求校验工具类
- *
+ * author : 980463316@qq.com <br/>
+ * Created on 2016/08/09 15:38.
  */
 public class SignUtil {
 

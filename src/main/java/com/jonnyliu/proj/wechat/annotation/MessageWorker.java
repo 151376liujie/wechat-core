@@ -8,11 +8,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by liujie on 2016/8/13 11:29.
- * 用来标注真正处理消息的处理器，该注解只能标注在 <br/>
+ * author: 980463316@qq.com <br/>
+ * created on 2016/8/13 11:29.
+ * 用来标注真正处理消息的处理器，该注解只能标注在 AbstractMessageHandler的子类下
+ * @see com.jonnyliu.proj.wechat.handler.AbstractMessageHandler AbstractMessageHandler <br/>
  *
- * @see com.jonnyliu.proj.wechat.handler.AbstractMessageHandler  AbstractMessageHandler<br/>
- * 的子类下
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

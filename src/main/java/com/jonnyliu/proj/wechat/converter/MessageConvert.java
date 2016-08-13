@@ -6,7 +6,8 @@ import java.util.Map;
 
 /**
  * 消息转换器，将不同类型的消息转换成不同类型的消息对象
- * Created by liujie on 2016/8/6 15:26.
+ * author : 980463316@qq.com <br/>
+ * Created on 2016/8/6 15:26.
  */
 public interface MessageConvert {
 

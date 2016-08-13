@@ -1,9 +1,9 @@
 package com.jonnyliu.proj.wechat.enums;
 
 /**
- * 消息类型
- *
- * Created by liujie-ds8 on 2016/8/5.
+ * 消息类型的枚举定义 <br/>
+ * author : 980463316@qq.com <br/>
+ * Created on 2016/8/5 15:13.
  */
 public enum MessageType {
 
