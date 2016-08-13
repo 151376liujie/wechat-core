@@ -4,3 +4,6 @@ wechat-core.iml
 
 #maven
 target/
+
+#config
+wechat.properties
