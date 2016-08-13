@@ -1,13 +1,14 @@
 package com.jonnyliu.proj.wechat.core;
 
+import com.jonnyliu.proj.wechat.annotation.MessageWorker;
 import com.jonnyliu.proj.wechat.enums.MessageType;
-import com.jonnyliu.proj.wechat.handler.*;
+import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
+import com.jonnyliu.proj.wechat.utils.ClassPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 默认的消息转发器，根据消息类型来转发给不同的消息处理器
@@ -18,30 +19,19 @@ public class DefaultMessageDispatcher implements MessageDispatcher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultMessageDispatcher.class);
 
-    private static final Map<MessageType, Class<? extends AbstractMessageHandler>> messageHandlerMap = new HashMap<>();
-
-    static {
-        messageHandlerMap.put(MessageType.TEXT_MESSAGE, TextMessageHandler.class);
-        messageHandlerMap.put(MessageType.IMAGE_MESSAGE, ImageMessageHandler.class);
-        messageHandlerMap.put(MessageType.VOICE_MESSAGE, VoiceMessageHandler.class);
-        messageHandlerMap.put(MessageType.VIDEO_MESSAGE, VideoMessageHandler.class);
-        messageHandlerMap.put(MessageType.LOCATION_MESSAGE, LocationMessageHandler.class);
-        messageHandlerMap.put(MessageType.LINK_MESSAGE, LinkMessageHandler.class);
-        messageHandlerMap.put(MessageType.SHORTVIDEO_MESSAGE, ShortVideoMessageHandler.class);
-        messageHandlerMap.put(MessageType.NEWS_MESSAGE, NewsMessageHandler.class);
-    }
-
-
     public AbstractMessageHandler doDispatch(String msgType) {
         MessageType messageType = MessageType.valueBy(msgType);
-        if (messageHandlerMap.containsKey(messageType)) {
-            Class<? extends AbstractMessageHandler> aClass = messageHandlerMap.get(messageType);
-            try {
-                return aClass.newInstance();
-            } catch (InstantiationException e) {
-                LOGGER.error(e.getMessage(), e);
-            } catch (IllegalAccessException e) {
-                LOGGER.error(e.getMessage(), e);
+        Set<Class<? extends AbstractMessageHandler>> messageHandlers = ClassPathUtils.getClassesByAnnotation(MessageWorker.class);
+        if (messageHandlers != null && !messageHandlers.isEmpty()) {
+            for (Class<? extends AbstractMessageHandler> messageHandlerClass : messageHandlers) {
+                MessageWorker annotation = messageHandlerClass.getAnnotation(MessageWorker.class);
+                if (messageType == annotation.type()) {
+                    try {
+                        return messageHandlerClass.newInstance();
+                    } catch (Exception e) {
+                        LOGGER.error(e.getMessage(), e);
+                    }
+                }
             }
         }
         return null;

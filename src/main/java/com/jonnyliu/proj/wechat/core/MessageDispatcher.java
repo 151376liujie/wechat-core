@@ -3,7 +3,7 @@ package com.jonnyliu.proj.wechat.core;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 
 /**
- * 消息分发器，根据消息的不同来将消息发送给不同的@see{MessageHandler}
+ * 消息分发器，根据消息的不同来将消息发送给不同的@see{MessageWorker}
  * Created by liujie on 2016/8/6 14:05.
  */
 public interface MessageDispatcher {
