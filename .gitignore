@@ -1,0 +1,5 @@
+#idea
+.idea/
+wechat-core.iml
+#maven
+target/
