@@ -28,9 +28,9 @@ public class TextMessageHandler extends AbstractMessageHandler {
         }    
         return null;    
     }    
-}     
+}         
 
 4.just run your application !! have fun...
 
 ##联系作者
-邮箱：980463316@qq.com
+邮箱：980463316@qq.com ,欢迎相互交流，共同进步。
