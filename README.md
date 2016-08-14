@@ -32,5 +32,10 @@ public class TextMessageHandler extends AbstractMessageHandler {
 
 4.just run your application !! have fun...
 
+##TODO
+DefaultMessageConvert中目前只实现了将文本消息和图片消息转换为消息对象，其他类型消息的转换暂未实现。
+
 ##联系作者
 邮箱：980463316@qq.com ,欢迎相互交流，共同进步。
+
+
