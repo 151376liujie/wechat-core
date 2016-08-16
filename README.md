@@ -20,6 +20,7 @@
 
 3.编写消息处理器类，继承AbstractMessageHandler抽象类，实现doHandleMessage方法，在该类上加上@MessageWorker的注解，并指明要处理的消息类型，
 示例代码如下：    
+
 @MessageWorker(type = MessageType.TEXT_MESSAGE)    
 public class TextMessageHandler extends AbstractMessageHandler {    
 
@@ -37,7 +38,7 @@ public class TextMessageHandler extends AbstractMessageHandler {
 4.just run your application !! have fun...
 
 ##TODO
-DefaultMessageConvert中目前只实现了将文本消息和图片消息转换为消息对象，其他类型消息的转换暂未实现。
+DefaultMessageConvert中目前只实现了将文本消息和图片消息转换为消息对象，其他类型消息的转换暂未实现,感兴趣的读者可以自己实现以下。
 
 ##联系作者
 邮箱：980463316@qq.com ,欢迎相互交流，共同进步。
