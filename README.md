@@ -13,7 +13,7 @@
 ##快速入门（不含微信公众平台申请及接口url、token等配置步骤）
 1.在项目类路径下创建wechat.properties属性文件，配置token;
 
-2.在applicationContext.xml中将wechat.properties属性文件注入到spring中；代码如下：
+2.在applicationContext.xml中将wechat.properties属性文件注入到spring中；代码如下：    
 <util:properties id="wechatProperty" location="classpath:wechat.properties" />
 
 3.编写消息处理器类，继承AbstractMessageHandler抽象类，实现doHandleMessage方法，在该类上加上@MessageWorker的注解，并指明要处理的消息类型，
