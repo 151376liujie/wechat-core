@@ -38,7 +38,9 @@ public class TextMessageHandler extends AbstractMessageHandler {
 4.just run your application !! have fun...
 
 ##TODO
+
 1.封装接收事件消息
+
 2.封装不同类型回复消息
 
 ##联系作者
