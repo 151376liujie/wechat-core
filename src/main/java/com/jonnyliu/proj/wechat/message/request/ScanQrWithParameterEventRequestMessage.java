@@ -17,10 +17,32 @@ public class ScanQrWithParameterEventRequestMessage extends BaseRequestMessage {
      */
     private String EventKey;
 
-
     /**
      * 二维码的ticket，可用来换取二维码图片
      */
     private String Ticket;
 
+    public String getEvent() {
+        return Event;
+    }
+
+    public void setEvent(String event) {
+        Event = event;
+    }
+
+    public String getEventKey() {
+        return EventKey;
+    }
+
+    public void setEventKey(String eventKey) {
+        EventKey = eventKey;
+    }
+
+    public String getTicket() {
+        return Ticket;
+    }
+
+    public void setTicket(String ticket) {
+        Ticket = ticket;
+    }
 }

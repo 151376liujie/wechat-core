@@ -47,34 +47,10 @@ public enum MessageType {
     NEWS_MESSAGE("news"),
 
     /**
-     * 关注事件消息
+     * 事件消息
      */
-    EVENT_SUBSCRIBE("subscribe"),
+    EVENT("event");
 
-    /**
-     * 取消事件消息
-     */
-    EVENT_UNSUBSCRIBE("unsubscribe"),
-
-    /**
-     * 上报地理位置事件
-     */
-    EVENT_LOCATION("location"),
-
-    /**
-     * 自定义菜单事件(点击菜单事件)
-     */
-    EVENT_CLICK("click"),
-
-    /**
-     * 自定义菜单事件(点击菜单跳转链接时的事件)
-     */
-    EVENT_VIEW("view"),
-
-    /**
-     * 用户已关注时扫描二维码事件
-     */
-    EVENT_SCAN("scan");
 
     private String typeStr;
 

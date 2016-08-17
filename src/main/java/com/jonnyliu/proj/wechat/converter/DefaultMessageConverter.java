@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.converter;
 
+import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.message.request.*;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
@@ -23,6 +24,11 @@ public class DefaultMessageConverter implements MessageConvert {
     public BaseRequestMessage doConvert(Map<String, String> xmlMap) {
 
         MessageType messageType = MessageType.valueBy(xmlMap.get("MsgType"));
+
+        if (messageType == null){
+            LOGGER.error("no MsgType found!");
+            throw new RuntimeException("no MsgType found!");
+        }
 
         switch (messageType) {
             //文本消息
@@ -60,7 +66,7 @@ public class DefaultMessageConverter implements MessageConvert {
                 voiceRequestMessage.setMediaId(xmlMap.get("MediaId"));
                 voiceRequestMessage.setFormat(xmlMap.get("Format"));
                 return voiceRequestMessage;
-            //视频/短视频消息
+            //视频、短视频消息
             case VIDEO_MESSAGE:
             case SHORTVIDEO_MESSAGE:
                 VideoRequestMessage videoRequestMessage = new VideoRequestMessage();
@@ -81,6 +87,51 @@ public class DefaultMessageConverter implements MessageConvert {
                 locationRequestMessage.setLabel(label);
                 locationRequestMessage.setScale(scale);
                 return locationRequestMessage;
+            //事件消息
+            case EVENT:
+                String event = xmlMap.get("Event");
+                EventType eventType = EventType.valueBy(event);
+                if (eventType == null){
+                    LOGGER.error("no event message type found!");
+                    throw new RuntimeException("no event message type found!");
+                }
+                switch (eventType){
+                    //关注、取消关注消息
+                    case EVENT_SUBSCRIBE:
+                    case EVENT_UNSUBSCRIBE:
+                        SubOrUnSubEventRequestMessage subOrUnSubEventRequestMessage = new SubOrUnSubEventRequestMessage();
+                        MessageUtils.inflateBaseRequestMessage(xmlMap,subOrUnSubEventRequestMessage);
+                        subOrUnSubEventRequestMessage.setEvent(event);
+                        return subOrUnSubEventRequestMessage;
+                    //扫描二维码时未关注公众号消息
+                    case EVENT_SCAN_SUBSCRIBE:
+                        //扫描二维码时已关注公众号消息
+                    case EVENT_SCAN:
+                        ScanQrWithParameterEventRequestMessage scanQrWithParameterEventRequestMessage = new ScanQrWithParameterEventRequestMessage();
+                        MessageUtils.inflateBaseRequestMessage(xmlMap,scanQrWithParameterEventRequestMessage);
+                        scanQrWithParameterEventRequestMessage.setEvent(event);
+                        scanQrWithParameterEventRequestMessage.setEventKey(xmlMap.get("EventKey"));
+                        scanQrWithParameterEventRequestMessage.setTicket(xmlMap.get("Ticket"));
+                        return scanQrWithParameterEventRequestMessage;
+                    //上报地理位置事件消息
+                    case EVENT_UPLOAD_LOCATION:
+                        UploadLocationEventRequestMessage uploadLocationEventRequestMessage = new UploadLocationEventRequestMessage();
+                        MessageUtils.inflateBaseRequestMessage(xmlMap,uploadLocationEventRequestMessage);
+                        uploadLocationEventRequestMessage.setEvent(event);
+                        uploadLocationEventRequestMessage.setLatitude(xmlMap.get("Latitude"));
+                        uploadLocationEventRequestMessage.setLongitude(xmlMap.get("Longitude"));
+                        uploadLocationEventRequestMessage.setPrecision(xmlMap.get("Precision"));
+                        return uploadLocationEventRequestMessage;
+                    //点击菜单拉取消息时的事件推送
+                    case EVENT_CUSTOM_MENU_CLICK:
+                        //点击菜单跳转链接时的事件推送
+                    case EVENT_CUSTOM_MENU_VIEW:
+                        CustomMenuClickOrViewEventRequestMessage customMenuClickOrViewEventRequestMessage = new CustomMenuClickOrViewEventRequestMessage();
+                        MessageUtils.inflateBaseRequestMessage(xmlMap,customMenuClickOrViewEventRequestMessage);
+                        customMenuClickOrViewEventRequestMessage.setEvent(event);
+                        customMenuClickOrViewEventRequestMessage.setEventKey(xmlMap.get("EventKey"));
+                        return customMenuClickOrViewEventRequestMessage;
+                }
             default:
                 LOGGER.warn("there is no definded message type {}.", messageType.getTypeStr());
 
