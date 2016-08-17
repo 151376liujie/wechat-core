@@ -40,8 +40,6 @@
 
 4.just run your application !! have fun...
 
-![](test.jpg)
-
 ##TODO
 
 1.封装接收事件消息
