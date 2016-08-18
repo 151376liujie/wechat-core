@@ -19,24 +19,24 @@
 
 2. 在**applicationContext.xml**中将**wechat.properties**属性文件注入到spring中,代码如下：   
 
-    <util:properties id="wechatProperty" location="classpath:wechat.properties" />
+    ```<util:properties id="wechatProperty" location="classpath:wechat.properties" />```
 
 3. 编写消息处理器类，继承**AbstractMessageHandler**抽象类，实现**doHandleMessage**方法，在该类上加上@**MessageWorker**的注解，并指明要处理的消息类型，
 示例代码如下：     
     
-    @MessageWorker(type = MessageType.TEXT_MESSAGE)    
-    public class TextMessageHandler extends AbstractMessageHandler {    
-        private static final Logger LOGGER = LoggerFactory.getLogger(TextMessageHandler.class);    
+    ```@MessageWorker(type = MessageType.TEXT_MESSAGE)    
+        public class TextMessageHandler extends AbstractMessageHandler {    
+            private static final Logger LOGGER = LoggerFactory.getLogger(TextMessageHandler.class);    
     
-        public BaseResponseMessage doHandleMessage(BaseRequestMessage requestMessage) {    
-            if (requestMessage instanceof TextRequestMessage) {    
-                //在这里实现你自己的业务逻辑    
-                return MessageUtils.buildTextResponseMessage(requestMessage, "hello,world");    
+            public BaseResponseMessage doHandleMessage(BaseRequestMessage requestMessage) {    
+                if (requestMessage instanceof TextRequestMessage) {    
+                    //在这里实现你自己的业务逻辑    
+                    return MessageUtils.buildTextResponseMessage(requestMessage, "hello,world");    
+                }    
+                return null;    
             }    
-            return null;    
-        }    
-    }             
-
+        }   
+         
 4. just run your application !! have fun...
 
 ##TODO
