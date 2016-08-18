@@ -50,10 +50,6 @@ public enum EventType {
         return typeStr;
     }
 
-    public void setTypeStr(String typeStr) {
-        this.typeStr = typeStr;
-    }
-
     EventType(String typeStr) {
         this.typeStr = typeStr;
     }

@@ -89,19 +89,38 @@ public class MessageUtils {
         MessageType messageType = MessageType.valueBy(msgType);
         switch (messageType) {
             case TEXT_MESSAGE:
-                return textMessageToXml((TextResponseMessage) baseResponseMessage);
+                if (baseResponseMessage instanceof TextResponseMessage) {
+                    TextResponseMessage textResponseMessage = (TextResponseMessage) baseResponseMessage;
+                    return textMessageToXml(textResponseMessage);
+                }
             case IMAGE_MESSAGE:
-                return imageMessageToXml((ImageResponseMessage) baseResponseMessage);
+                if (baseResponseMessage instanceof ImageResponseMessage) {
+                    ImageResponseMessage imageResponseMessage = (ImageResponseMessage) baseResponseMessage;
+                    return imageMessageToXml(imageResponseMessage);
+                }
             case VIDEO_MESSAGE:
-                return videoMessageToXml((VideoResponseMessage) baseResponseMessage);
+                if (baseResponseMessage instanceof VideoResponseMessage) {
+                    VideoResponseMessage videoResponseMessage = (VideoResponseMessage) baseResponseMessage;
+                    return videoMessageToXml(videoResponseMessage);
+                }
             case VOICE_MESSAGE:
-                return voiceMessageToXml((VoiceResponseMessage) baseResponseMessage);
+                if (baseResponseMessage instanceof VoiceResponseMessage) {
+                    VoiceResponseMessage voiceResponseMessage = (VoiceResponseMessage) baseResponseMessage;
+                    return voiceMessageToXml(voiceResponseMessage);
+                }
             case MUSIC_MESSAGE:
-                return musicMessageToXml((MusicResponseMessage) baseResponseMessage);
+                if (baseResponseMessage instanceof MusicResponseMessage) {
+                    MusicResponseMessage musicResponseMessage = (MusicResponseMessage) baseResponseMessage;
+                    return musicMessageToXml(musicResponseMessage);
+                }
             case NEWS_MESSAGE:
-                return newsMessageToXml((MusicResponseMessage) baseResponseMessage);
+                if (baseResponseMessage instanceof NewsResponseMessage) {
+                    NewsResponseMessage newsResponseMessage = (NewsResponseMessage) baseResponseMessage;
+                    return newsMessageToXml(newsResponseMessage);
+                }
+            default:
+                throw new RuntimeException("no message type found!");
         }
-        return xstream.toXML(baseResponseMessage);
     }
 
     /**
@@ -165,7 +184,7 @@ public class MessageUtils {
      * @param newsMessage 图文消息对象
      * @return xml字符串
      */
-    public static String newsMessageToXml(MusicResponseMessage newsMessage) {
+    public static String newsMessageToXml(NewsResponseMessage newsMessage) {
         xstream.alias("xml", newsMessage.getClass());
         xstream.alias("item", Article.class);
         return xstream.toXML(newsMessage);
@@ -201,9 +220,9 @@ public class MessageUtils {
         String toUserName = xmlMap.get("ToUserName");
         String fromUserName = xmlMap.get("FromUserName");
         String createTime = xmlMap.get("CreateTime");
-        requestMessage.setCreateTime(Long.valueOf(createTime));
+        requestMessage.setCreateTime(Long.parseLong(createTime));
         requestMessage.setMsgType(msgType);
-        requestMessage.setMsgId(Long.valueOf(msgId));
+        requestMessage.setMsgId(Long.parseLong(msgId));
         requestMessage.setFromUserName(fromUserName);
         requestMessage.setToUserName(toUserName);
         return requestMessage;
@@ -304,14 +323,10 @@ public class MessageUtils {
         newsResponseMessage.setToUserName(baseRequestMessage.getFromUserName());
         newsResponseMessage.setFromUserName(baseRequestMessage.getToUserName());
         newsResponseMessage.setMsgType(MessageType.NEWS_MESSAGE.getTypeStr());
-        Video video = new Video();
-        video.setMediaId(paramMap.get("MediaId") == null ? "" : paramMap.get("MediaId"));
-        video.setDescription(paramMap.get("Description") == null ? "" : paramMap.get("Description"));
-        video.setTitle(paramMap.get("Title") == null ? "" : paramMap.get("Title"));
         String articleCount = paramMap.get("ArticleCount");
         int articleNum = articles == null ? 0 : articles.size();
         if (StringUtils.isNumeric(articleCount)) {
-            articleNum = Integer.valueOf(articleCount);
+            articleNum = Integer.parseInt(articleCount);
         }
         newsResponseMessage.setArticleCount(articleNum);
         newsResponseMessage.setArticles(articles);

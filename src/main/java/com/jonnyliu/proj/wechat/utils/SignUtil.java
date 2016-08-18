@@ -3,6 +3,7 @@ package com.jonnyliu.proj.wechat.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -41,15 +42,18 @@ public class SignUtil {
         try {
             md = MessageDigest.getInstance("SHA-1");
             // 将三个参数字符串拼接成一个字符串进行sha1加密
-            byte[] digest = md.digest(content.toString().getBytes());
+            byte[] digest = md.digest(content.toString().getBytes("utf-8"));
             tmpStr = byteToStr(digest);
         } catch (NoSuchAlgorithmException e) {
+            LOGGER.error(e.getMessage(),e);
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException e) {
             LOGGER.error(e.getMessage(),e);
             throw new RuntimeException(e);
         }
         content = null;
         // 将sha1加密后的字符串可与signature对比，标识该请求来源于微信
-        return tmpStr != null ? tmpStr.equals(signature.toUpperCase()) : false;
+        return tmpStr.equals(signature.toUpperCase());
     }
 
     /**
@@ -59,11 +63,11 @@ public class SignUtil {
      * @return
      */
     private static String byteToStr(byte[] byteArray) {
-        String strDigest = "";
+        StringBuffer strDigest = new StringBuffer();
         for (int i = 0; i < byteArray.length; i++) {
-            strDigest += byteToHexStr(byteArray[i]);
+            strDigest.append(byteToHexStr(byteArray[i]));
         }
-        return strDigest;
+        return strDigest.toString();
     }
 
     /**

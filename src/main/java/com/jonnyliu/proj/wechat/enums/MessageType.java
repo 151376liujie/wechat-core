@@ -58,10 +58,6 @@ public enum MessageType {
         return typeStr;
     }
 
-    public void setTypeStr(String typeStr) {
-        this.typeStr = typeStr;
-    }
-
     MessageType(String typeStr) {
         this.typeStr = typeStr;
     }
