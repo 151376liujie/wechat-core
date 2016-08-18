@@ -39,7 +39,6 @@ public class MessageUtils {
                 // 对所有xml节点的转换都增加CDATA标记
                 boolean cdata = true;
 
-                @SuppressWarnings("unchecked")
                 public void startNode(String name, Class clazz) {
                     super.startNode(name, clazz);
                 }
