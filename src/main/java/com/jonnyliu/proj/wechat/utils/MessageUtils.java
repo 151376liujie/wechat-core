@@ -8,6 +8,7 @@ import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -172,7 +173,7 @@ public class MessageUtils {
     }
 
     /**
-     * 根据指定文本内容构建文本响应消息
+     * 根据指定文本内容构建<strong>文本</strong>响应消息
      *
      * @param requestMessage
      * @param content
@@ -210,24 +211,112 @@ public class MessageUtils {
     }
 
     /**
-     * 构建图片响应消息
+     * 构建<strong>图片</strong>响应消息
      *
      * @param baseRequestMessage
-     * @param mediaId
-     * @param picUrl
+     * @param paramMap           参数的键值对
      * @return
      */
-    public static ImageResponseMessage buildImageResponseMessage(BaseRequestMessage baseRequestMessage, String mediaId, String picUrl) {
+    public static ImageResponseMessage buildImageResponseMessage(BaseRequestMessage baseRequestMessage, Map<String, String> paramMap) {
         ImageResponseMessage imageResponseMessage = new ImageResponseMessage();
         imageResponseMessage.setMsgType(MessageType.IMAGE_MESSAGE.getTypeStr());
         imageResponseMessage.setToUserName(baseRequestMessage.getFromUserName());
         imageResponseMessage.setCreateTime(System.currentTimeMillis());
         imageResponseMessage.setFromUserName(baseRequestMessage.getToUserName());
         Image image = new Image();
-        image.setMediaId(mediaId);
+        image.setMediaId(paramMap.get("MediaId") == null ? "" : paramMap.get("MediaId"));
         imageResponseMessage.setImage(image);
         return imageResponseMessage;
     }
 
-    //TODO:构建其他各种类型响应消息
+    /**
+     * 根据参数构建<strong>音乐</strong>回复消息
+     *
+     * @param baseRequestMessage
+     * @param paramMap
+     * @return
+     */
+    public static MusicResponseMessage buildMusicResponseMessage(BaseRequestMessage baseRequestMessage, Map<String, String> paramMap) {
+        MusicResponseMessage musicResponseMessage = new MusicResponseMessage();
+        musicResponseMessage.setCreateTime(System.currentTimeMillis());
+        musicResponseMessage.setFromUserName(baseRequestMessage.getToUserName());
+        musicResponseMessage.setMsgType(MessageType.MUSIC_MESSAGE.getTypeStr());
+        musicResponseMessage.setToUserName(baseRequestMessage.getFromUserName());
+        Music music = new Music();
+        music.setDescription(paramMap.get("Description") == null ? "" : paramMap.get("Description"));
+        music.setHQMusicUrl(paramMap.get("HQMusicUrl") == null ? "" : paramMap.get("HQMusicUrl"));
+        music.setMusicURL(paramMap.get("MusicUrl") == null ? "" : paramMap.get("MusicUrl"));
+        music.setThumbMediaId(paramMap.get("ThumbMediaId") == null ? "" : paramMap.get("ThumbMediaId"));
+        music.setTitle(paramMap.get("Title") == null ? "" : paramMap.get("Title"));
+        musicResponseMessage.setMusic(music);
+        return musicResponseMessage;
+    }
+
+    /**
+     * 根据参数构建<strong>语音</strong>回复消息
+     *
+     * @param baseRequestMessage
+     * @param paramMap
+     * @return
+     */
+    public static VoiceResponseMessage buildVoiceResponseMessage(BaseRequestMessage baseRequestMessage, Map<String, String> paramMap) {
+        VoiceResponseMessage voiceResponseMessage = new VoiceResponseMessage();
+        voiceResponseMessage.setToUserName(baseRequestMessage.getFromUserName());
+        voiceResponseMessage.setFromUserName(baseRequestMessage.getToUserName());
+        voiceResponseMessage.setMsgType(MessageType.VOICE_MESSAGE.getTypeStr());
+        voiceResponseMessage.setCreateTime(System.currentTimeMillis());
+        Voice voice = new Voice();
+        voice.setMediaId(paramMap.get("MediaId") == null ? "" : paramMap.get("MediaId"));
+        voiceResponseMessage.setVoice(voice);
+        return voiceResponseMessage;
+    }
+
+    /**
+     * 根据参数构建<strong>视频、短视频消息</strong>
+     *
+     * @param baseRequestMessage
+     * @param paramMap
+     * @return
+     */
+    public static VideoResponseMessage buildVideoResponseMessage(BaseRequestMessage baseRequestMessage, Map<String, String> paramMap) {
+        VideoResponseMessage videoResponseMessage = new VideoResponseMessage();
+        videoResponseMessage.setCreateTime(System.currentTimeMillis());
+        videoResponseMessage.setToUserName(baseRequestMessage.getFromUserName());
+        videoResponseMessage.setFromUserName(baseRequestMessage.getToUserName());
+        videoResponseMessage.setMsgType(MessageType.VIDEO_MESSAGE.getTypeStr());
+        Video video = new Video();
+        video.setMediaId(paramMap.get("MediaId") == null ? "" : paramMap.get("MediaId"));
+        video.setDescription(paramMap.get("Description") == null ? "" : paramMap.get("Description"));
+        video.setTitle(paramMap.get("Title") == null ? "" : paramMap.get("Title"));
+        videoResponseMessage.setVideo(video);
+        return videoResponseMessage;
+    }
+
+    /**
+     * 根据参数构建<strong>图文消息</strong>
+     *
+     * @param baseRequestMessage
+     * @param paramMap
+     * @return
+     */
+    public static NewsResponseMessage buildNewsResponseMessage(BaseRequestMessage baseRequestMessage, Map<String, String> paramMap, List<Article> articles) {
+        NewsResponseMessage newsResponseMessage = new NewsResponseMessage();
+        newsResponseMessage.setCreateTime(System.currentTimeMillis());
+        newsResponseMessage.setToUserName(baseRequestMessage.getFromUserName());
+        newsResponseMessage.setFromUserName(baseRequestMessage.getToUserName());
+        newsResponseMessage.setMsgType(MessageType.NEWS_MESSAGE.getTypeStr());
+        Video video = new Video();
+        video.setMediaId(paramMap.get("MediaId") == null ? "" : paramMap.get("MediaId"));
+        video.setDescription(paramMap.get("Description") == null ? "" : paramMap.get("Description"));
+        video.setTitle(paramMap.get("Title") == null ? "" : paramMap.get("Title"));
+        String articleCount = paramMap.get("ArticleCount");
+        int articleNum = articles == null ? 0 : articles.size();
+        if (StringUtils.isNumeric(articleCount)) {
+            articleNum = Integer.valueOf(articleCount);
+        }
+        newsResponseMessage.setArticleCount(articleNum);
+        newsResponseMessage.setArticles(articles);
+        return newsResponseMessage;
+    }
+
 }
