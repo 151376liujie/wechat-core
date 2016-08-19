@@ -6,6 +6,7 @@ import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
 import com.jonnyliu.proj.wechat.message.request.VideoRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
+import com.jonnyliu.proj.wechat.utils.MessageUtils;
 
 /**
  * 图片消息接收和响应的code example
@@ -20,6 +21,12 @@ public class VideoMessageHandlerExample extends AbstractMessageHandler {
         if (baseRequestMessage instanceof VideoRequestMessage){
             //在这里实现你自己的业务逻辑
 
+            VideoRequestMessage videoRequestMessage = (VideoRequestMessage) baseRequestMessage;
+            String mediaId = videoRequestMessage.getMediaId();
+            String thumbMediaId = videoRequestMessage.getThumbMediaId();
+            String content = "您发送的视频mediaId:%s \t,ThumbMediaId:%s ";
+            content = String.format(content,mediaId,thumbMediaId);
+            return MessageUtils.buildTextResponseMessage(baseRequestMessage,content);
         }
         return null;
     }

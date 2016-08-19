@@ -6,6 +6,7 @@ import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
 import com.jonnyliu.proj.wechat.message.request.LinkRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
+import com.jonnyliu.proj.wechat.utils.MessageUtils;
 
 /**
  * 接收链接消息的code example
@@ -19,7 +20,12 @@ public class LinkMessageHandlerExample extends AbstractMessageHandler {
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
         if (baseRequestMessage instanceof LinkRequestMessage){
             //在这里实现你自己的业务逻辑
+            LinkRequestMessage linkRequestMessage = (LinkRequestMessage) baseRequestMessage;
+            String content = "您发送的链接消息如下：title:%s,url:%s,description:%s ";
+            content = String.format(content,linkRequestMessage.getTitle(),linkRequestMessage.getUrl(),linkRequestMessage.getDescription());
+            return MessageUtils.buildTextResponseMessage(baseRequestMessage,content);
         }
+
         return null;
     }
 }
