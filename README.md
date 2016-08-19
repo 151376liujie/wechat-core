@@ -39,6 +39,10 @@
          
 4. just run your application !! have fun...
 
+##示例代码***
+
+1.各种消息类型的接收与回复的示例代码放在src/main/java/com/jonnyliu/proj/wechat/example包下，供读者朋友们参考
+
 ##TODO
 
 1. 正在逐步增加各个类型消息的接收和响应的code example
