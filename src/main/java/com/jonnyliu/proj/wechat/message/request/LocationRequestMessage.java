@@ -9,6 +9,11 @@ import com.jonnyliu.proj.wechat.enums.MessageType;
 public class LocationRequestMessage extends BaseRequestMessage {
 
     /**
+     *消息id，64位整型
+     */
+    private long MsgId;
+
+    /**
      * 地理位置维度
      */
     private String Location_X;
@@ -63,5 +68,13 @@ public class LocationRequestMessage extends BaseRequestMessage {
     @Override
     public String getMsgType() {
         return MessageType.LOCATION_MESSAGE.getTypeStr();
+    }
+
+    public long getMsgId() {
+        return MsgId;
+    }
+
+    public void setMsgId(long msgId) {
+        MsgId = msgId;
     }
 }

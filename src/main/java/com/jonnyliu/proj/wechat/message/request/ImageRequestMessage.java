@@ -9,6 +9,10 @@ import com.jonnyliu.proj.wechat.enums.MessageType;
 public class ImageRequestMessage extends BaseRequestMessage {
 
     /**
+     *消息id，64位整型
+     */
+    private long MsgId;
+    /**
      * 图片链接（由系统生成）
      */
     private String PicUrl;
@@ -37,5 +41,13 @@ public class ImageRequestMessage extends BaseRequestMessage {
     @Override
     public String getMsgType() {
         return MessageType.IMAGE_MESSAGE.getTypeStr();
+    }
+
+    public long getMsgId() {
+        return MsgId;
+    }
+
+    public void setMsgId(long msgId) {
+        MsgId = msgId;
     }
 }

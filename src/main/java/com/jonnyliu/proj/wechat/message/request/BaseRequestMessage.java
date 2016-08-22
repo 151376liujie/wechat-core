@@ -13,11 +13,6 @@ import java.io.Serializable;
 public class BaseRequestMessage implements Serializable{
 
     /**
-     *消息id，64位整型
-     */
-    private long MsgId;
-
-    /**
      * 开发者微信号
      */
     private String ToUserName;
@@ -36,14 +31,6 @@ public class BaseRequestMessage implements Serializable{
      * 消息类型
      */
     private String MsgType;
-
-    public long getMsgId() {
-        return MsgId;
-    }
-
-    public void setMsgId(long msgId) {
-        MsgId = msgId;
-    }
 
     public String getToUserName() {
         return ToUserName;

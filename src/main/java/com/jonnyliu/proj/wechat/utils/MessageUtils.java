@@ -216,13 +216,11 @@ public class MessageUtils {
      */
     public static BaseRequestMessage inflateBaseRequestMessage(Map<String, String> xmlMap, BaseRequestMessage requestMessage) {
         String msgType = xmlMap.get("MsgType");
-        String msgId = xmlMap.get("MsgId");
         String toUserName = xmlMap.get("ToUserName");
         String fromUserName = xmlMap.get("FromUserName");
         String createTime = xmlMap.get("CreateTime");
         requestMessage.setCreateTime(Long.parseLong(createTime));
         requestMessage.setMsgType(msgType);
-        requestMessage.setMsgId(Long.parseLong(msgId));
         requestMessage.setFromUserName(fromUserName);
         requestMessage.setToUserName(toUserName);
         return requestMessage;

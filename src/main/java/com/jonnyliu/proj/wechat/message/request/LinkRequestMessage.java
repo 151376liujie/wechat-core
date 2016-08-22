@@ -8,6 +8,10 @@ import com.jonnyliu.proj.wechat.enums.MessageType;
 public class LinkRequestMessage extends BaseRequestMessage {
 
     /**
+     *消息id，64位整型
+     */
+    private long MsgId;
+    /**
      * 消息标题
      */
     private String Title;
@@ -49,5 +53,13 @@ public class LinkRequestMessage extends BaseRequestMessage {
     @Override
     public String getMsgType() {
         return MessageType.LINK_MESSAGE.getTypeStr();
+    }
+
+    public void setMsgId(long msgId) {
+        MsgId = msgId;
+    }
+
+    public long getMsgId() {
+        return MsgId;
     }
 }

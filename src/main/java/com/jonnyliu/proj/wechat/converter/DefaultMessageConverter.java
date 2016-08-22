@@ -37,6 +37,7 @@ public class DefaultMessageConverter implements MessageConvert {
                 TextRequestMessage textRequestMessage = new TextRequestMessage();
                 //填充消息对象
                 MessageUtils.inflateBaseRequestMessage(xmlMap, textRequestMessage);
+                textRequestMessage.setMsgId(Long.parseLong(xmlMap.get("MsgId")));
                 textRequestMessage.setContent(content);
                 return textRequestMessage;
             //图片消息
@@ -45,6 +46,7 @@ public class DefaultMessageConverter implements MessageConvert {
                 String picUrl = xmlMap.get("PicUrl");
                 ImageRequestMessage imageRequestMessage = new ImageRequestMessage();
                 MessageUtils.inflateBaseRequestMessage(xmlMap, imageRequestMessage);
+                imageRequestMessage.setMsgId(Long.parseLong(xmlMap.get("MsgId")));
                 imageRequestMessage.setMediaId(mediaId);
                 imageRequestMessage.setPicUrl(picUrl);
                 return imageRequestMessage;
@@ -55,6 +57,7 @@ public class DefaultMessageConverter implements MessageConvert {
                 String url = xmlMap.get("Url");
                 LinkRequestMessage linkRequestMessage = new LinkRequestMessage();
                 MessageUtils.inflateBaseRequestMessage(xmlMap, linkRequestMessage);
+                linkRequestMessage.setMsgId(Long.parseLong(xmlMap.get("MsgId")));
                 linkRequestMessage.setDescription(description);
                 linkRequestMessage.setTitle(title);
                 linkRequestMessage.setUrl(url);
@@ -63,6 +66,7 @@ public class DefaultMessageConverter implements MessageConvert {
             case VOICE_MESSAGE:
                 VoiceRequestMessage voiceRequestMessage = new VoiceRequestMessage();
                 MessageUtils.inflateBaseRequestMessage(xmlMap, voiceRequestMessage);
+                voiceRequestMessage.setMsgId(Long.parseLong(xmlMap.get("MsgId")));
                 voiceRequestMessage.setMediaId(xmlMap.get("MediaId"));
                 voiceRequestMessage.setFormat(xmlMap.get("Format"));
                 return voiceRequestMessage;
@@ -71,6 +75,7 @@ public class DefaultMessageConverter implements MessageConvert {
             case SHORTVIDEO_MESSAGE:
                 VideoRequestMessage videoRequestMessage = new VideoRequestMessage();
                 MessageUtils.inflateBaseRequestMessage(xmlMap, videoRequestMessage);
+                videoRequestMessage.setMsgId(Long.parseLong(xmlMap.get("MsgId")));
                 videoRequestMessage.setMediaId(xmlMap.get("MediaId"));
                 videoRequestMessage.setThumbMediaId(xmlMap.get("ThumbMediaId"));
                 return videoRequestMessage;
@@ -82,6 +87,7 @@ public class DefaultMessageConverter implements MessageConvert {
                 String label = xmlMap.get("Label");
                 LocationRequestMessage locationRequestMessage = new LocationRequestMessage();
                 MessageUtils.inflateBaseRequestMessage(xmlMap, locationRequestMessage);
+                locationRequestMessage.setMsgId(Long.parseLong(xmlMap.get("MsgId")));
                 locationRequestMessage.setLocation_X(location_x);
                 locationRequestMessage.setLocation_Y(location_y);
                 locationRequestMessage.setLabel(label);

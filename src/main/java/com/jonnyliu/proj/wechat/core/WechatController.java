@@ -82,6 +82,9 @@ public class WechatController {
             AbstractMessageHandler messageHandler = messageDispatcher.doDispatch(msgType);
             //调用消息处理器处理消息
             BaseResponseMessage responseMessage = messageHandler.handleMessage(requestMessage);
+            if (response == null) {
+                return "";
+            }
             //构造给用户的响应消息
             String responseXml = MessageUtils.messageToXml(responseMessage);
             return responseXml;

@@ -8,6 +8,11 @@ import com.jonnyliu.proj.wechat.enums.MessageType;
  */
 public class VoiceRequestMessage extends BaseRequestMessage {
 
+
+    /**
+     *消息id，64位整型
+     */
+    private long MsgId;
     /**
      * 语音消息媒体id，可以调用多媒体文件下载接口拉取数据。
      */
@@ -50,5 +55,13 @@ public class VoiceRequestMessage extends BaseRequestMessage {
     @Override
     public String getMsgType() {
         return MessageType.VOICE_MESSAGE.getTypeStr();
+    }
+
+    public long getMsgId() {
+        return MsgId;
+    }
+
+    public void setMsgId(long msgId) {
+        this.MsgId = msgId;
     }
 }
