@@ -26,6 +26,7 @@ public class MessageHandlerLoader {
         }
         for (Class<? extends AbstractMessageHandler> messageHandler : classesByAnnotation) {
             MessageWorker annotation = messageHandler.getAnnotation(MessageWorker.class);
+            //每种类型的消息处理器只能有一个
             if (!messageHandlerMappingHolder.containsKey(annotation.type())) {
                 messageHandlerMappingHolder.put(annotation.type(), messageHandler);
             }
