@@ -36,7 +36,7 @@ public class EventMessageHandlerExample extends AbstractMessageHandler {
                 //取消关注事件,推荐什么都不做，因为人家都取消关注了，即使回复消息的话人家也已经收不到了
                 case EVENT_UNSUBSCRIBE:
                     if (LOGGER.isWarnEnabled()) {
-                        LOGGER.warn("用户：{}取消了对公众号的关注！", subOrUnSubEventRequestMessage.getFromUserName());
+                        LOGGER.warn("用户：[{}] 取消了对公众号的关注！", subOrUnSubEventRequestMessage.getFromUserName());
                     }
             }
         } else if (baseRequestMessage instanceof UploadLocationEventRequestMessage) {
@@ -52,11 +52,11 @@ public class EventMessageHandlerExample extends AbstractMessageHandler {
             switch (eventType) {
                 //扫描时未关注公众号的事件
                 case EVENT_SCAN_SUBSCRIBE:
-
+                    LOGGER.info("扫描时未关注公众号:" + scanQrWithParameterEventRequestMessage.toString());
                     //带参数的二维码扫描事件类型
                 case EVENT_SCAN:
                     //在这里实现你自己的业务逻辑
-
+                    LOGGER.info("带参数的二维码扫描:" + scanQrWithParameterEventRequestMessage.toString());
             }
         } else if (baseRequestMessage instanceof CustomMenuClickOrViewEventRequestMessage) {
             CustomMenuClickOrViewEventRequestMessage customMenuClickOrViewEventRequestMessage = (CustomMenuClickOrViewEventRequestMessage) baseRequestMessage;
