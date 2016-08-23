@@ -29,15 +29,13 @@ public class EventMessageHandlerExample extends AbstractMessageHandler {
             SubOrUnSubEventRequestMessage subOrUnSubEventRequestMessage = (SubOrUnSubEventRequestMessage) baseRequestMessage;
             String event = subOrUnSubEventRequestMessage.getEvent();
             EventType eventType = EventType.valueBy(event);
-            switch (eventType) {
-                //关注事件
-                case EVENT_SUBSCRIBE:
-                    return MessageUtils.buildTextResponseMessage(baseRequestMessage, "感谢您的关注！<a href=\"https://github.com/151376liujie/wechat-core\">微信开源项目地址</a>");
-                //取消关注事件,推荐什么都不做，因为人家都取消关注了，即使回复消息的话人家也已经收不到了
-                case EVENT_UNSUBSCRIBE:
-                    if (LOGGER.isWarnEnabled()) {
-                        LOGGER.warn("用户：[{}] 取消了对公众号的关注！", subOrUnSubEventRequestMessage.getFromUserName());
-                    }
+            //关注事件
+            if (eventType == EventType.EVENT_SUBSCRIBE) {
+                return MessageUtils.buildTextResponseMessage(baseRequestMessage, "感谢您的关注！<a href=\"https://github.com/151376liujie/wechat-core\">微信开源项目地址</a>");
+            } else if (eventType == EventType.EVENT_UNSUBSCRIBE) {//取消关注事件
+                if (LOGGER.isWarnEnabled()) {
+                    LOGGER.warn("用户：[{}] 取消了对公众号的关注！", subOrUnSubEventRequestMessage.getFromUserName());
+                }
             }
         } else if (baseRequestMessage instanceof UploadLocationEventRequestMessage) {
             //用户上传地理位置信息事件类型
@@ -49,26 +47,21 @@ public class EventMessageHandlerExample extends AbstractMessageHandler {
             ScanQrWithParameterEventRequestMessage scanQrWithParameterEventRequestMessage = (ScanQrWithParameterEventRequestMessage) baseRequestMessage;
             String event = scanQrWithParameterEventRequestMessage.getEvent();
             EventType eventType = EventType.valueBy(event);
-            switch (eventType) {
-                //扫描时未关注公众号的事件
-                case EVENT_SCAN_SUBSCRIBE:
-                    LOGGER.info("扫描时未关注公众号:" + scanQrWithParameterEventRequestMessage.toString());
-                    //带参数的二维码扫描事件类型
-                case EVENT_SCAN:
-                    //在这里实现你自己的业务逻辑
-                    LOGGER.info("带参数的二维码扫描:" + scanQrWithParameterEventRequestMessage.toString());
+            //扫描时未关注公众号的事件
+            if (eventType == EventType.EVENT_SCAN_SUBSCRIBE) {
+                LOGGER.info("扫描时未关注公众号:" + scanQrWithParameterEventRequestMessage.toString());
+            } else if (eventType == EventType.EVENT_SCAN) {//带参数的二维码扫描事件类型
+                LOGGER.info("带参数的二维码扫描:" + scanQrWithParameterEventRequestMessage.toString());
             }
         } else if (baseRequestMessage instanceof CustomMenuClickOrViewEventRequestMessage) {
             CustomMenuClickOrViewEventRequestMessage customMenuClickOrViewEventRequestMessage = (CustomMenuClickOrViewEventRequestMessage) baseRequestMessage;
             String event = customMenuClickOrViewEventRequestMessage.getEvent();
             EventType eventType = EventType.valueBy(event);
-            switch (eventType) {
-                //自定义菜单点击事件类型
-                case EVENT_CUSTOM_MENU_CLICK:
-                    //在这里实现你自己的业务逻辑
+            //自定义菜单点击事件类型
+            if (eventType == EventType.EVENT_CUSTOM_MENU_CLICK) {
 
-                case EVENT_CUSTOM_MENU_VIEW:
-                    //在这里实现你自己的业务逻辑
+            } else if (eventType == EventType.EVENT_CUSTOM_MENU_VIEW) {//自定义菜单跳转事件类型
+
             }
         } else {
             LOGGER.error("no message type: [{}] found.", baseRequestMessage);
