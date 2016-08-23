@@ -41,7 +41,7 @@
 
 ##示例代码***
 
-1. **各种消息类型的接收与回复的示例代码放在src/main/java/com/jonnyliu/proj/wechat/example包下，供读者朋友们参考**
+1. **各种消息类型的接收与回复的示例代码放在[示例代码](https://github.com/151376liujie/wechat-core/tree/master/src/main/java/com/jonnyliu/proj/wechat/example)包下，供读者朋友们参考**
 
 ##TODO
 
