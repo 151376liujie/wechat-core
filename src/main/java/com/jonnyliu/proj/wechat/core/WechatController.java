@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.core;
 
+import com.jonnyliu.proj.wechat.bean.WechatConfig;
 import com.jonnyliu.proj.wechat.converter.MessageConvert;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
@@ -9,7 +10,6 @@ import com.jonnyliu.proj.wechat.utils.SignUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,9 +33,6 @@ public class WechatController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WechatController.class);
 
-    @Value("#{wechatProperty.token}")
-    private String token;
-
     @Autowired
     private MessageDispatcher messageDispatcher;
 
@@ -58,7 +55,7 @@ public class WechatController {
                         @RequestParam(value = "nonce") String nonce,
                         @RequestParam(value = "echostr") String echostr) {
 
-        if (SignUtil.checkSignature(token, signature, timestamp, nonce)) {
+        if (SignUtil.checkSignature(WechatConfig.getToken(), signature, timestamp, nonce)) {
             return echostr;
         }
         return "";
