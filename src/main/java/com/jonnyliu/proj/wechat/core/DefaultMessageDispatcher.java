@@ -34,9 +34,9 @@ public class DefaultMessageDispatcher implements MessageDispatcher {
         Map<MessageType, Class<? extends AbstractMessageHandler>> messageHandlerMappingHolder = MessageHandlerLoader.getMessageHandlerMappingHolder();
         Class<? extends AbstractMessageHandler> messageHandlerClass = messageHandlerMappingHolder.get(messageType);
         try {
-//            if (LOGGER.isInfoEnabled()){
-            LOGGER.info("found message handler :{}", messageHandlerClass);
-//            }
+            if (LOGGER.isInfoEnabled()) {
+                LOGGER.info("found message handler :{}", messageHandlerClass);
+            }
             return messageHandlerClass.newInstance();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

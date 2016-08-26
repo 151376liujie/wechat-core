@@ -16,13 +16,12 @@ import java.util.Set;
  */
 public class MessageHandlerLoader {
 
-
     private static final Map<MessageType, Class<? extends AbstractMessageHandler>> messageHandlerMappingHolder = new HashMap<>();
 
     static {
         Set<Class<? extends AbstractMessageHandler>> classesByAnnotation = ClassPathUtils.getClassesByAnnotation(MessageWorker.class);
         if (classesByAnnotation.isEmpty()) {
-            throw new RuntimeException("this is no Message Handler in classpath...do you forgot to place a MessageWorker annotation in your MessageHandler class ? ");
+            throw new RuntimeException("this is no Message Handler in classpath...did you forgot to place a MessageWorker annotation in your MessageHandler class ? ");
         }
         for (Class<? extends AbstractMessageHandler> messageHandler : classesByAnnotation) {
             MessageWorker annotation = messageHandler.getAnnotation(MessageWorker.class);

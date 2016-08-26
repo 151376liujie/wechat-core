@@ -13,6 +13,9 @@ import java.io.Serializable;
 public class AccessTokenBean implements Serializable {
 
     private String access_token;
+    /**
+     * 凭证有效期，单位：秒
+     */
     private int expires_in;
 
     public String getAccess_token() {
