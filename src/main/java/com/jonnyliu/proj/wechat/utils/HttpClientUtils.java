@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.utils;
 
+import com.jonnyliu.proj.wechat.constant.WechatConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -33,32 +34,8 @@ public final class HttpClientUtils {
     private static CloseableHttpClient httpClient = HttpClients.createDefault();
 
 
-    public void sendGet(String url, Map<String, String> param) {
-        String str = "asdfasdfasdf";
-
-
-//        String access_token_url = WechatConstant.ACCESS_TOKEN_FETCH_URL + "?grant_type=client_credential&appid="+appId+"&secret="+appsecret;
-//        HttpGet get = new HttpGet(access_token_url);
-//        String content = null;
-//        try {
-//            CloseableHttpResponse httpResponse = httpClient.execute(get);
-//            if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
-//                content = EntityUtils.toString(httpResponse.getEntity());
-//                AccessTokenBean accessTokenBean = MAPPER.readValue(content, AccessTokenBean.class);
-//                return accessTokenBean;
-//            }
-//        } catch (IOException e) {
-//            LOGGER.error("failed to fetch access token. detail error msg :{}",content);
-//        }finally {
-//            try {
-//                if (httpClient != null) {
-//                    httpClient.close();
-//                }
-//            } catch (IOException e) {
-//                LOGGER.error(e.getMessage(),e);
-//            }
-//        }
-//        return null;
+    public static String sendGet(String url, Map<String, String> param) throws Exception {
+        return sendGet(url, param, null, Charset.forName(WechatConstant.DEFAULT_CHARSET));
     }
 
     /**
@@ -67,7 +44,7 @@ public final class HttpClientUtils {
      * @param headers
      * @return
      */
-    private Header[] buildHeaders(Map<String, String> headers) {
+    private static Header[] buildHeaders(Map<String, String> headers) {
         if (headers != null) {
             Header[] tmp = new BasicHeader[headers.size()];
             int i = 0;
@@ -89,7 +66,7 @@ public final class HttpClientUtils {
      * @param charset 编码
      * @return
      */
-    public String sendGet(String url, Map<String, String> params, Map<String, String> headers, final Charset charset) throws Exception {
+    public static String sendGet(String url, Map<String, String> params, Map<String, String> headers, final Charset charset) throws Exception {
         if (StringUtils.isEmpty(url)) {
             LOGGER.error("URL can not be empty or null.");
         }
@@ -122,7 +99,7 @@ public final class HttpClientUtils {
      * @return
      * @throws UnsupportedEncodingException
      */
-    private String buildGetParam(Map<String, String> params, Charset charset) throws UnsupportedEncodingException {
+    private static String buildGetParam(Map<String, String> params, Charset charset) throws UnsupportedEncodingException {
         if (params == null || params.isEmpty()) {
             return null;
         }

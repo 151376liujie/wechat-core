@@ -12,6 +12,11 @@ public class WechatConstant {
     public static final String ACCESS_TOKEN_FETCH_URL = "https://api.weixin.qq.com/cgi-bin/token";
 
     /**
+     * 获取用户基本信息的url
+     */
+    public static final String WECHAT_USER_FETCH_URL = "https://api.weixin.qq.com/cgi-bin/user/info";
+
+    /**
      * accesstoken的过期时间
      */
     public static final long ACCESS_TOKEN_EXPIRED_TIME = 7200L;

@@ -1,14 +1,25 @@
 package com.jonnyliu.proj.wechat.example;
 
 import com.jonnyliu.proj.wechat.annotation.MessageWorker;
+import com.jonnyliu.proj.wechat.bean.WechatUser;
 import com.jonnyliu.proj.wechat.enums.EventType;
+import com.jonnyliu.proj.wechat.enums.Lang;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.message.request.*;
+import com.jonnyliu.proj.wechat.message.response.Article;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
+import com.jonnyliu.proj.wechat.service.user.WechatUserService;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 事件消息处理器示例
@@ -30,11 +41,29 @@ public class EventMessageHandlerExample extends AbstractMessageHandler {
             String event = subOrUnSubEventRequestMessage.getEvent();
             EventType eventType = EventType.valueBy(event);
             //关注事件
+            String fromUserName = subOrUnSubEventRequestMessage.getFromUserName();
             if (eventType == EventType.EVENT_SUBSCRIBE) {
-                return MessageUtils.buildTextResponseMessage(baseRequestMessage, "感谢您的关注！<a href=\"https://github.com/151376liujie/wechat-core\">微信开源项目地址</a>");
+                WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
+                WechatUserService wechatUserService = webApplicationContext.getBean(WechatUserService.class);
+                WechatUser wechatUserInfo = wechatUserService.getWechatUserInfo(fromUserName, Lang.CHINESE);
+                String title = "你好！感谢您的关注！";
+                if (wechatUserInfo == null) {
+                    return MessageUtils.buildTextResponseMessage(baseRequestMessage, title);
+                }
+                title = "亲爱的:" + wechatUserInfo.getNickname() + title;
+                Article article = new Article();
+                article.setUrl("https://github.com/151376liujie/wechat-core");
+                article.setTitle(title);
+                article.setPicUrl(wechatUserInfo.getHeadimgurl());
+                article.setDescription("微信开发框架，封装了微信消息发送和接收的细节，用户只需关注自己业务本身，并且支持注解开发。");
+                List<Article> list = new ArrayList<>(1);
+                list.add(article);
+                Map<String, String> param = new HashMap<>();
+                param.put("ArticleCount", String.valueOf(list.size()));
+                return MessageUtils.buildNewsResponseMessage(baseRequestMessage, param, list);
             } else if (eventType == EventType.EVENT_UNSUBSCRIBE) {//取消关注事件
                 if (LOGGER.isWarnEnabled()) {
-                    LOGGER.warn("用户：[{}] 取消了对公众号的关注！", subOrUnSubEventRequestMessage.getFromUserName());
+                    LOGGER.warn("用户：[{}] 取消了对公众号的关注！", fromUserName);
                 }
             }
         } else if (baseRequestMessage instanceof UploadLocationEventRequestMessage) {
