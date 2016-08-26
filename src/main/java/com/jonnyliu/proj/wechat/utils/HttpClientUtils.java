@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.AbstractResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -36,6 +37,35 @@ public final class HttpClientUtils {
 
     public static String sendGet(String url, Map<String, String> param) throws Exception {
         return sendGet(url, param, null, Charset.forName(WechatConstant.DEFAULT_CHARSET));
+    }
+
+    public static String sendPost(String url, Map<String, String> param) throws Exception {
+        return sendPost(url, param, null, Charset.forName(WechatConstant.DEFAULT_CHARSET));
+    }
+
+    private static String sendPost(String url, Map<String, String> params, Map<String, String> headers, final Charset charset) throws IOException {
+        if (StringUtils.isEmpty(url)) {
+            LOGGER.error("URL can not be empty or null.");
+        }
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Post Request:{}", url);
+        }
+
+        String paramStr = buildGetParam(params, charset);
+        HttpGet request;
+        if (paramStr == null) {
+            request = new HttpGet(url);
+        } else {
+            request = new HttpGet(url + "?" + paramStr);
+        }
+        request.setHeaders(buildHeaders(headers));
+        String responseText = httpClient.execute(request, new AbstractResponseHandler<String>() {
+            @Override
+            public String handleEntity(HttpEntity httpEntity) throws IOException {
+                return EntityUtils.toString(httpEntity, charset);
+            }
+        });
+        return responseText;
     }
 
     /**
@@ -74,7 +104,8 @@ public final class HttpClientUtils {
             LOGGER.debug("Get Request:{}", url);
         }
 
-        String paramStr = buildGetParam(params, charset);
+        HttpPost postReq = new HttpPost(url);
+        String paramStr = buildPostParam(postReq, params, charset);
         HttpGet request;
         if (paramStr == null) {
             request = new HttpGet(url);
@@ -82,7 +113,7 @@ public final class HttpClientUtils {
             request = new HttpGet(url + "?" + paramStr);
         }
         request.setHeaders(buildHeaders(headers));
-        String responseText = httpClient.execute(request, new AbstractResponseHandler<String>() {
+        String responseText = httpClient.execute(postReq, new AbstractResponseHandler<String>() {
             @Override
             public String handleEntity(HttpEntity httpEntity) throws IOException {
                 return EntityUtils.toString(httpEntity, charset);
@@ -90,6 +121,12 @@ public final class HttpClientUtils {
         });
         return responseText;
     }
+
+    private static String buildPostParam(HttpPost postReq, Map<String, String> params, Charset charset) {
+//        postReq.setEntity(null);
+        return null;
+    }
+
 
     /**
      * 构建get参数

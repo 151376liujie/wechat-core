@@ -1,0 +1,35 @@
+{
+  "menu": {
+    "button": [
+      {
+        "name": "关注度",
+        "type": "view",
+        "url": "https://github.com/151376liujie/wechat-core/graphs/traffic",
+        "sub_button": []
+      },
+      {
+        "name": "菜单",
+        "sub_button": [
+          {
+            "name": "子菜单1",
+            "type": "click",
+            "key": "text",
+            "sub_button": []
+          },
+          {
+            "name": "子菜单2",
+            "type": "view",
+            "url": "http://www.cuiyongzhi.com",
+            "sub_button": []
+          }
+        ]
+      },
+      {
+        "name": "菜单三",
+        "type": "click",
+        "key": "text",
+        "sub_button": []
+      }
+    ]
+  }
+}
