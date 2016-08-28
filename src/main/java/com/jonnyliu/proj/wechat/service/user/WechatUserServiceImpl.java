@@ -1,11 +1,11 @@
 package com.jonnyliu.proj.wechat.service.user;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jonnyliu.proj.wechat.bean.*;
 import com.jonnyliu.proj.wechat.constant.WechatConstant;
 import com.jonnyliu.proj.wechat.service.accesstoken.AccessTokenService;
 import com.jonnyliu.proj.wechat.utils.HttpClientUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,24 +50,29 @@ public class WechatUserServiceImpl implements WechatUserService {
     }
 
     @Override
-    public List<WechatUser> batchGetWechatUserInfo(List<BatchGetUserRequestParam> getUserParamList) {
+    public List<WechatUser> batchGetWechatUserInfo(BatchGetUserRequestParam getUserParamList) {
         AccessTokenBean accessToken = accessTokenService.getAccessToken();
         if (accessToken == null) {
             accessToken = accessTokenService.refreshAccessToken();
         }
-        if (getUserParamList == null || getUserParamList.isEmpty()) {
+        if (getUserParamList == null) {
             return Collections.emptyList();
         }
         try {
             String paramJson = MAPPER.writeValueAsString(getUserParamList);
             Map<String, String> param = new HashMap<>();
-            param.put("access_token", accessToken.getAccess_token());
+//            param.put("access_token", accessToken.getAccess_token());
             param.put("data", paramJson);
-//            HttpClientUtils.sendGet(WechatConstant.WECHAT_USER_BATCH_FETCH_URL,param);
-        } catch (JsonProcessingException e) {
+            String postResponse = HttpClientUtils.sendPost(WechatConstant.WECHAT_USER_BATCH_FETCH_URL + "?access_token=" + accessToken.getAccess_token(), param);
+            if (StringUtils.isEmpty(postResponse)) {
+                return Collections.emptyList();
+            }
+            BatchGetUserInfoResponse response = MAPPER.readValue(postResponse, BatchGetUserInfoResponse.class);
+            return response.getUser_info_list();
+        } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }
-        return null;
+        return Collections.emptyList();
     }
 
 

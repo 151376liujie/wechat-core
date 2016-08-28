@@ -27,6 +27,6 @@ public interface WechatUserService {
      * @param getUserParamList
      * @return
      */
-    public List<WechatUser> batchGetWechatUserInfo(List<BatchGetUserRequestParam> getUserParamList);
+    public List<WechatUser> batchGetWechatUserInfo(BatchGetUserRequestParam getUserParamList);
 
 }

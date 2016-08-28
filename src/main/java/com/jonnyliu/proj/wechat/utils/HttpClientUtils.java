@@ -7,6 +7,8 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.AbstractResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -52,16 +54,11 @@ public final class HttpClientUtils {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Post Request:{}", url);
         }
+        HttpPost post = new HttpPost(url);
 
-        String paramStr = null;//buildPostParam(params, charset);
-        HttpGet request;
-        if (paramStr == null) {
-            request = new HttpGet(url);
-        } else {
-            request = new HttpGet(url + "?" + paramStr);
-        }
-        request.setHeaders(buildHeaders(headers));
-        String responseText = httpClient.execute(request, new AbstractResponseHandler<String>() {
+        buildPostParam(post, params, charset);
+        post.setHeaders(buildHeaders(headers));
+        String responseText = httpClient.execute(post, new AbstractResponseHandler<String>() {
             @Override
             public String handleEntity(HttpEntity httpEntity) throws IOException {
                 return EntityUtils.toString(httpEntity, charset);
@@ -123,9 +120,16 @@ public final class HttpClientUtils {
         return responseText;
     }
 
-    private static String buildPostParam(HttpPost postReq, Map<String, String> params, Charset charset) {
-//        postReq.setEntity(null);
-        return null;
+    private static void buildPostParam(HttpPost postReq, Map<String, String> params, Charset charset) {
+        if (params == null || params.isEmpty()) {
+            return;
+        }
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            StringEntity entity = new StringEntity(entry.getValue(), charset);
+            entity.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+            entity.setContentEncoding(charset.displayName());
+            postReq.setEntity(entity);
+        }
     }
 
 
