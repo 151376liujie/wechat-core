@@ -13,6 +13,11 @@ public class GetUserInfoParam extends BaseBean {
     private String openid;
     private String lang;
 
+    public GetUserInfoParam(String openid, String lang) {
+        this.openid = openid;
+        this.lang = lang;
+    }
+
     public String getOpenid() {
         return openid;
     }

@@ -2,10 +2,7 @@ package com.jonnyliu.proj.wechat.service.user;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jonnyliu.proj.wechat.bean.AccessTokenBean;
-import com.jonnyliu.proj.wechat.bean.BatchGetUserRequestParam;
-import com.jonnyliu.proj.wechat.bean.GetUserInfoParam;
-import com.jonnyliu.proj.wechat.bean.WechatUser;
+import com.jonnyliu.proj.wechat.bean.*;
 import com.jonnyliu.proj.wechat.constant.WechatConstant;
 import com.jonnyliu.proj.wechat.service.accesstoken.AccessTokenService;
 import com.jonnyliu.proj.wechat.utils.HttpClientUtils;
@@ -14,10 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 微信用户服务实现
@@ -41,13 +35,13 @@ public class WechatUserServiceImpl implements WechatUserService {
         if (accessToken == null) {
             accessToken = accessTokenService.refreshAccessToken();
         }
-        Map<String, String> param = new HashMap<>();
-        param.put("access_token", accessToken.getAccess_token());
-        param.put("openid", userInfoParam.getOpenid());
-        param.put("lang", userInfoParam.getLang());
+        List<NameAndValuePair<String, String>> nameAndValuePairs = new ArrayList<>();
+        nameAndValuePairs.add(new NameAndValuePair<>("access_token", accessToken.getAccess_token()));
+        nameAndValuePairs.add(new NameAndValuePair<>("openid", userInfoParam.getOpenid()));
+        nameAndValuePairs.add(new NameAndValuePair<>("lang", userInfoParam.getLang()));
         WechatUser wechatUser = null;
         try {
-            String response = HttpClientUtils.sendGet(WechatConstant.WECHAT_USER_FETCH_URL, param);
+            String response = HttpClientUtils.sendGet(WechatConstant.WECHAT_USER_FETCH_URL, nameAndValuePairs);
             wechatUser = MAPPER.readValue(response, WechatUser.class);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

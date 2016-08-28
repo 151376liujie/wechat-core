@@ -1,6 +1,7 @@
 package com.jonnyliu.proj.wechat.example;
 
 import com.jonnyliu.proj.wechat.annotation.MessageWorker;
+import com.jonnyliu.proj.wechat.bean.GetUserInfoParam;
 import com.jonnyliu.proj.wechat.bean.WechatUser;
 import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.Lang;
@@ -45,12 +46,12 @@ public class EventMessageHandlerExample extends AbstractMessageHandler {
             if (eventType == EventType.EVENT_SUBSCRIBE) {
                 WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
                 WechatUserService wechatUserService = webApplicationContext.getBean(WechatUserService.class);
-                WechatUser wechatUserInfo = wechatUserService.getWechatUserInfo(fromUserName, Lang.CHINESE);
+                WechatUser wechatUserInfo = wechatUserService.getWechatUserInfo(new GetUserInfoParam(fromUserName, Lang.CHINESE.getLanguageCode()));
                 String title = "你好！感谢您的关注！";
                 if (wechatUserInfo == null) {
                     return MessageUtils.buildTextResponseMessage(baseRequestMessage, title);
                 }
-                title = "亲爱的:" + wechatUserInfo.getNickname() + title;
+                title = "亲爱的:" + wechatUserInfo.getNickname() + "," + title;
                 Article article = new Article();
                 article.setUrl("https://github.com/151376liujie/wechat-core");
                 article.setTitle(title);

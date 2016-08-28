@@ -2,6 +2,7 @@ package com.jonnyliu.proj.wechat.service.accesstoken;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jonnyliu.proj.wechat.bean.AccessTokenBean;
+import com.jonnyliu.proj.wechat.bean.WechatConfig;
 import com.jonnyliu.proj.wechat.constant.WechatConstant;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -11,7 +12,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -27,12 +27,6 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class AccessTokenServiceImpl implements AccessTokenService {
-
-    @Value("#{wechatProperty.appID}")
-    private String appId;
-
-    @Value("#{wechatProperty.appsecret}")
-    private String appsecret;
 
     private AccessTokenBean ACCESS_TOKEN_BEAN = null;
 
@@ -71,7 +65,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
      */
     private AccessTokenBean getAccessTokenFromUrl() {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        String access_token_url = WechatConstant.ACCESS_TOKEN_FETCH_URL + "?grant_type=client_credential&appid=" + appId + "&secret=" + appsecret;
+        String access_token_url = WechatConstant.ACCESS_TOKEN_FETCH_URL + "?grant_type=client_credential&appid=" + WechatConfig.getAppId() + "&secret=" + WechatConfig.getAppSercet();
         HttpGet get = new HttpGet(access_token_url);
         String content = null;
         try {
