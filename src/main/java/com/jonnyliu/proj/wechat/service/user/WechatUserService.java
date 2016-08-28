@@ -1,6 +1,7 @@
 package com.jonnyliu.proj.wechat.service.user;
 
 import com.jonnyliu.proj.wechat.bean.BatchGetUserRequestParam;
+import com.jonnyliu.proj.wechat.bean.CreateTagResponse;
 import com.jonnyliu.proj.wechat.bean.GetUserInfoParam;
 import com.jonnyliu.proj.wechat.bean.WechatUser;
 
@@ -19,7 +20,7 @@ public interface WechatUserService {
      *
      * @return
      */
-    public WechatUser getWechatUserInfo(GetUserInfoParam userInfoParam);
+    WechatUser getWechatUserInfo(GetUserInfoParam userInfoParam);
 
     /**
      * 批量获取微信用户基本信息
@@ -27,6 +28,14 @@ public interface WechatUserService {
      * @param getUserParamList
      * @return
      */
-    public List<WechatUser> batchGetWechatUserInfo(BatchGetUserRequestParam getUserParamList);
+    List<WechatUser> batchGetWechatUserInfo(BatchGetUserRequestParam getUserParamList);
+
+    /**
+     * 创建tag标签
+     *
+     * @param tagName
+     * @return
+     */
+    CreateTagResponse createTag(String tagName);
 
 }

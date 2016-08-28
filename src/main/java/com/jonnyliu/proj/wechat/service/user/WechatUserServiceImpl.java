@@ -61,7 +61,6 @@ public class WechatUserServiceImpl implements WechatUserService {
         try {
             String paramJson = MAPPER.writeValueAsString(getUserParamList);
             Map<String, String> param = new HashMap<>();
-//            param.put("access_token", accessToken.getAccess_token());
             param.put("data", paramJson);
             String postResponse = HttpClientUtils.sendPost(WechatConstant.WECHAT_USER_BATCH_FETCH_URL + "?access_token=" + accessToken.getAccess_token(), param);
             if (StringUtils.isEmpty(postResponse)) {
@@ -75,5 +74,28 @@ public class WechatUserServiceImpl implements WechatUserService {
         return Collections.emptyList();
     }
 
-
+    @Override
+    public CreateTagResponse createTag(String tagName) {
+        AccessTokenBean accessToken = accessTokenService.getAccessToken();
+        if (accessToken == null) {
+            accessToken = accessTokenService.refreshAccessToken();
+        }
+        if (StringUtils.isEmpty(tagName)) {
+            throw new RuntimeException("tagname must not be null or empty");
+        }
+        WechatTag tag = new WechatTag();
+        tag.setName(tagName);
+        CreateTagParameter parameter = new CreateTagParameter(tag);
+        try {
+            String json = MAPPER.writeValueAsString(parameter);
+            Map<String, String> map = new HashMap<>();
+            map.put("data", json);
+            String response = HttpClientUtils.sendPost(WechatConstant.WECHAT_CREATE_TAG_URL + "?access_token=" + accessToken.getAccess_token(), map);
+            CreateTagResponse createTagResponse = MAPPER.readValue(response, CreateTagResponse.class);
+            return createTagResponse;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
 }
