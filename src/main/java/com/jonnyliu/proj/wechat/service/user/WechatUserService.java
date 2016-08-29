@@ -50,4 +50,21 @@ public interface WechatUserService {
      */
     APIResponse editTag(CreateOrEditTagParameter parameter);
 
+    /**
+     * 删除指定id的标签
+     *
+     * @param tagId
+     * @return
+     */
+    APIResponse deleteTag(long tagId);
+
+    /**
+     * 获取指定标签下的用户id（微信号）
+     *
+     * @param tagId       标签id
+     * @param next_openid 第一个拉取的OPENID，不填默认从头开始拉取
+     * @return
+     */
+    GetUsersOfTagResponse getUsersOfTag(long tagId, String next_openid);
+
 }

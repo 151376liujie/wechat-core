@@ -55,7 +55,7 @@ public class WechatUserServiceTests {
         GetWechatTagResponse tags = wechatUserService.getTags();
         Assert.assertNotNull(tags);
         Assert.assertNotNull(tags.getTags());
-        Assert.assertTrue(tags.getTags().size() > 1);
+        Assert.assertTrue(tags.getTags().size() >= 1);
     }
 
     @Test
@@ -66,5 +66,20 @@ public class WechatUserServiceTests {
         Assert.assertNotNull(apiResponse);
         Assert.assertTrue(apiResponse.getErrcode() == 0);
         Assert.assertTrue(apiResponse.getErrmsg().equalsIgnoreCase("ok"));
+    }
+
+    @Test
+    public void testDeleteTag() {
+        APIResponse apiResponse = wechatUserService.deleteTag(100);
+        Assert.assertNotNull(apiResponse);
+        Assert.assertTrue(apiResponse.getErrcode() == 0);
+        Assert.assertTrue(apiResponse.getErrmsg().equalsIgnoreCase("ok"));
+    }
+
+    @Test
+    public void testGetUsersOfTag() {
+        GetUsersOfTagResponse usersOfTag = wechatUserService.getUsersOfTag(1, null);
+        Assert.assertNotNull(usersOfTag);
+        Assert.assertTrue(usersOfTag.getCount() > 0);
     }
 }

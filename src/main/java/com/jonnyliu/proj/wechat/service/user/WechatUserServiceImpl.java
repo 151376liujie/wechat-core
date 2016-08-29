@@ -141,4 +141,63 @@ public class WechatUserServiceImpl implements WechatUserService {
         }
         return null;
     }
+
+    @Override
+    public APIResponse deleteTag(long tagId) {
+        AccessTokenBean accessToken = accessTokenService.getAccessToken();
+        if (accessToken == null) {
+            accessToken = accessTokenService.refreshAccessToken();
+        }
+        if (tagId <= 0) {
+            throw new RuntimeException("invalid tagid:[{" + String.valueOf(tagId) + "}]");
+        }
+        WechatTag tag = new WechatTag();
+        tag.setId(tagId);
+        CreateOrEditTagParameter parameter = new CreateOrEditTagParameter(tag);
+        Map<String, String> map = new HashMap<>();
+        List<NameAndValuePair<String, String>> list = new ArrayList<>();
+        list.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
+        try {
+            String postJson = MAPPER.writeValueAsString(parameter);
+            map.put("data", postJson);
+            String response = HttpClientUtils.sendPost(HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_DELETE_TAG_URL, list, WechatConstant.DEFAULT_CHARSET), map);
+            APIResponse apiResponse = MAPPER.readValue(response, APIResponse.class);
+            return apiResponse;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    @Override
+    public GetUsersOfTagResponse getUsersOfTag(long tagId, String next_openid) {
+        if (tagId <= 0) {
+            throw new RuntimeException("tagid must be greater than 0 ");
+        }
+
+        AccessTokenBean accessToken = accessTokenService.getAccessToken();
+        if (accessToken == null) {
+            accessToken = accessTokenService.refreshAccessToken();
+        }
+        if (tagId <= 0) {
+            throw new RuntimeException("invalid tagid:[{" + String.valueOf(tagId) + "}]");
+        }
+
+        GetUsersOfTagParameter getUsersOfTagParameter = new GetUsersOfTagParameter(tagId, next_openid);
+        List<NameAndValuePair<String, String>> nameAndValuePairs = new ArrayList<>();
+        nameAndValuePairs.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
+        try {
+            String postJson = MAPPER.writeValueAsString(getUsersOfTagParameter);
+            String url = HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_GET_USER_OF_TAG_URL, nameAndValuePairs, WechatConstant.DEFAULT_CHARSET);
+            Map<String, String> map = new HashMap<>();
+            map.put("data", postJson);
+            String postResponse = HttpClientUtils.sendPost(url, map);
+            GetUsersOfTagResponse getUsersOfTagResponse = MAPPER.readValue(postResponse, GetUsersOfTagResponse.class);
+            return getUsersOfTagResponse;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+
+    }
 }
