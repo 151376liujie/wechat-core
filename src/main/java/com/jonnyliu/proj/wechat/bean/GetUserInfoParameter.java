@@ -8,12 +8,12 @@ import com.jonnyliu.proj.wechat.bean.base.BaseBean;
  * User: jonnyliu@tcl.com <br/>
  * Date: on 2016-08-26 17:12.
  */
-public class GetUserInfoParam extends BaseBean {
+public class GetUserInfoParameter extends BaseBean {
 
     private String openid;
     private String lang;
 
-    public GetUserInfoParam(String openid, String lang) {
+    public GetUserInfoParameter(String openid, String lang) {
         this.openid = openid;
         this.lang = lang;
     }

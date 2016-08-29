@@ -1,8 +1,8 @@
 package com.jonnyliu.proj.wechat.service.user;
 
-import com.jonnyliu.proj.wechat.bean.BatchGetUserRequestParam;
+import com.jonnyliu.proj.wechat.bean.BatchGetUserRequestParameter;
 import com.jonnyliu.proj.wechat.bean.CreateTagResponse;
-import com.jonnyliu.proj.wechat.bean.GetUserInfoParam;
+import com.jonnyliu.proj.wechat.bean.GetUserInfoParameter;
 import com.jonnyliu.proj.wechat.bean.WechatUser;
 import com.jonnyliu.proj.wechat.enums.Lang;
 import org.junit.Assert;
@@ -30,12 +30,12 @@ public class WechatUserServiceTests {
 
     @Test
     public void testBatchGetUser() {
-        BatchGetUserRequestParam param = new BatchGetUserRequestParam();
-        GetUserInfoParam userInfoParam = new GetUserInfoParam("oHcaSt095yszSEw3dDSPBHpePfXo", Lang.CHINESE.getLanguageCode());
+        BatchGetUserRequestParameter param = new BatchGetUserRequestParameter();
+        GetUserInfoParameter userInfoParam = new GetUserInfoParameter("oHcaSt095yszSEw3dDSPBHpePfXo", Lang.CHINESE.getLanguageCode());
 
-        GetUserInfoParam userInfoParam2 = new GetUserInfoParam("oHcaSt8rSz8GGjgiTRlL-PxBASMc", Lang.CHINESE.getLanguageCode());
+        GetUserInfoParameter userInfoParam2 = new GetUserInfoParameter("oHcaSt8rSz8GGjgiTRlL-PxBASMc", Lang.CHINESE.getLanguageCode());
 
-        List<GetUserInfoParam> list = new ArrayList<>(2);
+        List<GetUserInfoParameter> list = new ArrayList<>(2);
         list.add(userInfoParam);
         list.add(userInfoParam2);
         param.setUser_list(list);

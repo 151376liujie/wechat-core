@@ -30,7 +30,7 @@ public class WechatUserServiceImpl implements WechatUserService {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Override
-    public WechatUser getWechatUserInfo(GetUserInfoParam userInfoParam) {
+    public WechatUser getWechatUserInfo(GetUserInfoParameter userInfoParam) {
         AccessTokenBean accessToken = accessTokenService.getAccessToken();
         if (accessToken == null) {
             accessToken = accessTokenService.refreshAccessToken();
@@ -50,7 +50,7 @@ public class WechatUserServiceImpl implements WechatUserService {
     }
 
     @Override
-    public List<WechatUser> batchGetWechatUserInfo(BatchGetUserRequestParam getUserParamList) {
+    public List<WechatUser> batchGetWechatUserInfo(BatchGetUserRequestParameter getUserParamList) {
         AccessTokenBean accessToken = accessTokenService.getAccessToken();
         if (accessToken == null) {
             accessToken = accessTokenService.refreshAccessToken();
