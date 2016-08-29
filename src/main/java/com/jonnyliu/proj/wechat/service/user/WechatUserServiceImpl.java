@@ -179,10 +179,6 @@ public class WechatUserServiceImpl implements WechatUserService {
         if (accessToken == null) {
             accessToken = accessTokenService.refreshAccessToken();
         }
-        if (tagId <= 0) {
-            throw new RuntimeException("invalid tagid:[{" + String.valueOf(tagId) + "}]");
-        }
-
         GetUsersOfTagParameter getUsersOfTagParameter = new GetUsersOfTagParameter(tagId, next_openid);
         List<NameAndValuePair<String, String>> nameAndValuePairs = new ArrayList<>();
         nameAndValuePairs.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
