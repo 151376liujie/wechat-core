@@ -7,10 +7,10 @@ import com.jonnyliu.proj.wechat.bean.base.BaseBean;
  * author:980463316@qq.com <br/>
  * Created on 2016-08-28 18:54.
  */
-public class CreateTagParameter extends BaseBean {
+public class CreateOrEditTagParameter extends BaseBean {
     private WechatTag tag;
 
-    public CreateTagParameter(WechatTag tag) {
+    public CreateOrEditTagParameter(WechatTag tag) {
         this.tag = tag;
     }
 

@@ -35,6 +35,7 @@ public final class HttpClientUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpClientUtils.class);
     private static final String NAME_VALUE_SEPARATOR = "=";
     private static final String QUERYPARAM_SEP = "&";
+    private static final String URL_QUERYPARAM_SEPARATOR = "?";
 
     private static CloseableHttpClient httpClient = HttpClients.createDefault();
 
@@ -108,7 +109,7 @@ public final class HttpClientUtils {
         if (paramStr == null) {
             request = new HttpGet(url);
         } else {
-            request = new HttpGet(url + "?" + paramStr);
+            request = new HttpGet(url + URL_QUERYPARAM_SEPARATOR + paramStr);
         }
         request.setHeaders(buildHeaders(headers));
         String responseText = httpClient.execute(request, new AbstractResponseHandler<String>() {
@@ -141,7 +142,7 @@ public final class HttpClientUtils {
      * @return
      * @throws UnsupportedEncodingException
      */
-    private static String buildGetParam(List<NameAndValuePair<String, String>> nameAndValuePairs, Charset charset) throws UnsupportedEncodingException {
+    public static String buildGetParam(List<NameAndValuePair<String, String>> nameAndValuePairs, Charset charset) throws UnsupportedEncodingException {
         if (nameAndValuePairs == null || nameAndValuePairs.isEmpty()) {
             return null;
         }
@@ -158,5 +159,17 @@ public final class HttpClientUtils {
         return strbui.substring(0, strbui.length() - 1);
     }
 
+    /**
+     * 构建get请求的url（含参数）
+     *
+     * @param url
+     * @param nameAndValuePairs
+     * @param charset
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    public static String buildUrlWithParam(String url, List<NameAndValuePair<String, String>> nameAndValuePairs, String charset) throws UnsupportedEncodingException {
+        return url + URL_QUERYPARAM_SEPARATOR + buildGetParam(nameAndValuePairs, Charset.forName(charset));
+    }
 
 }

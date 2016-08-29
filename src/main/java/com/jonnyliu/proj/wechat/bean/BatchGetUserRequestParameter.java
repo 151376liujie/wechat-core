@@ -5,6 +5,7 @@ import com.jonnyliu.proj.wechat.bean.base.BaseBean;
 import java.util.List;
 
 /**
+ * 封装批量获取微信用户基本信息的请求参数
  * author:980463316@qq.com <br/>
  * Created on 2016-08-28 1:05.
  */

@@ -27,6 +27,15 @@ public class WechatConstant {
     public static final String WECHAT_CREATE_TAG_URL = "https://api.weixin.qq.com/cgi-bin/tags/create";
 
     /**
+     * 获取已创建的标签url
+     */
+    public static final String WECHAT_GET_TAG_URL = "https://api.weixin.qq.com/cgi-bin/tags/get";
+
+    /**
+     * 编辑标签url
+     */
+    public static final String WECHAT_EDIT_TAG_URL = "https://api.weixin.qq.com/cgi-bin/tags/update";
+    /**
      * accesstoken的过期时间
      */
     public static final long ACCESS_TOKEN_EXPIRED_TIME = 7200L;

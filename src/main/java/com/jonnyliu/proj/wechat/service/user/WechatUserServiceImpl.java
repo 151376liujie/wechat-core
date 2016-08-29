@@ -62,7 +62,9 @@ public class WechatUserServiceImpl implements WechatUserService {
             String paramJson = MAPPER.writeValueAsString(getUserParamList);
             Map<String, String> param = new HashMap<>();
             param.put("data", paramJson);
-            String postResponse = HttpClientUtils.sendPost(WechatConstant.WECHAT_USER_BATCH_FETCH_URL + "?access_token=" + accessToken.getAccess_token(), param);
+            List<NameAndValuePair<String, String>> list = new ArrayList<>();
+            list.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
+            String postResponse = HttpClientUtils.sendPost(HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_USER_BATCH_FETCH_URL, list, WechatConstant.DEFAULT_CHARSET), param);
             if (StringUtils.isEmpty(postResponse)) {
                 return Collections.emptyList();
             }
@@ -85,14 +87,55 @@ public class WechatUserServiceImpl implements WechatUserService {
         }
         WechatTag tag = new WechatTag();
         tag.setName(tagName);
-        CreateTagParameter parameter = new CreateTagParameter(tag);
+        CreateOrEditTagParameter parameter = new CreateOrEditTagParameter(tag);
         try {
             String json = MAPPER.writeValueAsString(parameter);
             Map<String, String> map = new HashMap<>();
             map.put("data", json);
-            String response = HttpClientUtils.sendPost(WechatConstant.WECHAT_CREATE_TAG_URL + "?access_token=" + accessToken.getAccess_token(), map);
+            List<NameAndValuePair<String, String>> list = new ArrayList<>();
+            list.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
+            String response = HttpClientUtils.sendPost(HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_CREATE_TAG_URL, list, WechatConstant.DEFAULT_CHARSET), map);
             CreateTagResponse createTagResponse = MAPPER.readValue(response, CreateTagResponse.class);
             return createTagResponse;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    @Override
+    public GetWechatTagResponse getTags() {
+        AccessTokenBean accessToken = accessTokenService.getAccessToken();
+        if (accessToken == null) {
+            accessToken = accessTokenService.refreshAccessToken();
+        }
+        try {
+            List<NameAndValuePair<String, String>> nameAndValuePairs = new ArrayList<>();
+            nameAndValuePairs.add(new NameAndValuePair<>("access_token", accessToken.getAccess_token()));
+            String response = HttpClientUtils.sendGet(WechatConstant.WECHAT_GET_TAG_URL, nameAndValuePairs);
+            GetWechatTagResponse getWechatTagResponse = MAPPER.readValue(response, GetWechatTagResponse.class);
+            return getWechatTagResponse;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    @Override
+    public APIResponse editTag(CreateOrEditTagParameter parameter) {
+        AccessTokenBean accessToken = accessTokenService.getAccessToken();
+        if (accessToken == null) {
+            accessToken = accessTokenService.refreshAccessToken();
+        }
+        Map<String, String> map = new HashMap<>();
+        List<NameAndValuePair<String, String>> list = new ArrayList<>();
+        list.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
+        try {
+            String postJson = MAPPER.writeValueAsString(parameter);
+            map.put("data", postJson);
+            String response = HttpClientUtils.sendPost(HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_EDIT_TAG_URL, list, WechatConstant.DEFAULT_CHARSET), map);
+            APIResponse apiResponse = MAPPER.readValue(response, APIResponse.class);
+            return apiResponse;
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }

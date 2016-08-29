@@ -1,9 +1,6 @@
 package com.jonnyliu.proj.wechat.service.user;
 
-import com.jonnyliu.proj.wechat.bean.BatchGetUserRequestParameter;
-import com.jonnyliu.proj.wechat.bean.CreateTagResponse;
-import com.jonnyliu.proj.wechat.bean.GetUserInfoParameter;
-import com.jonnyliu.proj.wechat.bean.WechatUser;
+import com.jonnyliu.proj.wechat.bean.*;
 import com.jonnyliu.proj.wechat.enums.Lang;
 import org.junit.Assert;
 import org.junit.Test;
@@ -53,4 +50,21 @@ public class WechatUserServiceTests {
         Assert.assertTrue(createTagResponse.getTag().getId() > 0);
     }
 
+    @Test
+    public void testGetTags() {
+        GetWechatTagResponse tags = wechatUserService.getTags();
+        Assert.assertNotNull(tags);
+        Assert.assertNotNull(tags.getTags());
+        Assert.assertTrue(tags.getTags().size() > 1);
+    }
+
+    @Test
+    public void testEditTag() {
+        WechatTag tag = new WechatTag(100, "test1");
+        CreateOrEditTagParameter parameter = new CreateOrEditTagParameter(tag);
+        APIResponse apiResponse = wechatUserService.editTag(parameter);
+        Assert.assertNotNull(apiResponse);
+        Assert.assertTrue(apiResponse.getErrcode() == 0);
+        Assert.assertTrue(apiResponse.getErrmsg().equalsIgnoreCase("ok"));
+    }
 }

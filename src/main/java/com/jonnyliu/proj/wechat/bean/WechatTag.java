@@ -11,6 +11,10 @@ public class WechatTag extends BaseBean {
 
     private long id;
     private String name;
+    /**
+     * 此标签下粉丝数
+     */
+    private long count;
 
     public WechatTag() {
     }
@@ -34,5 +38,13 @@ public class WechatTag extends BaseBean {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
+    }
+
+    public long getCount() {
+        return count;
     }
 }
