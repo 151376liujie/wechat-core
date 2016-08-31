@@ -194,6 +194,33 @@ public class WechatUserServiceImpl implements WechatUserService {
             LOGGER.error(e.getMessage(), e);
         }
         return null;
+    }
 
+    @Override
+    public APIResponse batchTagUsers(long tagId, List<String> openid_list) {
+        if (tagId <= 0) {
+            throw new RuntimeException("tagid must be greater than 0 ");
+        }
+        if (openid_list == null || openid_list.isEmpty()) {
+            throw new RuntimeException("openid list is not allowed to be null or empty! ");
+        }
+        AccessTokenBean accessToken = accessTokenService.getAccessToken();
+        if (accessToken == null) {
+            accessToken = accessTokenService.refreshAccessToken();
+        }
+        List<NameAndValuePair<String, String>> nameAndValuePairs = new ArrayList<>();
+        nameAndValuePairs.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
+        try {
+            BatchTagUsersParameter batchTagUsersParameter = new BatchTagUsersParameter(tagId, openid_list.toArray(new String[]{}));
+            Map<String, String> map = new HashMap<>();
+            map.put("data", MAPPER.writeValueAsString(batchTagUsersParameter));
+            String url = HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_BATCH_TAG_USER_URL, nameAndValuePairs, WechatConstant.DEFAULT_CHARSET);
+            String postJson = HttpClientUtils.sendPost(url, map);
+            APIResponse apiResponse = MAPPER.readValue(postJson, APIResponse.class);
+            return apiResponse;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
     }
 }

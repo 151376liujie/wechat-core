@@ -1,7 +1,5 @@
 package com.jonnyliu.proj.wechat.bean;
 
-import com.jonnyliu.proj.wechat.bean.base.BaseBean;
-
 /**
  * 封装微信tag标签
  * author:980463316@qq.com <br/>

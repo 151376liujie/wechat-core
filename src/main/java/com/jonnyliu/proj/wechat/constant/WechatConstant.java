@@ -42,9 +42,14 @@ public class WechatConstant {
     public static final String WECHAT_DELETE_TAG_URL = "https://api.weixin.qq.com/cgi-bin/tags/delete";
 
     /**
-     * 获取该标签下的用户列表
+     * 获取该标签下的用户列表url
      */
     public static final String WECHAT_GET_USER_OF_TAG_URL = "https://api.weixin.qq.com/cgi-bin/user/tag/get";
+
+    /**
+     * 批量为用户打标签url
+     */
+    public static final String WECHAT_BATCH_TAG_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging";
 
     /**
      * accesstoken的过期时间

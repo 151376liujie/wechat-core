@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -81,5 +82,13 @@ public class WechatUserServiceTests {
         GetUsersOfTagResponse usersOfTag = wechatUserService.getUsersOfTag(1, null);
         Assert.assertNotNull(usersOfTag);
         Assert.assertTrue(usersOfTag.getCount() > 0);
+    }
+
+    @Test
+    public void testBatchTagUsers() {
+        APIResponse apiResponse = wechatUserService.batchTagUsers(2, Arrays.asList("oHcaSt095yszSEw3dDSPBHpePfXo", "oHcaSt9zbSPMQijngGJPLK4Yy8iA"));
+        Assert.assertNotNull(apiResponse);
+        Assert.assertTrue(apiResponse.getErrcode() == 0);
+        Assert.assertTrue(apiResponse.getErrmsg().equalsIgnoreCase("ok"));
     }
 }

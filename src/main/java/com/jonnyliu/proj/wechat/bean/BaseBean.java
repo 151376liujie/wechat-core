@@ -1,4 +1,4 @@
-package com.jonnyliu.proj.wechat.bean.base;
+package com.jonnyliu.proj.wechat.bean;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;

@@ -1,7 +1,5 @@
 package com.jonnyliu.proj.wechat.bean;
 
-import com.jonnyliu.proj.wechat.bean.base.BaseBean;
-
 /**
  * 封装获取标签下所有用户列表请求参数
  * author:980463316@qq.com <br/>

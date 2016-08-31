@@ -1,7 +1,5 @@
 package com.jonnyliu.proj.wechat.bean;
 
-import com.jonnyliu.proj.wechat.bean.base.BaseBean;
-
 /**
  * 单个获取微信用户的请求参数封装
  * <p/>

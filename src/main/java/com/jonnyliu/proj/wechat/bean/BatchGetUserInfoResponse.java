@@ -1,7 +1,5 @@
 package com.jonnyliu.proj.wechat.bean;
 
-import com.jonnyliu.proj.wechat.bean.base.BaseBean;
-
 import java.util.List;
 
 /**

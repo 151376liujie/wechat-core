@@ -67,4 +67,13 @@ public interface WechatUserService {
      */
     GetUsersOfTagResponse getUsersOfTag(long tagId, String next_openid);
 
+    /**
+     * 批量为指定用户打上指定标签
+     *
+     * @param tagId
+     * @param openid_list
+     * @return
+     */
+    APIResponse batchTagUsers(long tagId, List<String> openid_list);
+
 }
