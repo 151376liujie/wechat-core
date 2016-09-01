@@ -15,9 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 微信accessToken的服务实现，所有其他组件都必须调用该组件来获得access token
@@ -28,34 +25,53 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class AccessTokenServiceImpl implements AccessTokenService {
 
-    private AccessTokenBean ACCESS_TOKEN_BEAN = null;
-
-    private ScheduledExecutorService scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-
     private static final Logger LOGGER = LoggerFactory.getLogger(AccessTokenServiceImpl.class);
-
+    private static volatile AccessTokenBean ACCESS_TOKEN_BEAN = new AccessTokenBean();
     private static final ObjectMapper MAPPER = new ObjectMapper();
-
-    {
-        LOGGER.info("accesstoken scheduledExecutor starting...");
-        scheduledExecutor.scheduleWithFixedDelay(new Runnable() {
-            @Override
-            public void run() {
-                ACCESS_TOKEN_BEAN = getAccessTokenFromUrl();
-                LOGGER.info("time:{},fetched token :{}", System.currentTimeMillis(), ACCESS_TOKEN_BEAN);
-            }
-        }, 0, WechatConstant.ACCESS_TOKEN_FETCH_DELAY, TimeUnit.SECONDS);
-    }
+    /**
+     * 全局的获取accesstoken的锁
+     */
+    private final Object globalFetchTokenLock = new Object();
 
     @Override
     public AccessTokenBean getAccessToken() {
+        if (isAccessTokenExpired()) {
+            //token过期，需要重新获取
+            synchronized (globalFetchTokenLock) {
+                ACCESS_TOKEN_BEAN = getAccessTokenFromUrl();
+            }
+        }
         return ACCESS_TOKEN_BEAN;
     }
 
     @Override
-    public AccessTokenBean refreshAccessToken() {
-        ACCESS_TOKEN_BEAN = getAccessTokenFromUrl();
-        return ACCESS_TOKEN_BEAN;
+    public void expireAccessToken() {
+        synchronized (globalFetchTokenLock) {
+            ACCESS_TOKEN_BEAN.setExpires_in(0);
+        }
+    }
+
+    @Override
+    public boolean isAccessTokenExpired() {
+        synchronized (globalFetchTokenLock) {
+            return ACCESS_TOKEN_BEAN.getExpires_in() == 0;
+        }
+    }
+
+    public static void main(String[] args) {
+        AccessTokenServiceImpl accessTokenService = new AccessTokenServiceImpl();
+        AccessTokenBean accessToken = accessTokenService.getAccessToken();
+        System.out.println(accessToken.getAccess_token() + "==" + accessTokenService.isAccessTokenExpired());
+
+        System.out.println("===================================");
+
+        accessToken = accessTokenService.getAccessToken();
+        System.out.println(accessToken.getAccess_token() + "==" + accessTokenService.isAccessTokenExpired());
+
+        System.out.println("===================================");
+
+        accessToken = accessTokenService.getAccessToken();
+        System.out.println(accessToken.getAccess_token() + "==" + accessTokenService.isAccessTokenExpired());
     }
 
     /**
@@ -63,7 +79,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
      *
      * @return
      */
-    private AccessTokenBean getAccessTokenFromUrl() {
+    private static AccessTokenBean getAccessTokenFromUrl() {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         String access_token_url = WechatConstant.ACCESS_TOKEN_FETCH_URL + "?grant_type=client_credential&appid=" + WechatConfig.getAppId() + "&secret=" + WechatConfig.getAppSercet();
         HttpGet get = new HttpGet(access_token_url);
@@ -76,7 +92,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
                 return accessTokenBean;
             }
         } catch (IOException e) {
-            LOGGER.error("failed to fetch access token. detail error msg :{}", content);
+            LOGGER.error("failed to fetch access token. detail error msg :" + content, e);
         } finally {
             try {
                 if (httpClient != null) {
@@ -87,5 +103,13 @@ public class AccessTokenServiceImpl implements AccessTokenService {
             }
         }
         return null;
+    }
+
+    @Override
+    public AccessTokenBean refreshAccessToken() {
+        synchronized (globalFetchTokenLock) {
+            expireAccessToken();
+            return getAccessToken();
+        }
     }
 }
