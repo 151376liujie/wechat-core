@@ -91,4 +91,19 @@ public class WechatUserServiceTests {
         Assert.assertTrue(apiResponse.getErrcode() == 0);
         Assert.assertTrue(apiResponse.getErrmsg().equalsIgnoreCase("ok"));
     }
+
+    @Test
+    public void testBatchUnTagUsers() {
+        APIResponse apiResponse = wechatUserService.batchUnTagUsers(2, Arrays.asList("oHcaSt095yszSEw3dDSPBHpePfXo", "oHcaSt9zbSPMQijngGJPLK4Yy8iA"));
+        Assert.assertNotNull(apiResponse);
+        Assert.assertTrue(apiResponse.getErrcode() == 0);
+        Assert.assertTrue(apiResponse.getErrmsg().equalsIgnoreCase("ok"));
+    }
+
+    @Test
+    public void testGetTagsOfUser() {
+        GetTagsOfUserResponse tagsOfUser = wechatUserService.getTagsOfUser("oHcaSt7ptU9LjEGQTjEAz7hKGdeU");
+        Assert.assertNotNull(tagsOfUser);
+        Assert.assertNotNull(tagsOfUser.getTagid_list());
+    }
 }
