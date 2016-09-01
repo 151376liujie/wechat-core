@@ -76,4 +76,21 @@ public interface WechatUserService {
      */
     APIResponse batchTagUsers(long tagId, List<String> openid_list);
 
+    /**
+     * 批量为指定用户取消标签
+     *
+     * @param tagId
+     * @param openid_list
+     * @return
+     */
+    APIResponse batchUnTagUsers(long tagId, List<String> openid_list);
+
+    /**
+     * 获取指定微信用户的标签
+     *
+     * @param openId
+     * @return
+     */
+    GetTagsOfUserResponse getTagsOfUser(String openId);
+
 }

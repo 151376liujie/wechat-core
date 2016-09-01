@@ -52,6 +52,14 @@ public class WechatConstant {
     public static final String WECHAT_BATCH_TAG_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging";
 
     /**
+     * 批量为用户取消标签url
+     */
+    public static final String WECHAT_BATCH_UNTAG_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging";
+
+
+    public static final String WECHAT_GET_TAGS_OF_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/getidlist";
+
+    /**
      * accesstoken的过期时间
      */
     public static final long ACCESS_TOKEN_EXPIRED_TIME = 7200L;

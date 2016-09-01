@@ -58,22 +58,6 @@ public class AccessTokenServiceImpl implements AccessTokenService {
         }
     }
 
-    public static void main(String[] args) {
-        AccessTokenServiceImpl accessTokenService = new AccessTokenServiceImpl();
-        AccessTokenBean accessToken = accessTokenService.getAccessToken();
-        System.out.println(accessToken.getAccess_token() + "==" + accessTokenService.isAccessTokenExpired());
-
-        System.out.println("===================================");
-
-        accessToken = accessTokenService.getAccessToken();
-        System.out.println(accessToken.getAccess_token() + "==" + accessTokenService.isAccessTokenExpired());
-
-        System.out.println("===================================");
-
-        accessToken = accessTokenService.getAccessToken();
-        System.out.println(accessToken.getAccess_token() + "==" + accessTokenService.isAccessTokenExpired());
-    }
-
     /**
      * 请求微信服务器获取access token
      *

@@ -6,4 +6,4 @@ wechat-core.iml
 target/
 
 #config
-wechat.properties
+src/main/resources/wechat.properties

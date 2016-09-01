@@ -1,6 +1,7 @@
 package com.jonnyliu.proj.wechat.service.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Preconditions;
 import com.jonnyliu.proj.wechat.bean.*;
 import com.jonnyliu.proj.wechat.constant.WechatConstant;
 import com.jonnyliu.proj.wechat.service.accesstoken.AccessTokenService;
@@ -198,12 +199,8 @@ public class WechatUserServiceImpl implements WechatUserService {
 
     @Override
     public APIResponse batchTagUsers(long tagId, List<String> openid_list) {
-        if (tagId <= 0) {
-            throw new RuntimeException("tagid must be greater than 0 ");
-        }
-        if (openid_list == null || openid_list.isEmpty()) {
-            throw new RuntimeException("openid list is not allowed to be null or empty! ");
-        }
+        Preconditions.checkArgument(tagId > 0, "tagid must be greater than 0");
+        Preconditions.checkArgument(openid_list == null || openid_list.isEmpty(), "openid list is not allowed to be null or empty! ");
         AccessTokenBean accessToken = accessTokenService.getAccessToken();
         if (accessToken == null) {
             accessToken = accessTokenService.refreshAccessToken();
@@ -217,6 +214,54 @@ public class WechatUserServiceImpl implements WechatUserService {
             String url = HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_BATCH_TAG_USER_URL, nameAndValuePairs, WechatConstant.DEFAULT_CHARSET);
             String postJson = HttpClientUtils.sendPost(url, map);
             APIResponse apiResponse = MAPPER.readValue(postJson, APIResponse.class);
+            return apiResponse;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    @Override
+    public APIResponse batchUnTagUsers(long tagId, List<String> openid_list) {
+
+        Preconditions.checkArgument(tagId > 0, "tagid must be greater than 0 ");
+        Preconditions.checkArgument(openid_list != null && !openid_list.isEmpty(), "openid list is not allowed to be null or empty! ");
+        AccessTokenBean accessToken = accessTokenService.getAccessToken();
+        if (accessToken == null) {
+            accessToken = accessTokenService.refreshAccessToken();
+        }
+        List<NameAndValuePair<String, String>> nameAndValuePairs = new ArrayList<>();
+        nameAndValuePairs.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
+        try {
+            BatchTagUsersParameter batchTagUsersParameter = new BatchTagUsersParameter(tagId, openid_list.toArray(new String[]{}));
+            Map<String, String> map = new HashMap<>();
+            map.put("data", MAPPER.writeValueAsString(batchTagUsersParameter));
+            String url = HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_BATCH_UNTAG_USER_URL, nameAndValuePairs, WechatConstant.DEFAULT_CHARSET);
+            String postJson = HttpClientUtils.sendPost(url, map);
+            APIResponse apiResponse = MAPPER.readValue(postJson, APIResponse.class);
+            return apiResponse;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    @Override
+    public GetTagsOfUserResponse getTagsOfUser(String openId) {
+        openId = Preconditions.checkNotNull(openId, "openId must not be null or empty! ");
+        AccessTokenBean accessToken = accessTokenService.getAccessToken();
+        if (accessToken == null) {
+            accessToken = accessTokenService.refreshAccessToken();
+        }
+        List<NameAndValuePair<String, String>> nameAndValuePairs = new ArrayList<>();
+        nameAndValuePairs.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
+        try {
+            Map<String, String> map = new HashMap<>();
+            GetTagsOfUserParameter parameter = new GetTagsOfUserParameter(openId);
+            map.put("openid", MAPPER.writeValueAsString(parameter));
+            String url = HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_GET_TAGS_OF_USER_URL, nameAndValuePairs, WechatConstant.DEFAULT_CHARSET);
+            String postJson = HttpClientUtils.sendPost(url, map);
+            GetTagsOfUserResponse apiResponse = MAPPER.readValue(postJson, GetTagsOfUserResponse.class);
             return apiResponse;
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
