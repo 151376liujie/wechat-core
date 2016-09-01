@@ -12,11 +12,23 @@ import com.jonnyliu.proj.wechat.bean.AccessTokenBean;
 public interface AccessTokenService {
 
     /**
-     * 提供定时获取access_token的方法，支持缓存
+     * 提供获取access_token的方法
      *
      * @return
      */
     AccessTokenBean getAccessToken();
+
+    /**
+     * 使当前access token 过期
+     */
+    void expireAccessToken();
+
+    /**
+     * 判断当前access token是否过期；true表示已过期；false表示未过期
+     *
+     * @return
+     */
+    boolean isAccessTokenExpired();
 
     /**
      * 手工刷新access_token
