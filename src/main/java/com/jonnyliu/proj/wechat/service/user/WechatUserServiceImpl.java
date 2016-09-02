@@ -231,7 +231,7 @@ public class WechatUserServiceImpl implements WechatUserService {
         RemarkUserParameter remarkUserParameter = new RemarkUserParameter(openId, remark);
         try {
             String json = MAPPER.writeValueAsString(remarkUserParameter);
-            String url = HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_GET_TAGS_OF_USER_URL, nameAndValuePairs, WechatConstant.DEFAULT_CHARSET);
+            String url = HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_REMARK_USER_URL, nameAndValuePairs, WechatConstant.DEFAULT_CHARSET);
             String postJson = HttpClientUtils.sendPost(url, json);
             APIResponse apiResponse = MAPPER.readValue(postJson, APIResponse.class);
             return apiResponse;

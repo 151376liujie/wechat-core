@@ -29,7 +29,7 @@ public class WechatUserServiceTests {
     @Test
     public void testBatchGetUser() {
         BatchGetUserRequestParameter param = new BatchGetUserRequestParameter();
-        GetUserInfoParameter userInfoParam = new GetUserInfoParameter("oHcaSt095yszSEw3dDSPBHpePfXo", Lang.CHINESE.getLanguageCode());
+        GetUserInfoParameter userInfoParam = new GetUserInfoParameter("oHcaSt7ptU9LjEGQTjEAz7hKGdeU", Lang.CHINESE.getLanguageCode());
 
         GetUserInfoParameter userInfoParam2 = new GetUserInfoParameter("oHcaSt8rSz8GGjgiTRlL-PxBASMc", Lang.CHINESE.getLanguageCode());
 
@@ -105,5 +105,13 @@ public class WechatUserServiceTests {
         GetTagsOfUserResponse tagsOfUser = wechatUserService.getTagsOfUser("oHcaSt7ptU9LjEGQTjEAz7hKGdeU");
         Assert.assertNotNull(tagsOfUser);
         Assert.assertNotNull(tagsOfUser.getTagid_list());
+    }
+
+    @Test
+    public void testRemarkUser() {
+        APIResponse apiResponse = wechatUserService.remarkUser("oHcaSt7ptU9LjEGQTjEAz7hKGdeU", "二货");
+        Assert.assertNotNull(apiResponse);
+        Assert.assertTrue(apiResponse.getErrcode() == 0);
+        Assert.assertTrue(apiResponse.getErrmsg().equalsIgnoreCase("ok"));
     }
 }
