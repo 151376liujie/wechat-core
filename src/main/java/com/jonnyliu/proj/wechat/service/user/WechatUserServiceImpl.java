@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 微信用户服务实现
@@ -61,11 +63,9 @@ public class WechatUserServiceImpl implements WechatUserService {
         }
         try {
             String paramJson = MAPPER.writeValueAsString(getUserParamList);
-            Map<String, String> param = new HashMap<>();
-            param.put("data", paramJson);
             List<NameAndValuePair<String, String>> list = new ArrayList<>();
             list.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
-            String postResponse = HttpClientUtils.sendPost(HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_USER_BATCH_FETCH_URL, list, WechatConstant.DEFAULT_CHARSET), param);
+            String postResponse = HttpClientUtils.sendPost(HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_USER_BATCH_FETCH_URL, list, WechatConstant.DEFAULT_CHARSET), paramJson);
             if (StringUtils.isEmpty(postResponse)) {
                 return Collections.emptyList();
             }
@@ -91,11 +91,9 @@ public class WechatUserServiceImpl implements WechatUserService {
         CreateOrEditTagParameter parameter = new CreateOrEditTagParameter(tag);
         try {
             String json = MAPPER.writeValueAsString(parameter);
-            Map<String, String> map = new HashMap<>();
-            map.put("data", json);
             List<NameAndValuePair<String, String>> list = new ArrayList<>();
             list.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
-            String response = HttpClientUtils.sendPost(HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_CREATE_TAG_URL, list, WechatConstant.DEFAULT_CHARSET), map);
+            String response = HttpClientUtils.sendPost(HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_CREATE_TAG_URL, list, WechatConstant.DEFAULT_CHARSET), json);
             CreateTagResponse createTagResponse = MAPPER.readValue(response, CreateTagResponse.class);
             return createTagResponse;
         } catch (Exception e) {
@@ -128,13 +126,11 @@ public class WechatUserServiceImpl implements WechatUserService {
         if (accessToken == null) {
             accessToken = accessTokenService.refreshAccessToken();
         }
-        Map<String, String> map = new HashMap<>();
         List<NameAndValuePair<String, String>> list = new ArrayList<>();
         list.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
         try {
             String postJson = MAPPER.writeValueAsString(parameter);
-            map.put("data", postJson);
-            String response = HttpClientUtils.sendPost(HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_EDIT_TAG_URL, list, WechatConstant.DEFAULT_CHARSET), map);
+            String response = HttpClientUtils.sendPost(HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_EDIT_TAG_URL, list, WechatConstant.DEFAULT_CHARSET), postJson);
             APIResponse apiResponse = MAPPER.readValue(response, APIResponse.class);
             return apiResponse;
         } catch (Exception e) {
@@ -155,13 +151,11 @@ public class WechatUserServiceImpl implements WechatUserService {
         WechatTag tag = new WechatTag();
         tag.setId(tagId);
         CreateOrEditTagParameter parameter = new CreateOrEditTagParameter(tag);
-        Map<String, String> map = new HashMap<>();
         List<NameAndValuePair<String, String>> list = new ArrayList<>();
         list.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
         try {
             String postJson = MAPPER.writeValueAsString(parameter);
-            map.put("data", postJson);
-            String response = HttpClientUtils.sendPost(HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_DELETE_TAG_URL, list, WechatConstant.DEFAULT_CHARSET), map);
+            String response = HttpClientUtils.sendPost(HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_DELETE_TAG_URL, list, WechatConstant.DEFAULT_CHARSET), postJson);
             APIResponse apiResponse = MAPPER.readValue(response, APIResponse.class);
             return apiResponse;
         } catch (Exception e) {
@@ -186,9 +180,7 @@ public class WechatUserServiceImpl implements WechatUserService {
         try {
             String postJson = MAPPER.writeValueAsString(getUsersOfTagParameter);
             String url = HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_GET_USER_OF_TAG_URL, nameAndValuePairs, WechatConstant.DEFAULT_CHARSET);
-            Map<String, String> map = new HashMap<>();
-            map.put("data", postJson);
-            String postResponse = HttpClientUtils.sendPost(url, map);
+            String postResponse = HttpClientUtils.sendPost(url, postJson);
             GetUsersOfTagResponse getUsersOfTagResponse = MAPPER.readValue(postResponse, GetUsersOfTagResponse.class);
             return getUsersOfTagResponse;
         } catch (Exception e) {
@@ -209,10 +201,9 @@ public class WechatUserServiceImpl implements WechatUserService {
         nameAndValuePairs.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
         try {
             BatchTagUsersParameter batchTagUsersParameter = new BatchTagUsersParameter(tagId, openid_list.toArray(new String[]{}));
-            Map<String, String> map = new HashMap<>();
-            map.put("data", MAPPER.writeValueAsString(batchTagUsersParameter));
+            String jsonParam = MAPPER.writeValueAsString(batchTagUsersParameter);
             String url = HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_BATCH_TAG_USER_URL, nameAndValuePairs, WechatConstant.DEFAULT_CHARSET);
-            String postJson = HttpClientUtils.sendPost(url, map);
+            String postJson = HttpClientUtils.sendPost(url, jsonParam);
             APIResponse apiResponse = MAPPER.readValue(postJson, APIResponse.class);
             return apiResponse;
         } catch (Exception e) {
@@ -234,10 +225,9 @@ public class WechatUserServiceImpl implements WechatUserService {
         nameAndValuePairs.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
         try {
             BatchTagUsersParameter batchTagUsersParameter = new BatchTagUsersParameter(tagId, openid_list.toArray(new String[]{}));
-            Map<String, String> map = new HashMap<>();
-            map.put("data", MAPPER.writeValueAsString(batchTagUsersParameter));
+            String jsonParam = MAPPER.writeValueAsString(batchTagUsersParameter);
             String url = HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_BATCH_UNTAG_USER_URL, nameAndValuePairs, WechatConstant.DEFAULT_CHARSET);
-            String postJson = HttpClientUtils.sendPost(url, map);
+            String postJson = HttpClientUtils.sendPost(url, jsonParam);
             APIResponse apiResponse = MAPPER.readValue(postJson, APIResponse.class);
             return apiResponse;
         } catch (Exception e) {
@@ -256,11 +246,10 @@ public class WechatUserServiceImpl implements WechatUserService {
         List<NameAndValuePair<String, String>> nameAndValuePairs = new ArrayList<>();
         nameAndValuePairs.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
         try {
-            Map<String, String> map = new HashMap<>();
             GetTagsOfUserParameter parameter = new GetTagsOfUserParameter(openId);
-            map.put("openid", MAPPER.writeValueAsString(parameter));
+            String jsonParam = MAPPER.writeValueAsString(parameter);
             String url = HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_GET_TAGS_OF_USER_URL, nameAndValuePairs, WechatConstant.DEFAULT_CHARSET);
-            String postJson = HttpClientUtils.sendPost(url, map);
+            String postJson = HttpClientUtils.sendPost(url, jsonParam);
             GetTagsOfUserResponse apiResponse = MAPPER.readValue(postJson, GetTagsOfUserResponse.class);
             return apiResponse;
         } catch (Exception e) {
