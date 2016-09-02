@@ -56,8 +56,16 @@ public class WechatConstant {
      */
     public static final String WECHAT_BATCH_UNTAG_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging";
 
-
+    /**
+     * 获取用户身上标注的标签列表url
+     */
     public static final String WECHAT_GET_TAGS_OF_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/getidlist";
+
+
+    /**
+     * 给用户备注的url
+     */
+    public static final String WECHAT_REMARK_USER_URL = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark";
 
     /**
      * accesstoken的过期时间
@@ -69,6 +77,14 @@ public class WechatConstant {
      */
     public static final long ACCESS_TOKEN_FETCH_DELAY = 7000L;
 
+    /**
+     * 默认编码
+     */
     public static final String DEFAULT_CHARSET = "UTF-8";
+
+    /**
+     * 给用户备注的最大程度
+     */
+    public static final int WECHAT_USER_REMARK_MAX_LENGTH = 30;
 
 }

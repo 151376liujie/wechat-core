@@ -93,4 +93,14 @@ public interface WechatUserService {
      */
     GetTagsOfUserResponse getTagsOfUser(String openId);
 
+
+    /**
+     * 给指定用户加上备注
+     *
+     * @param openId
+     * @param remark
+     * @return
+     */
+    APIResponse remarkUser(String openId, String remark);
+
 }

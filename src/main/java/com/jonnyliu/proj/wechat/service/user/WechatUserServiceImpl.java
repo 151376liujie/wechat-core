@@ -219,4 +219,25 @@ public class WechatUserServiceImpl implements WechatUserService {
         }
         return null;
     }
+
+    @Override
+    public APIResponse remarkUser(String openId, String remark) {
+        Preconditions.checkArgument(StringUtils.isNotEmpty(openId), "parameter openid is not allowed to be null or empty !");
+        Preconditions.checkArgument(StringUtils.isNotEmpty(remark), "parameter remark is not allowed to be null or empty !");
+        Preconditions.checkArgument(remark.length() < WechatConstant.WECHAT_USER_REMARK_MAX_LENGTH, "parameter remark length to long,allowed max length : {},actual length : {}", WechatConstant.WECHAT_USER_REMARK_MAX_LENGTH, remark.length());
+        AccessTokenBean accessToken = accessTokenService.getAccessToken();
+        List<NameAndValuePair<String, String>> nameAndValuePairs = new ArrayList<>();
+        nameAndValuePairs.add(new NameAndValuePair("access_token", accessToken.getAccess_token()));
+        RemarkUserParameter remarkUserParameter = new RemarkUserParameter(openId, remark);
+        try {
+            String json = MAPPER.writeValueAsString(remarkUserParameter);
+            String url = HttpClientUtils.buildUrlWithParam(WechatConstant.WECHAT_GET_TAGS_OF_USER_URL, nameAndValuePairs, WechatConstant.DEFAULT_CHARSET);
+            String postJson = HttpClientUtils.sendPost(url, json);
+            APIResponse apiResponse = MAPPER.readValue(postJson, APIResponse.class);
+            return apiResponse;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
 }
