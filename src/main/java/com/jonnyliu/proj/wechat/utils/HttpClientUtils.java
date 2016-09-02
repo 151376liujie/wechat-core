@@ -44,11 +44,11 @@ public final class HttpClientUtils {
         return sendGet(url, nameAndValuePairs, null, Charset.forName(WechatConstant.DEFAULT_CHARSET));
     }
 
-    public static String sendPost(String url, Map<String, String> param) throws Exception {
-        return sendPost(url, param, null, Charset.forName(WechatConstant.DEFAULT_CHARSET));
+    public static String sendPost(String url, String jsonParam) throws Exception {
+        return sendPost(url, jsonParam, null, Charset.forName(WechatConstant.DEFAULT_CHARSET));
     }
 
-    private static String sendPost(String url, Map<String, String> params, Map<String, String> headers, final Charset charset) throws IOException {
+    private static String sendPost(String url, String jsonParam, Map<String, String> headers, final Charset charset) throws IOException {
         if (StringUtils.isEmpty(url)) {
             LOGGER.error("URL can not be empty or null.");
         }
@@ -57,7 +57,7 @@ public final class HttpClientUtils {
         }
         HttpPost post = new HttpPost(url);
 
-        buildPostParam(post, params, charset);
+        buildPostParam(post, jsonParam, charset);
         post.setHeaders(buildHeaders(headers));
         String responseText = httpClient.execute(post, new AbstractResponseHandler<String>() {
             @Override
@@ -121,16 +121,14 @@ public final class HttpClientUtils {
         return responseText;
     }
 
-    private static void buildPostParam(HttpPost postReq, Map<String, String> params, Charset charset) {
-        if (params == null || params.isEmpty()) {
+    private static void buildPostParam(HttpPost postReq, String postJsonParam, Charset charset) {
+        if (StringUtils.isEmpty(postJsonParam)) {
             return;
         }
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            StringEntity entity = new StringEntity(entry.getValue(), charset);
-            entity.setContentType(ContentType.APPLICATION_JSON.getMimeType());
-            entity.setContentEncoding(charset.displayName());
-            postReq.setEntity(entity);
-        }
+        StringEntity entity = new StringEntity(postJsonParam, charset);
+        entity.setContentType(ContentType.APPLICATION_JSON.getMimeType());
+        entity.setContentEncoding(charset.displayName());
+        postReq.setEntity(entity);
     }
 
 
