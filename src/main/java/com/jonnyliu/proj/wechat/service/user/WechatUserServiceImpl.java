@@ -221,5 +221,21 @@ public class WechatUserServiceImpl implements WechatUserService {
         return null;
     }
 
+    public GetUserBlackListResponse getUserBlackList(String begin_openId) {
+        AccessTokenBean accessToken = accessTokenService.getAccessToken();
+        try {
+            if (begin_openId == null) {
+                begin_openId = "";
+            }
+            NameAndValuePair<String, String> nameAndValuePair = new NameAndValuePair<>("begin_openid", begin_openId);
+            String url = HttpClientUtils.buildUrlWithToken(WechatConstant.WECHAT_GET_BLACK_LIST_URL, accessToken.getAccess_token());
+            String postJson = HttpClientUtils.sendPost(url, nameAndValuePair.toString());
+            GetUserBlackListResponse apiResponse = MAPPER.readValue(postJson, GetUserBlackListResponse.class);
+            return apiResponse;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
 
 }

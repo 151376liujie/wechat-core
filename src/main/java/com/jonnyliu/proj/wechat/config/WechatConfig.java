@@ -1,4 +1,4 @@
-package com.jonnyliu.proj.wechat.bean;
+package com.jonnyliu.proj.wechat.config;
 
 import com.jonnyliu.proj.wechat.utils.PropertiesReader;
 

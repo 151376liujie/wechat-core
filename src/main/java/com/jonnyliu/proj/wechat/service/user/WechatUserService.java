@@ -103,4 +103,14 @@ public interface WechatUserService {
      */
     APIResponse remarkUser(String openId, String remark);
 
+    /**
+     * 获取公众号的黑名单列表
+     * 该接口每次调用最多可拉取 10000 个OpenID，当列表数较多时，
+     * 可以通过多次拉取的方式来满足需求。
+     *
+     * @param begin_openid 当begin_openid为空时，默认从开头拉取。
+     * @return
+     */
+    GetUserBlackListResponse getUserBlackList(String begin_openid);
+
 }

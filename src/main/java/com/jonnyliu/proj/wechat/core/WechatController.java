@@ -1,6 +1,6 @@
 package com.jonnyliu.proj.wechat.core;
 
-import com.jonnyliu.proj.wechat.bean.WechatConfig;
+import com.jonnyliu.proj.wechat.config.WechatConfig;
 import com.jonnyliu.proj.wechat.converter.MessageConvert;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;

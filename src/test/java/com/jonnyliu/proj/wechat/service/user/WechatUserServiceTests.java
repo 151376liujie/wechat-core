@@ -114,4 +114,11 @@ public class WechatUserServiceTests {
         Assert.assertTrue(apiResponse.getErrcode() == 0);
         Assert.assertTrue(apiResponse.getErrmsg().equalsIgnoreCase("ok"));
     }
+
+    @Test
+    public void testGetBlackList() {
+        GetUserBlackListResponse userBlackList = wechatUserService.getUserBlackList(null);
+        Assert.assertNotNull(userBlackList);
+
+    }
 }

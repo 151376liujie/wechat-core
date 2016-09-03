@@ -2,7 +2,7 @@ package com.jonnyliu.proj.wechat.service.accesstoken;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jonnyliu.proj.wechat.bean.AccessTokenBean;
-import com.jonnyliu.proj.wechat.bean.WechatConfig;
+import com.jonnyliu.proj.wechat.config.WechatConfig;
 import com.jonnyliu.proj.wechat.constant.WechatConstant;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;

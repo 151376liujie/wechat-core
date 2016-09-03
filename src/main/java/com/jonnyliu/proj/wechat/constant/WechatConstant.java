@@ -68,6 +68,11 @@ public class WechatConstant {
     public static final String WECHAT_REMARK_USER_URL = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark";
 
     /**
+     * 获取公众号的黑名单列表
+     */
+    public static final String WECHAT_GET_BLACK_LIST_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/getblacklist";
+
+    /**
      * accesstoken的过期时间
      */
     public static final long ACCESS_TOKEN_EXPIRED_TIME = 7200L;
