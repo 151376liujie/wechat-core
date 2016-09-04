@@ -73,6 +73,16 @@ public class WechatConstant {
     public static final String WECHAT_GET_BLACK_LIST_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/getblacklist";
 
     /**
+     * 拉黑用户url
+     */
+    public static final String WECHAT_BLACK_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/batchblacklist";
+
+    /**
+     * 取消拉黑用户url
+     */
+    public static final String WECHAT_UNBLACK_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/batchunblacklist";
+
+    /**
      * accesstoken的过期时间
      */
     public static final long ACCESS_TOKEN_EXPIRED_TIME = 7200L;
@@ -86,6 +96,11 @@ public class WechatConstant {
      * 默认编码
      */
     public static final String DEFAULT_CHARSET = "UTF-8";
+
+    /**
+     * 最多一次拉黑人数
+     */
+    public static final int WECHAT_BLACK_USER_MAX_SIZE = 20;
 
     /**
      * 给用户备注的最大程度

@@ -113,4 +113,20 @@ public interface WechatUserService {
      */
     GetUserBlackListResponse getUserBlackList(String begin_openid);
 
+    /**
+     * 拉黑用户
+     *
+     * @param openid_list 需要拉入黑名单的用户的openid，一次拉黑最多允许20个
+     * @return
+     */
+    APIResponse blackUser(List<String> openid_list);
+
+    /**
+     * 取消拉黑用户
+     *
+     * @param openid_list 需要取消拉入黑名单的用户的openid，一次最多允许20个
+     * @return
+     */
+    APIResponse unblackUser(List<String> openid_list);
+
 }

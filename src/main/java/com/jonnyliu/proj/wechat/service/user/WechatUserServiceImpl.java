@@ -230,7 +230,27 @@ public class WechatUserServiceImpl implements WechatUserService {
             NameAndValuePair<String, String> nameAndValuePair = new NameAndValuePair<>("begin_openid", begin_openId);
             String url = HttpClientUtils.buildUrlWithToken(WechatConstant.WECHAT_GET_BLACK_LIST_URL, accessToken.getAccess_token());
             String postJson = HttpClientUtils.sendPost(url, nameAndValuePair.toString());
-            GetUserBlackListResponse apiResponse = MAPPER.readValue(postJson, GetUserBlackListResponse.class);
+            GetUserBlackListResponse getUserBlackListResponse = MAPPER.readValue(postJson, GetUserBlackListResponse.class);
+            return getUserBlackListResponse;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    @Override
+    public APIResponse blackUser(List<String> openid_list) {
+        Preconditions.checkArgument(openid_list != null && !openid_list.isEmpty(), "parameter openid_list is not allowed to be null or empty !");
+        //一次拉黑最多允许20个
+        Preconditions.checkArgument(openid_list.size() <= WechatConstant.WECHAT_BLACK_USER_MAX_SIZE, "over limit the max size of black user ,actural :{},limit :{}", openid_list.size(), WechatConstant.WECHAT_BLACK_USER_MAX_SIZE);
+
+        AccessTokenBean accessToken = accessTokenService.getAccessToken();
+        try {
+            UserOpenIdList openIdList = new UserOpenIdList();
+            openIdList.setOpenid(openid_list.toArray(new String[]{}));
+            String url = HttpClientUtils.buildUrlWithToken(WechatConstant.WECHAT_BLACK_USER_URL, accessToken.getAccess_token());
+            String postJson = HttpClientUtils.sendPost(url, openIdList.toString());
+            APIResponse apiResponse = MAPPER.readValue(postJson, APIResponse.class);
             return apiResponse;
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -238,4 +258,23 @@ public class WechatUserServiceImpl implements WechatUserService {
         return null;
     }
 
+    @Override
+    public APIResponse unblackUser(List<String> openid_list) {
+        Preconditions.checkArgument(openid_list != null && !openid_list.isEmpty(), "parameter openid_list is not allowed to be null or empty !");
+        //一次取消拉黑最多允许20个
+        Preconditions.checkArgument(openid_list.size() <= WechatConstant.WECHAT_BLACK_USER_MAX_SIZE, "over limit the max size of black user ,actural :{},limit :{}", openid_list.size(), WechatConstant.WECHAT_BLACK_USER_MAX_SIZE);
+
+        AccessTokenBean accessToken = accessTokenService.getAccessToken();
+        try {
+            UserOpenIdList openIdList = new UserOpenIdList();
+            openIdList.setOpenid(openid_list.toArray(new String[]{}));
+            String url = HttpClientUtils.buildUrlWithToken(WechatConstant.WECHAT_UNBLACK_USER_URL, accessToken.getAccess_token());
+            String postJson = HttpClientUtils.sendPost(url, openIdList.toString());
+            APIResponse apiResponse = MAPPER.readValue(postJson, APIResponse.class);
+            return apiResponse;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+        return null;
+    }
 }

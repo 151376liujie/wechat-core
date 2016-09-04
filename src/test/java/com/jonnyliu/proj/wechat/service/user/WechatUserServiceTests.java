@@ -119,6 +119,21 @@ public class WechatUserServiceTests {
     public void testGetBlackList() {
         GetUserBlackListResponse userBlackList = wechatUserService.getUserBlackList(null);
         Assert.assertNotNull(userBlackList);
+    }
 
+    @Test
+    public void testBlackUser() {
+        APIResponse apiResponse = wechatUserService.blackUser(Arrays.asList("oHcaSt7ptU9LjEGQTjEAz7hKGdeU"));
+        Assert.assertNotNull(apiResponse);
+        Assert.assertTrue(apiResponse.getErrcode() == 0);
+        Assert.assertTrue(apiResponse.getErrmsg().equalsIgnoreCase("ok"));
+    }
+
+    @Test
+    public void testUnBlackUser() {
+        APIResponse apiResponse = wechatUserService.unblackUser(Arrays.asList("oHcaSt7ptU9LjEGQTjEAz7hKGdeU"));
+        Assert.assertNotNull(apiResponse);
+        Assert.assertTrue(apiResponse.getErrcode() == 0);
+        Assert.assertTrue(apiResponse.getErrmsg().equalsIgnoreCase("ok"));
     }
 }
