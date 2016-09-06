@@ -14,8 +14,8 @@ import com.jonnyliu.proj.wechat.service.user.WechatUserService;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,9 +29,13 @@ import java.util.Map;
  * Date: on 2016-08-22 13:47.
  */
 @MessageWorker(type = MessageType.EVENT)
+@Component
 public class EventMessageHandlerExample extends AbstractMessageHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventMessageHandlerExample.class);
+
+    @Autowired
+    private WechatUserService wechatUserService;
 
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
@@ -44,8 +48,6 @@ public class EventMessageHandlerExample extends AbstractMessageHandler {
             //关注事件
             String fromUserName = subOrUnSubEventRequestMessage.getFromUserName();
             if (eventType == EventType.EVENT_SUBSCRIBE) {
-                WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
-                WechatUserService wechatUserService = webApplicationContext.getBean(WechatUserService.class);
                 WechatUser wechatUserInfo = wechatUserService.getWechatUserInfo(new GetUserInfoParameter(fromUserName, Lang.CHINESE.getLanguageCode()));
                 String title = "你好！感谢您的关注！";
                 if (wechatUserInfo == null) {
