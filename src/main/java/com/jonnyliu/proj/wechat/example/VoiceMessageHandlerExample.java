@@ -17,7 +17,7 @@ import java.util.Map;
  * User: jonnyliu@tcl.com <br/>
  * Date: on 2016-08-19 11:42.
  */
-@MessageWorker(type = MessageType.VOICE_MESSAGE)
+@MessageWorker(messageType = MessageType.VOICE_MESSAGE)
 public class VoiceMessageHandlerExample extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {

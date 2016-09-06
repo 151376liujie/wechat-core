@@ -98,8 +98,8 @@ public class DefaultMessageConverter implements MessageConvert {
                 String event = xmlMap.get("Event");
                 EventType eventType = EventType.valueBy(event);
                 if (eventType == null){
-                    LOGGER.error("no event message type found!");
-                    throw new RuntimeException("no event message type found!");
+                    LOGGER.error("no event message messageType found!");
+                    throw new RuntimeException("no event message messageType found!");
                 }
                 switch (eventType){
                     //关注、取消关注消息
@@ -139,7 +139,7 @@ public class DefaultMessageConverter implements MessageConvert {
                         return customMenuClickOrViewEventRequestMessage;
                 }
             default:
-                LOGGER.warn("there is no definded message type {}.", messageType.getTypeStr());
+                LOGGER.warn("there is no definded message messageType {}.", messageType.getTypeStr());
 
         }
         return null;

@@ -119,7 +119,7 @@ public class MessageUtils {
                     return newsMessageToXml(newsResponseMessage);
                 }
             default:
-                throw new RuntimeException("no message type found!");
+                throw new RuntimeException("no message messageType found!");
         }
     }
 

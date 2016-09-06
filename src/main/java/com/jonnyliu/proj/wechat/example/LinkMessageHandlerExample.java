@@ -14,7 +14,7 @@ import com.jonnyliu.proj.wechat.utils.MessageUtils;
  * User: jonnyliu@tcl.com <br/>
  * Date: on 2016-08-19 13:09.
  */
-@MessageWorker(type = MessageType.LINK_MESSAGE)
+@MessageWorker(messageType = MessageType.LINK_MESSAGE)
 public class LinkMessageHandlerExample extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {

@@ -14,7 +14,7 @@ import com.jonnyliu.proj.wechat.utils.MessageUtils;
  * User: jonnyliu@tcl.com <br/>
  * Date: on 2016-08-19 13:07.
  */
-@MessageWorker(type = MessageType.LOCATION_MESSAGE)
+@MessageWorker(messageType = MessageType.LOCATION_MESSAGE)
 public class LocationMessageHandlerExample extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {

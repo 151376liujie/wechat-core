@@ -15,7 +15,7 @@ import com.jonnyliu.proj.wechat.utils.MessageUtils;
  * Date: on 2016-08-19 10:07.
  */
 
-@MessageWorker(type = MessageType.TEXT_MESSAGE)
+@MessageWorker(messageType = MessageType.TEXT_MESSAGE)
 public class TextMessageHandlerExample extends AbstractMessageHandler {
 
     @Override

@@ -27,8 +27,8 @@ public class DefaultMessageDispatcher implements MessageDispatcher {
     public AbstractMessageHandler doDispatch(String msgType) {
         MessageType messageType = MessageType.valueBy(msgType);
         if (messageType == null) {
-            LOGGER.error("invalid message type : {}", msgType);
-            throw new RuntimeException("invalid message type [" + msgType + "]");
+            LOGGER.error("invalid message messageType : {}", msgType);
+            throw new RuntimeException("invalid message messageType [" + msgType + "]");
         }
 
         Map<MessageType, Class<? extends AbstractMessageHandler>> messageHandlerMappingHolder = MessageHandlerLoader.getMessageHandlerMappingHolder();

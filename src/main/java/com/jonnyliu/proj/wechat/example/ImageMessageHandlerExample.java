@@ -18,7 +18,7 @@ import java.util.Map;
  * User: jonnyliu@tcl.com <br/>
  * Date: on 2016-08-19 11:42.
  */
-@MessageWorker(type = MessageType.IMAGE_MESSAGE)
+@MessageWorker(messageType = MessageType.IMAGE_MESSAGE)
 public class ImageMessageHandlerExample extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {

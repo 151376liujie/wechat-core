@@ -3,7 +3,6 @@ package com.jonnyliu.proj.wechat.example;
 import com.jonnyliu.proj.wechat.annotation.MessageWorker;
 import com.jonnyliu.proj.wechat.bean.GetUserInfoParameter;
 import com.jonnyliu.proj.wechat.bean.WechatUser;
-import com.jonnyliu.proj.wechat.core.WechatContext;
 import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.Lang;
 import com.jonnyliu.proj.wechat.enums.MessageType;
@@ -29,7 +28,7 @@ import java.util.Map;
  * User: jonnyliu@tcl.com <br/>
  * Date: on 2016-08-22 13:47.
  */
-@MessageWorker(type = MessageType.EVENT)
+@MessageWorker(messageType = MessageType.EVENT)
 @Component
 public class EventMessageHandlerExample extends AbstractMessageHandler {
 
@@ -97,7 +96,7 @@ public class EventMessageHandlerExample extends AbstractMessageHandler {
 
             }
         } else {
-            LOGGER.error("no message type: [{}] found.", baseRequestMessage);
+            LOGGER.error("no message messageType: [{}] found.", baseRequestMessage);
         }
         return null;
     }

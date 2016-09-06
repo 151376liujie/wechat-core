@@ -14,7 +14,7 @@ import com.jonnyliu.proj.wechat.utils.MessageUtils;
  * User: jonnyliu@tcl.com <br/>
  * Date: on 2016-08-19 11:42.
  */
-@MessageWorker(type = MessageType.SHORTVIDEO_MESSAGE)
+@MessageWorker(messageType = MessageType.SHORTVIDEO_MESSAGE)
 public class ShortVideoMessageHandlerExample extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {

@@ -9,7 +9,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
-import org.springframework.web.WebApplicationInitializer;
 
 import java.util.Map;
 
@@ -29,7 +28,7 @@ public class SpringMessageDispatcher implements MessageDispatcher,ApplicationCon
     public AbstractMessageHandler doDispatch(String msgType) {
         MessageType messageType = MessageType.valueBy(msgType);
         if (messageType == null){
-            throw new RuntimeException("unknow message type : " + msgType );
+            throw new RuntimeException("unknow message messageType : " + msgType );
         }
 
         Map<String, Object> beansWithAnnotation = context.getBeansWithAnnotation(MessageWorker.class);
@@ -47,7 +46,7 @@ public class SpringMessageDispatcher implements MessageDispatcher,ApplicationCon
                 continue;
             }
             MessageWorker annotation = messageHandlerClass.getAnnotation(MessageWorker.class);
-            if (annotation.type()!=messageType){
+            if (annotation.messageType()!=messageType){
                 continue;
             }
             return (AbstractMessageHandler) messageHandlerInstance;

@@ -19,6 +19,6 @@ import java.lang.annotation.Target;
 public @interface MessageWorker {
 
     //标识要处理的消息类型
-    MessageType type() default MessageType.TEXT_MESSAGE;
+    MessageType messageType() default MessageType.TEXT_MESSAGE;
 
 }
