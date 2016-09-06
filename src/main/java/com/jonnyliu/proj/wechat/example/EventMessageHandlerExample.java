@@ -3,6 +3,7 @@ package com.jonnyliu.proj.wechat.example;
 import com.jonnyliu.proj.wechat.annotation.MessageWorker;
 import com.jonnyliu.proj.wechat.bean.GetUserInfoParameter;
 import com.jonnyliu.proj.wechat.bean.WechatUser;
+import com.jonnyliu.proj.wechat.core.WechatContext;
 import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.Lang;
 import com.jonnyliu.proj.wechat.enums.MessageType;
@@ -14,8 +15,6 @@ import com.jonnyliu.proj.wechat.service.user.WechatUserService;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,8 +43,7 @@ public class EventMessageHandlerExample extends AbstractMessageHandler {
             //关注事件
             String fromUserName = subOrUnSubEventRequestMessage.getFromUserName();
             if (eventType == EventType.EVENT_SUBSCRIBE) {
-                WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
-                WechatUserService wechatUserService = webApplicationContext.getBean(WechatUserService.class);
+                WechatUserService wechatUserService = WechatContext.getApplicationContext().getBean(WechatUserService.class);
                 WechatUser wechatUserInfo = wechatUserService.getWechatUserInfo(new GetUserInfoParameter(fromUserName, Lang.CHINESE.getLanguageCode()));
                 String title = "你好！感谢您的关注！";
                 if (wechatUserInfo == null) {
