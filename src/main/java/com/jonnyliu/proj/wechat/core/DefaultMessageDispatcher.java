@@ -13,7 +13,7 @@ import java.util.Map;
  * author : 980463316@qq.com <br/>
  * Created on 2016/8/6 14:10.
  */
-@Component
+//@Component
 public class DefaultMessageDispatcher implements MessageDispatcher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultMessageDispatcher.class);
