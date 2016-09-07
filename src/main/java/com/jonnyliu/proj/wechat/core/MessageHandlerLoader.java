@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.core;
 
+import com.google.common.base.Preconditions;
 import com.jonnyliu.proj.wechat.annotation.MessageWorker;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
@@ -20,9 +21,8 @@ public class MessageHandlerLoader {
 
     static {
         Set<Class<? extends AbstractMessageHandler>> classesByAnnotation = ClassPathUtils.getClassesByAnnotation(MessageWorker.class);
-        if (classesByAnnotation.isEmpty()) {
-            throw new RuntimeException("this is no Message Handler in classpath...did you forgot to place a MessageWorker annotation in your MessageHandler class ? ");
-        }
+        Preconditions.checkState(!classesByAnnotation.isEmpty(), "this is no Message Handler in classpath...did you forgot to place a MessageWorker annotation in your MessageHandler class ? ");
+
         for (Class<? extends AbstractMessageHandler> messageHandler : classesByAnnotation) {
             MessageWorker annotation = messageHandler.getAnnotation(MessageWorker.class);
             //每种类型的消息处理器只能有一个

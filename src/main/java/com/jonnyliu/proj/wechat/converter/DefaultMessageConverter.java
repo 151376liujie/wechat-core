@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.converter;
 
+import com.google.common.base.Preconditions;
 import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.message.request.*;
@@ -24,12 +25,7 @@ public class DefaultMessageConverter implements MessageConvert {
     public BaseRequestMessage doConvert(Map<String, String> xmlMap) {
 
         MessageType messageType = MessageType.valueBy(xmlMap.get("MsgType"));
-
-        if (messageType == null){
-            LOGGER.error("no MsgType found!");
-            throw new RuntimeException("no MsgType found!");
-        }
-
+        Preconditions.checkNotNull(messageType, "no MsgType found!");
         switch (messageType) {
             //文本消息
             case TEXT_MESSAGE:
@@ -97,10 +93,7 @@ public class DefaultMessageConverter implements MessageConvert {
             case EVENT:
                 String event = xmlMap.get("Event");
                 EventType eventType = EventType.valueBy(event);
-                if (eventType == null){
-                    LOGGER.error("no event message messageType found!");
-                    throw new RuntimeException("no event message messageType found!");
-                }
+                Preconditions.checkNotNull(eventType, "no event message messageType found!");
                 switch (eventType){
                     //关注、取消关注消息
                     case EVENT_SUBSCRIBE:

@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.core;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.jonnyliu.proj.wechat.annotation.MessageWorker;
 import com.jonnyliu.proj.wechat.enums.EventType;
@@ -32,15 +33,12 @@ public class SpringMessageDispatcher implements MessageDispatcher, ApplicationCo
             LOGGER.debug("message type is : {},and event type is : {}",msgType,eventType);
         }
         MessageType messageType = MessageType.valueBy(msgType);
-        if (messageType == null) {
-            throw new RuntimeException("unknow messageType : " + msgType);
-        }
+        Preconditions.checkNotNull(messageType, "unknow messageType ");
+
         EventType eventTyp = null;
         if (!Strings.isNullOrEmpty(eventType)){
             eventTyp = EventType.valueBy(eventType);
-            if (eventTyp == null){
-                throw new RuntimeException("unknow eventType : " + eventType);
-            }
+            Preconditions.checkNotNull(eventTyp, "unknow eventType !");
         }
 
         Map<String, Object> beansWithAnnotation = context.getBeansWithAnnotation(MessageWorker.class);

@@ -14,10 +14,10 @@ public interface MessageDispatcher {
      * 将不同类型的消息发送给对应的消息处理器
      *
      *
-     * @param type
      * @param msgType 用户发送给公众号的消息类型
+     * @param eventType 消息事件类型
      * @return 对应的消息处理器
      */
-    AbstractMessageHandler doDispatch(String type, String msgType);
+    AbstractMessageHandler doDispatch(String msgType, String eventType);
 
 }
