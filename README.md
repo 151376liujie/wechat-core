@@ -27,11 +27,8 @@
         private static final Logger LOGGER = LoggerFactory.getLogger(TextMessageHandler.class);    
     
         public BaseResponseMessage doHandleMessage(BaseRequestMessage requestMessage) {    
-            if (requestMessage instanceof TextRequestMessage) {    
                 //在这里实现你自己的业务逻辑    
-                return MessageUtils.buildTextResponseMessage(requestMessage, "hello,world");    
-            }    
-            return null;    
+            return MessageUtils.buildTextResponseMessage(requestMessage, "hello,world");     
         }    
     }    
     
