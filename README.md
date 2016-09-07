@@ -20,7 +20,8 @@
 
 2. 编写消息处理器类，继承**AbstractMessageHandler**抽象类，实现**doHandleMessage**方法，在该类上加上@**MessageWorker**的注解，并指明要处理的消息类型，
 示例代码如下：     
-    //基本消息类型的处理
+    //基本消息类型的处理         
+    
     @MessageWorker(messageType = MessageType.TEXT_MESSAGE)    
     public class TextMessageHandler extends AbstractMessageHandler {    
         private static final Logger LOGGER = LoggerFactory.getLogger(TextMessageHandler.class);    
@@ -34,7 +35,8 @@
         }    
     }    
     
-    //事件类型的消息处理
+    //事件类型的消息处理         
+    
     @MessageWorker(messageType = MessageType.EVENT,eventType = EventType.EVENT_SUBSCRIBE)
     public class EventMessageHandlerExample extends AbstractMessageHandler {
     
