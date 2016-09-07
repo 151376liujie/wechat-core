@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.annotation;
 
+import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 
 import java.lang.annotation.ElementType;
@@ -20,5 +21,8 @@ public @interface MessageWorker {
 
     //标识要处理的消息类型
     MessageType messageType() default MessageType.TEXT_MESSAGE;
+
+    //需要处理的事件类型，注意：只有当messageType = MessageType.EVENT的时候，该值才有用
+    EventType eventType() default EventType.NULL;
 
 }

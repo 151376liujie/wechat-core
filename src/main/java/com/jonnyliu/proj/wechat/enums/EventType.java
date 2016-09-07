@@ -41,7 +41,12 @@ public enum EventType {
     /**
      * 用户已关注时扫描二维码事件
      */
-    EVENT_SCAN("scan");
+    EVENT_SCAN("scan"),
+
+    /**
+     * 无意义的一个值，仅仅用于在注解中的一个默认值
+     */
+    NULL("null");
 
 
     private String typeStr;

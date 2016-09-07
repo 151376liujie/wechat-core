@@ -18,7 +18,7 @@ import java.util.Map;
  * Created on 2016-09-06 20:59.
  */
 @Component
-public class SpringMessageDispatcher implements MessageDispatcher,ApplicationContextAware {
+public class SpringMessageDispatcher implements MessageDispatcher, ApplicationContextAware {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringMessageDispatcher.class);
 
@@ -27,26 +27,26 @@ public class SpringMessageDispatcher implements MessageDispatcher,ApplicationCon
     @Override
     public AbstractMessageHandler doDispatch(String msgType) {
         MessageType messageType = MessageType.valueBy(msgType);
-        if (messageType == null){
-            throw new RuntimeException("unknow message messageType : " + msgType );
+        if (messageType == null) {
+            throw new RuntimeException("unknow message messageType : " + msgType);
         }
 
         Map<String, Object> beansWithAnnotation = context.getBeansWithAnnotation(MessageWorker.class);
-        if (beansWithAnnotation == null || beansWithAnnotation.isEmpty()){
+        if (beansWithAnnotation == null || beansWithAnnotation.isEmpty()) {
             throw new RuntimeException("this is no class annotationed with @MessageWorker,do you forgot ??");
         }
-        if (LOGGER.isDebugEnabled()){
-            LOGGER.debug("found classes that annotationed with {} : {}",MessageWorker.class.getSimpleName(),beansWithAnnotation);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("found classes that annotationed with {} : {}", MessageWorker.class.getSimpleName(), beansWithAnnotation);
         }
 
-        for (Map.Entry<String,Object> entry :beansWithAnnotation.entrySet()){
+        for (Map.Entry<String, Object> entry : beansWithAnnotation.entrySet()) {
             Object messageHandlerInstance = entry.getValue();
             Class<?> messageHandlerClass = messageHandlerInstance.getClass();
-            if (!AbstractMessageHandler.class.isAssignableFrom(messageHandlerClass)){
+            if (!AbstractMessageHandler.class.isAssignableFrom(messageHandlerClass)) {
                 continue;
             }
             MessageWorker annotation = messageHandlerClass.getAnnotation(MessageWorker.class);
-            if (annotation.messageType()!=messageType){
+            if (annotation.messageType() != messageType) {
                 continue;
             }
             return (AbstractMessageHandler) messageHandlerInstance;
