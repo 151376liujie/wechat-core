@@ -7,6 +7,7 @@ import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
 import com.jonnyliu.proj.wechat.message.request.LinkRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * 接收链接消息的code example
@@ -14,6 +15,7 @@ import com.jonnyliu.proj.wechat.utils.MessageUtils;
  * User: jonnyliu@tcl.com <br/>
  * Date: on 2016-08-19 13:09.
  */
+@Component
 @MessageWorker(messageType = MessageType.LINK_MESSAGE)
 public class LinkMessageHandlerExample extends AbstractMessageHandler {
     @Override

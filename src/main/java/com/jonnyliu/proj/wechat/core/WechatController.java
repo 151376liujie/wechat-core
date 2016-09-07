@@ -73,10 +73,11 @@ public class WechatController {
             inputStream = request.getInputStream();
             Map<String, String> map = MessageUtils.parseRequest(inputStream);
             String msgType = map.get("MsgType");
+            String eventType = map.get("Event");
             //将用户发过来的消息转换成消息对象
             BaseRequestMessage requestMessage = messageConverter.doConvert(map);
             //将不同类型的消息发送给不同的消息处理器
-            AbstractMessageHandler messageHandler = messageDispatcher.doDispatch(msgType);
+            AbstractMessageHandler messageHandler = messageDispatcher.doDispatch(msgType,eventType);
             //调用消息处理器处理消息
             BaseResponseMessage responseMessage = messageHandler.handleMessage(requestMessage);
             if (response == null) {

@@ -7,6 +7,7 @@ import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
 import com.jonnyliu.proj.wechat.message.request.LocationRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * 地理位置消息接收 的 code example
@@ -14,6 +15,7 @@ import com.jonnyliu.proj.wechat.utils.MessageUtils;
  * User: jonnyliu@tcl.com <br/>
  * Date: on 2016-08-19 13:07.
  */
+@Component
 @MessageWorker(messageType = MessageType.LOCATION_MESSAGE)
 public class LocationMessageHandlerExample extends AbstractMessageHandler {
     @Override

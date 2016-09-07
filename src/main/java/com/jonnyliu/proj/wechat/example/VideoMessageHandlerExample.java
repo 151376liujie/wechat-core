@@ -7,6 +7,7 @@ import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
 import com.jonnyliu.proj.wechat.message.request.VideoRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * 图片消息接收和响应的code example
@@ -14,6 +15,7 @@ import com.jonnyliu.proj.wechat.utils.MessageUtils;
  * User: jonnyliu@tcl.com <br/>
  * Date: on 2016-08-19 11:42.
  */
+@Component
 @MessageWorker(messageType = MessageType.VIDEO_MESSAGE)
 public class VideoMessageHandlerExample extends AbstractMessageHandler {
     @Override

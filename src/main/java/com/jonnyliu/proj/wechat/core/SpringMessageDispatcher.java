@@ -1,6 +1,8 @@
 package com.jonnyliu.proj.wechat.core;
 
+import com.google.common.base.Strings;
 import com.jonnyliu.proj.wechat.annotation.MessageWorker;
+import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import org.slf4j.Logger;
@@ -25,10 +27,20 @@ public class SpringMessageDispatcher implements MessageDispatcher, ApplicationCo
     private ApplicationContext context;
 
     @Override
-    public AbstractMessageHandler doDispatch(String msgType) {
+    public AbstractMessageHandler doDispatch(String msgType, String eventType) {
+        if (LOGGER.isDebugEnabled()){
+            LOGGER.debug("message type is : {},and event type is : {}",msgType,eventType);
+        }
         MessageType messageType = MessageType.valueBy(msgType);
         if (messageType == null) {
-            throw new RuntimeException("unknow message messageType : " + msgType);
+            throw new RuntimeException("unknow messageType : " + msgType);
+        }
+        EventType eventTyp = null;
+        if (!Strings.isNullOrEmpty(eventType)){
+            eventTyp = EventType.valueBy(eventType);
+            if (eventTyp == null){
+                throw new RuntimeException("unknow eventType : " + eventType);
+            }
         }
 
         Map<String, Object> beansWithAnnotation = context.getBeansWithAnnotation(MessageWorker.class);
@@ -42,15 +54,24 @@ public class SpringMessageDispatcher implements MessageDispatcher, ApplicationCo
         for (Map.Entry<String, Object> entry : beansWithAnnotation.entrySet()) {
             Object messageHandlerInstance = entry.getValue();
             Class<?> messageHandlerClass = messageHandlerInstance.getClass();
+            //消息处理器类必须是abstractMessageHandler的子类
             if (!AbstractMessageHandler.class.isAssignableFrom(messageHandlerClass)) {
                 continue;
             }
             MessageWorker annotation = messageHandlerClass.getAnnotation(MessageWorker.class);
-            if (annotation.messageType() != messageType) {
-                continue;
+            //事件类型
+            if (annotation.messageType() == MessageType.EVENT ){
+                if (annotation.eventType() == eventTyp){
+                    return (AbstractMessageHandler) messageHandlerInstance;
+                }
+            }else{
+                //普通类型
+                if(annotation.messageType() == messageType){
+                    return (AbstractMessageHandler) messageHandlerInstance;
+                }
             }
-            return (AbstractMessageHandler) messageHandlerInstance;
         }
+        LOGGER.error("no message handler found ,messageType :{},eventType :{}",msgType,eventType);
         return null;
     }
 

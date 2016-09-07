@@ -28,8 +28,8 @@ import java.util.Map;
  * User: jonnyliu@tcl.com <br/>
  * Date: on 2016-08-22 13:47.
  */
-@MessageWorker(messageType = MessageType.EVENT)
 @Component
+@MessageWorker(messageType = MessageType.EVENT,eventType = EventType.EVENT_SUBSCRIBE)
 public class EventMessageHandlerExample extends AbstractMessageHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventMessageHandlerExample.class);

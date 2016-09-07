@@ -7,6 +7,7 @@ import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
 import com.jonnyliu.proj.wechat.message.request.ImageRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,7 @@ import java.util.Map;
  * User: jonnyliu@tcl.com <br/>
  * Date: on 2016-08-19 11:42.
  */
+@Component
 @MessageWorker(messageType = MessageType.IMAGE_MESSAGE)
 public class ImageMessageHandlerExample extends AbstractMessageHandler {
     @Override

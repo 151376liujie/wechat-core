@@ -31,9 +31,9 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <!-- 初始化各个类型的消息处理器类的映射关系  -->
-    <listener>
-        <listener-class>com.jonnyliu.proj.wechat.listener.MessageHandlerMappingListener</listener-class>
-    </listener>
+    <!--<listener>-->
+        <!--<listener-class>com.jonnyliu.proj.wechat.listener.MessageHandlerMappingListener</listener-class>-->
+    <!--</listener>-->
 
     <servlet>
         <servlet-name>springmvc</servlet-name>

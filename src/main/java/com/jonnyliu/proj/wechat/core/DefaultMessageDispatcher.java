@@ -4,7 +4,6 @@ import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -13,7 +12,6 @@ import java.util.Map;
  * author : 980463316@qq.com <br/>
  * Created on 2016/8/6 14:10.
  */
-//@Component
 public class DefaultMessageDispatcher implements MessageDispatcher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultMessageDispatcher.class);
@@ -21,10 +19,12 @@ public class DefaultMessageDispatcher implements MessageDispatcher {
     /**
      * 根据注解来绑定不同类型消息的对应消息处理器
      *
+     *
+     * @param type
      * @param msgType 用户发送给公众号的消息类型
      * @return 返回消息处理器
      */
-    public AbstractMessageHandler doDispatch(String msgType) {
+    public AbstractMessageHandler doDispatch(String msgType, String eventType) {
         MessageType messageType = MessageType.valueBy(msgType);
         if (messageType == null) {
             LOGGER.error("invalid message messageType : {}", msgType);
