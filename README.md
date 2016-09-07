@@ -37,8 +37,8 @@
     
     //事件类型的消息处理         
     
-    @MessageWorker(messageType = MessageType.EVENT,eventType = EventType.EVENT_SUBSCRIBE)
-    public class EventMessageHandlerExample extends AbstractMessageHandler {
+    @MessageWorker(messageType = MessageType.EVENT,eventType = EventType.EVENT_SUBSCRIBE)    
+    public class EventMessageHandlerExample extends AbstractMessageHandler {    
     
         private static final Logger LOGGER = LoggerFactory.getLogger(EventMessageHandlerExample.class);
     
