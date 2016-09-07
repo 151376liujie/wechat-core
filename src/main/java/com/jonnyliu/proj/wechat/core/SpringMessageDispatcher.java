@@ -57,6 +57,7 @@ public class SpringMessageDispatcher implements MessageDispatcher, ApplicationCo
                 continue;
             }
             MessageWorker annotation = messageHandlerClass.getAnnotation(MessageWorker.class);
+
             //事件类型
             if (annotation.messageType() == MessageType.EVENT ){
                 if (annotation.eventType() == eventTyp){

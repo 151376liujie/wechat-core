@@ -72,8 +72,7 @@ public abstract class AbstractMessageHandler implements MessageHandler {
      * @param e
      */
     protected void error(Exception e) {
-        LOGGER.error("error occured when handling message...");
-        LOGGER.error(e.getMessage(), e);
+        LOGGER.error("error occured when handling message...", e);
     }
 
 }

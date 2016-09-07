@@ -23,19 +23,16 @@ import java.util.Map;
 public class VoiceMessageHandlerExample extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
-        if (baseRequestMessage instanceof VoiceRequestMessage){
-            //在这里实现你自己的业务逻辑
-            VoiceRequestMessage voiceRequestMessage = (VoiceRequestMessage) baseRequestMessage;
-            String recognition = voiceRequestMessage.getRecognition();
-            String format = voiceRequestMessage.getFormat();
-            String mediaId = voiceRequestMessage.getMediaId();
+        //在这里实现你自己的业务逻辑
+        VoiceRequestMessage voiceRequestMessage = (VoiceRequestMessage) baseRequestMessage;
+        String recognition = voiceRequestMessage.getRecognition();
+        String format = voiceRequestMessage.getFormat();
+        String mediaId = voiceRequestMessage.getMediaId();
 
-            Map<String, String> paramMap = new HashMap<>();
-            paramMap.put("Recognition",recognition);
-            paramMap.put("Format",format);
-            paramMap.put("MediaId",mediaId);
-            return MessageUtils.buildVoiceResponseMessage(baseRequestMessage,paramMap);
-        }
-        return null;
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("Recognition",recognition);
+        paramMap.put("Format",format);
+        paramMap.put("MediaId",mediaId);
+        return MessageUtils.buildVoiceResponseMessage(baseRequestMessage,paramMap);
     }
 }

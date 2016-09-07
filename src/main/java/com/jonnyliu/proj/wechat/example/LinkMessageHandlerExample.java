@@ -20,14 +20,10 @@ import org.springframework.stereotype.Component;
 public class LinkMessageHandlerExample extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
-        if (baseRequestMessage instanceof LinkRequestMessage){
-            //在这里实现你自己的业务逻辑
-            LinkRequestMessage linkRequestMessage = (LinkRequestMessage) baseRequestMessage;
-            String content = "您发送的链接消息如下：title:%s,url:%s,description:%s ";
-            content = String.format(content,linkRequestMessage.getTitle(),linkRequestMessage.getUrl(),linkRequestMessage.getDescription());
-            return MessageUtils.buildTextResponseMessage(baseRequestMessage,content);
-        }
-
-        return null;
+        //在这里实现你自己的业务逻辑
+        LinkRequestMessage linkRequestMessage = (LinkRequestMessage) baseRequestMessage;
+        String content = "您发送的链接消息如下：title:%s,url:%s,description:%s ";
+        content = String.format(content,linkRequestMessage.getTitle(),linkRequestMessage.getUrl(),linkRequestMessage.getDescription());
+        return MessageUtils.buildTextResponseMessage(baseRequestMessage,content);
     }
 }

@@ -20,16 +20,12 @@ import org.springframework.stereotype.Component;
 public class VideoMessageHandlerExample extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
-        if (baseRequestMessage instanceof VideoRequestMessage){
-            //在这里实现你自己的业务逻辑
-
-            VideoRequestMessage videoRequestMessage = (VideoRequestMessage) baseRequestMessage;
-            String mediaId = videoRequestMessage.getMediaId();
-            String thumbMediaId = videoRequestMessage.getThumbMediaId();
-            String content = "您发送的视频mediaId:%s \t,ThumbMediaId:%s ";
-            content = String.format(content,mediaId,thumbMediaId);
-            return MessageUtils.buildTextResponseMessage(baseRequestMessage,content);
-        }
-        return null;
+        //在这里实现你自己的业务逻辑
+        VideoRequestMessage videoRequestMessage = (VideoRequestMessage) baseRequestMessage;
+        String mediaId = videoRequestMessage.getMediaId();
+        String thumbMediaId = videoRequestMessage.getThumbMediaId();
+        String content = "您发送的视频mediaId:%s \t,ThumbMediaId:%s ";
+        content = String.format(content,mediaId,thumbMediaId);
+        return MessageUtils.buildTextResponseMessage(baseRequestMessage,content);
     }
 }

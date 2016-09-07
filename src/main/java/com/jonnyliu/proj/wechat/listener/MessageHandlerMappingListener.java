@@ -9,6 +9,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 /**
+ * 一个加载消息处理器映射的监听器
  * author:980463316@qq.com <br/>
  * Created on 2016-08-20 17:01.
  */

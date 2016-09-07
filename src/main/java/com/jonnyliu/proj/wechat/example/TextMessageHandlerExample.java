@@ -15,16 +15,12 @@ import org.springframework.stereotype.Component;
  * User: jonnyliu@tcl.com <br/>
  * Date: on 2016-08-19 10:07.
  */
-
 @Component
 @MessageWorker(messageType = MessageType.TEXT_MESSAGE)
 public class TextMessageHandlerExample extends AbstractMessageHandler {
 
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
-        if (baseRequestMessage instanceof TextRequestMessage){
-            return MessageUtils.buildTextResponseMessage(baseRequestMessage,"hello,world");
-        }
-        return null;
+        return MessageUtils.buildTextResponseMessage(baseRequestMessage,"hello,world");
     }
 }

@@ -24,13 +24,10 @@ import java.util.Map;
 public class ImageMessageHandlerExample extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
-        if (baseRequestMessage instanceof ImageRequestMessage){
-            //在这里实现你自己的业务逻辑
-            ImageRequestMessage imageRequestMessage = (ImageRequestMessage) baseRequestMessage;
-            Map<String, String> paramMap = new HashMap<>();
-            paramMap.put("MediaId",imageRequestMessage.getMediaId());
-            return MessageUtils.buildImageResponseMessage(baseRequestMessage,paramMap);
-        }
-        return null;
+        //在这里实现你自己的业务逻辑
+        ImageRequestMessage imageRequestMessage = (ImageRequestMessage) baseRequestMessage;
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("MediaId",imageRequestMessage.getMediaId());
+        return MessageUtils.buildImageResponseMessage(baseRequestMessage,paramMap);
     }
 }

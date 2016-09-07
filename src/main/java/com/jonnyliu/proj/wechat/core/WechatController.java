@@ -85,6 +85,9 @@ public class WechatController {
             }
             //构造给用户的响应消息
             String responseXml = MessageUtils.messageToXml(responseMessage);
+            if (LOGGER.isDebugEnabled()){
+                LOGGER.debug("response xml : {}",responseXml);
+            }
             return responseXml;
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
