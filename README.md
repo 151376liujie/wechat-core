@@ -8,7 +8,7 @@
 3. 将处理各个类型的消息处理器分开了,更支持将不同事件类型的消息处理器分开，只需在MessageWorker注解中加入eventType属性指明你要处理的事件类型即可，避免在处理业务逻辑的代码中使用大段的if elseif elseif 来判断消息得类型。每个接口职责清晰明了，实现更解耦；
 
 ##所用技术介绍
-1. 使用Java语言，集成了springMVC 和maven，没有使用什么高大上得技术，相信读者朋友能很容易看得懂。
+1. 使用Java语言，集成了springMVC 和maven，没有使用什么高大上得技术，代码中的注释也很详细，相信读者朋友能很容易看得懂。
 
 ##项目架构剖析
 ![微信消息接收与响应示意图](微信消息接收与响应示意图.png)
@@ -45,8 +45,10 @@
     
         @Override
         public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
-        
+            //在这里实现你自己的业务逻辑
+            SubOrUnSubEventRequestMessage subOrUnSubEventRequestMessage = (SubOrUnSubEventRequestMessage) baseRequestMessage;
         }
+    }
          
 3. just run your application !! have fun...
 
