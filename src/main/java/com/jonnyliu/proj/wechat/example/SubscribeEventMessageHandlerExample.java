@@ -7,7 +7,8 @@ import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.Lang;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
-import com.jonnyliu.proj.wechat.message.request.*;
+import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
+import com.jonnyliu.proj.wechat.message.request.SubOrUnSubEventRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.Article;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
 import com.jonnyliu.proj.wechat.service.user.WechatUserService;
@@ -30,9 +31,9 @@ import java.util.Map;
  */
 @Component
 @MessageWorker(messageType = MessageType.EVENT,eventType = EventType.EVENT_SUBSCRIBE)
-public class EventMessageHandlerExample extends AbstractMessageHandler {
+public class SubscribeEventMessageHandlerExample extends AbstractMessageHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EventMessageHandlerExample.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SubscribeEventMessageHandlerExample.class);
 
     @Autowired
     private WechatUserService wechatUserService;
