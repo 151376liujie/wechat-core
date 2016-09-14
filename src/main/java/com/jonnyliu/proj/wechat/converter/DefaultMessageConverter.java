@@ -24,8 +24,14 @@ public class DefaultMessageConverter implements MessageConvert {
     @Override
     public BaseRequestMessage doConvert(Map<String, String> xmlMap) {
 
+        LOGGER.info("prepare to convert xml message : {}",xmlMap);
+
         MessageType messageType = MessageType.valueBy(xmlMap.get("MsgType"));
         Preconditions.checkNotNull(messageType, "no MsgType found!");
+        if (LOGGER.isDebugEnabled()){
+            LOGGER.debug("convert to {} message object!",messageType.getTypeStr());
+        }
+
         switch (messageType) {
             //文本消息
             case TEXT_MESSAGE:
@@ -94,6 +100,9 @@ public class DefaultMessageConverter implements MessageConvert {
                 String event = xmlMap.get("Event");
                 EventType eventType = EventType.valueBy(event);
                 Preconditions.checkNotNull(eventType, "no event message messageType found!");
+                if (LOGGER.isDebugEnabled()){
+                    LOGGER.debug("convert to {} message object!",eventType.getTypeStr());
+                }
                 switch (eventType){
                     //关注、取消关注消息
                     case EVENT_SUBSCRIBE:
