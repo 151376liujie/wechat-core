@@ -2,6 +2,7 @@ package com.jonnyliu.proj.wechat.service.user;
 
 import com.jonnyliu.proj.wechat.bean.*;
 import com.jonnyliu.proj.wechat.enums.Lang;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/applicationContext.xml")
-public class WechatUserServiceTests {
+public class WechatUserServiceTest {
 
     @Autowired
     private WechatUserService wechatUserService;
@@ -45,7 +46,8 @@ public class WechatUserServiceTests {
 
     @Test
     public void testCreateTag() {
-        CreateTagResponse createTagResponse = wechatUserService.createTag("test");
+        String random = RandomStringUtils.random(4);
+        CreateTagResponse createTagResponse = wechatUserService.createTag(random);
         Assert.assertNotNull(createTagResponse);
         Assert.assertNotNull(createTagResponse.getTag());
         Assert.assertTrue(createTagResponse.getTag().getId() > 0);

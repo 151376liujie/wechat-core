@@ -151,7 +151,7 @@ public class WechatUserServiceImpl implements WechatUserService {
     @Override
     public APIResponse batchTagUsers(long tagId, List<String> openid_list) {
         Preconditions.checkArgument(tagId > 0, "tagid must be greater than 0");
-        Preconditions.checkArgument(openid_list == null || openid_list.isEmpty(), "openid list is not allowed to be null or empty! ");
+        Preconditions.checkArgument(openid_list != null && !openid_list.isEmpty(), "openid list is not allowed to be null or empty! ");
         AccessTokenBean accessToken = accessTokenService.getAccessToken();
         try {
             BatchTagUsersParameter batchTagUsersParameter = new BatchTagUsersParameter(tagId, openid_list.toArray(new String[]{}));
