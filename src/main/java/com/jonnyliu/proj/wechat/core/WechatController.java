@@ -2,6 +2,7 @@ package com.jonnyliu.proj.wechat.core;
 
 import com.jonnyliu.proj.wechat.config.WechatConfig;
 import com.jonnyliu.proj.wechat.converter.MessageConvert;
+import com.jonnyliu.proj.wechat.exception.NoMessageHandlerFoundException;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
@@ -79,6 +80,9 @@ public class WechatController {
             //将不同类型的消息发送给不同的消息处理器
             AbstractMessageHandler messageHandler = messageDispatcher.doDispatch(msgType,eventType);
             //调用消息处理器处理消息
+            if (messageHandler == null) {
+                throw new NoMessageHandlerFoundException("no message handler found for message type " + msgType + " and event type " + eventType);
+            }
             BaseResponseMessage responseMessage = messageHandler.handleMessage(requestMessage);
             if (response == null) {
                 return "";
@@ -90,6 +94,8 @@ public class WechatController {
             }
             return responseXml;
         } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        } catch (NoMessageHandlerFoundException e) {
             LOGGER.error(e.getMessage(), e);
         }
         return "";

@@ -17,7 +17,7 @@ import java.util.concurrent.CountDownLatch;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/applicationContext.xml")
-public class AccessTokenServiceTests {
+public class AccessTokenServiceTest {
 
     @Autowired
     private AccessTokenService accessTokenService;

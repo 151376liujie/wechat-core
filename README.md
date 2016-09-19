@@ -20,9 +20,9 @@
 
 2. 编写消息处理器类，继承**AbstractMessageHandler**抽象类，实现**doHandleMessage**方法，在该类上加上@**MessageWorker**的注解，并指明要处理的消息类型，属性messageType指明要处理得消息类型，eventType指明要处理得事件类型。当消息类型是普通消息时，eventType属性可不用指定（即使指定也无效）
 示例代码如下：     
-
-    //基本消息类型的处理（文本消息处理器）         
     
+    * 基本消息类型的处理（文本消息处理器）         
+    ```java
     @MessageWorker(messageType = MessageType.TEXT_MESSAGE)    
     public class TextMessageHandler extends AbstractMessageHandler {    
         private static final Logger LOGGER = LoggerFactory.getLogger(TextMessageHandler.class);    
@@ -32,9 +32,9 @@
             return MessageUtils.buildTextResponseMessage(requestMessage, "hello,world");     
         }    
     }    
-    
-    //关注事件类型的消息处理         
-    
+    ```   
+    * 关注事件类型的消息处理         
+    ```java
     @MessageWorker(messageType = MessageType.EVENT,eventType = EventType.EVENT_SUBSCRIBE)    
     public class EventMessageHandlerExample extends AbstractMessageHandler {    
     
@@ -49,7 +49,7 @@
             SubOrUnSubEventRequestMessage subOrUnSubEventRequestMessage = (SubOrUnSubEventRequestMessage) baseRequestMessage;
         }
     }
-         
+   ```      
 3. just run your application !! have fun...
 
 ##示例代码***
