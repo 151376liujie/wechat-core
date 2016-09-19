@@ -26,9 +26,13 @@ public abstract class AbstractMessageHandler implements MessageHandler {
             if (check(requestMessage)) {
                 preHandleMessage(requestMessage);
                 baseResponseMessage = doHandleMessage(requestMessage);
+            } else {
+                if (LOGGER.isWarnEnabled()){
+                    LOGGER.warn("message check status is false,so this request message will be ignored!");
+                }
             }
         } catch (Exception e) {
-            error(e);
+            error(requestMessage,e);
         } finally {
             if (baseResponseMessage != null) {
                 postHandleMessage(baseResponseMessage);
@@ -42,9 +46,13 @@ public abstract class AbstractMessageHandler implements MessageHandler {
      * 消息处理器处理消息的前置检查条件，
      *
      * @param baseRequestMessage 请求的消息对象
-     * @return 当该方法返回true时才会真正调用处理消息的方法，当方法返回false时，不执行真正处理消息的方法，也不会执行postHandleMessage方法，会直接返回null
+     * @return 当该方法返回true时才会真正调用处理消息的方法，当方法返回false时，
+     * 不执行真正处理消息的方法，也不会执行postHandleMessage方法，会直接返回null
      */
     protected boolean check(BaseRequestMessage baseRequestMessage) {
+        if (LOGGER.isDebugEnabled()){
+            LOGGER.debug("request message : {} is checking for response...");
+        }
         return true;
     }
 
@@ -54,7 +62,9 @@ public abstract class AbstractMessageHandler implements MessageHandler {
      * @param requestMessage
      */
     protected void preHandleMessage(BaseRequestMessage requestMessage) {
-        LOGGER.info("用户发送给公众号的消息==>" + requestMessage);
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("用户发送给公众号的消息==>" + requestMessage);
+        }
     }
 
     /**
@@ -63,16 +73,19 @@ public abstract class AbstractMessageHandler implements MessageHandler {
      * @param baseResponseMessage
      */
     protected void postHandleMessage(BaseResponseMessage baseResponseMessage) {
-        LOGGER.info("公众号发给用户的响应消息为==>" + baseResponseMessage);
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("公众号发给用户的响应消息为==>" + baseResponseMessage);
+        }
     }
 
     /**
      * 当处理消息的过程中出错时，将执行该方法（默认使用日志记录错误信息到控制台），可重写该方法实现自定义业务
      *
+     * @param requestMessage
      * @param e
      */
-    protected void error(Exception e) {
-        LOGGER.error("error occured when handling message...", e);
+    protected void error(BaseRequestMessage requestMessage, Exception e) {
+        LOGGER.error("error occured when handling message {}. and error is {} ",requestMessage, e);
     }
 
 }
