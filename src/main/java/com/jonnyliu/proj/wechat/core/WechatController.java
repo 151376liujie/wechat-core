@@ -84,7 +84,7 @@ public class WechatController {
                 throw new NoMessageHandlerFoundException("no message handler found for message type " + msgType + " and event type " + eventType);
             }
             BaseResponseMessage responseMessage = messageHandler.handleMessage(requestMessage);
-            if (response == null) {
+            if (responseMessage == null) {
                 return "";
             }
             //构造给用户的响应消息
