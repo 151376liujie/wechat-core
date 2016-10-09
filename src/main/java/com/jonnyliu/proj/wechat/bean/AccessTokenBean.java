@@ -13,6 +13,16 @@ public class AccessTokenBean extends BaseBean {
      */
     private long expires_in;
 
+    /**
+     * 提前多少秒失效
+     */
+    private static final int TIMEDELTA = 200;
+
+    /**
+     * 有效期最大的时间毫秒值（单位：毫秒）
+     */
+    private long deadTime;
+
     public String getAccess_token() {
         return access_token;
     }
@@ -22,11 +32,20 @@ public class AccessTokenBean extends BaseBean {
     }
 
     public long getExpires_in() {
+
         return expires_in;
     }
 
     public void setExpires_in(long expires_in) {
-        this.expires_in = expires_in;
+        this.expires_in = expires_in - TIMEDELTA;
+        this.deadTime = System.currentTimeMillis() + this.expires_in * 1000;
     }
 
+    public void setDeadTime(long deadTime) {
+        this.deadTime = deadTime;
+    }
+
+    public long getDeadTime() {
+        return deadTime;
+    }
 }

@@ -26,7 +26,7 @@ import java.io.IOException;
 public class AccessTokenServiceImpl implements AccessTokenService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccessTokenServiceImpl.class);
-    private static volatile AccessTokenBean ACCESS_TOKEN_BEAN = new AccessTokenBean();
+    private volatile AccessTokenBean ACCESS_TOKEN_BEAN = null;
     private static final ObjectMapper MAPPER = new ObjectMapper();
     /**
      * 全局的获取accesstoken的锁
@@ -35,11 +35,17 @@ public class AccessTokenServiceImpl implements AccessTokenService {
 
     @Override
     public AccessTokenBean getAccessToken() {
-        if (isAccessTokenExpired()) {
-            //token过期，需要重新获取
+        if (ACCESS_TOKEN_BEAN == null) {
             synchronized (globalFetchTokenLock) {
-                ACCESS_TOKEN_BEAN = getAccessTokenFromUrl();
+                if (ACCESS_TOKEN_BEAN == null) {
+                    ACCESS_TOKEN_BEAN = getAccessTokenFromUrl();
+                    return ACCESS_TOKEN_BEAN;
+                }
             }
+        }
+        if (isAccessTokenExpired()) {
+            ACCESS_TOKEN_BEAN = getAccessTokenFromUrl();
+            return ACCESS_TOKEN_BEAN;
         }
         return ACCESS_TOKEN_BEAN;
     }
@@ -47,14 +53,19 @@ public class AccessTokenServiceImpl implements AccessTokenService {
     @Override
     public void expireAccessToken() {
         synchronized (globalFetchTokenLock) {
-            ACCESS_TOKEN_BEAN.setExpires_in(0);
+            ACCESS_TOKEN_BEAN = null;
         }
     }
 
     @Override
     public boolean isAccessTokenExpired() {
         synchronized (globalFetchTokenLock) {
-            return ACCESS_TOKEN_BEAN.getExpires_in() == 0;
+            long currentTimeMillis = System.currentTimeMillis();
+            long deadTime = ACCESS_TOKEN_BEAN.getDeadTime();
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("当前时间:{},token 过期截止日期:{},时间差:{}", new Object[]{currentTimeMillis, deadTime, (deadTime - currentTimeMillis) / 1000.0});
+            }
+            return deadTime <= currentTimeMillis;
         }
     }
 

@@ -8,6 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p/>
@@ -23,39 +24,15 @@ public class AccessTokenServiceTest {
     private AccessTokenService accessTokenService;
 
     @Test
-    public void testGetAccessToken() {
-        AccessTokenBean accessToken = accessTokenService.getAccessToken();
-        System.out.println(accessToken.getAccess_token());
+    public void testGetAccessToken() throws InterruptedException {
 
-        System.out.println("===================================");
+        while (true) {
+            AccessTokenBean accessToken = accessTokenService.getAccessToken();
+            System.out.println(accessToken);
 
-        accessToken = accessTokenService.getAccessToken();
-        System.out.println(accessToken.getAccess_token());
-
-        System.out.println("===================================");
-
-        accessToken = accessTokenService.getAccessToken();
-        System.out.println(accessToken.getAccess_token());
-
-        System.out.println("===================================");
-        //让当前token过期
-        accessToken = accessTokenService.refreshAccessToken();
-        System.out.println(accessToken.getAccess_token());
-
-        System.out.println("===================================");
-
-        accessToken = accessTokenService.getAccessToken();
-        System.out.println(accessToken.getAccess_token());
-
-        System.out.println("===================================");
-
-        accessToken = accessTokenService.getAccessToken();
-        System.out.println(accessToken.getAccess_token());
-
-        System.out.println("===================================");
-
-        accessToken = accessTokenService.getAccessToken();
-        System.out.println(accessToken.getAccess_token());
+            System.out.println("===================================");
+            TimeUnit.SECONDS.sleep(10);
+        }
     }
 
     /**
