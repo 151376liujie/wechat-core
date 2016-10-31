@@ -2,7 +2,7 @@ package com.jonnyliu.proj.wechat.core;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.jonnyliu.proj.wechat.annotation.MessageWorker;
+import com.jonnyliu.proj.wechat.annotation.MessageProcessor;
 import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
@@ -41,12 +41,12 @@ public class SpringMessageDispatcher implements MessageDispatcher, ApplicationCo
             Preconditions.checkNotNull(eventTyp, "unknow eventType !");
         }
 
-        Map<String, Object> beansWithAnnotation = context.getBeansWithAnnotation(MessageWorker.class);
+        Map<String, Object> beansWithAnnotation = context.getBeansWithAnnotation(MessageProcessor.class);
         if (beansWithAnnotation == null || beansWithAnnotation.isEmpty()) {
-            throw new RuntimeException("this is no class annotationed with @MessageWorker,do you forgot ??");
+            throw new RuntimeException("this is no class annotationed with @MessageProcessor,do you forgot ??");
         }
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("found classes that annotationed with {} : {}", MessageWorker.class.getSimpleName(), beansWithAnnotation);
+            LOGGER.debug("found classes that annotationed with {} : {}", MessageProcessor.class.getSimpleName(), beansWithAnnotation);
         }
 
         for (Map.Entry<String, Object> entry : beansWithAnnotation.entrySet()) {
@@ -56,7 +56,7 @@ public class SpringMessageDispatcher implements MessageDispatcher, ApplicationCo
             if (!AbstractMessageHandler.class.isAssignableFrom(messageHandlerClass)) {
                 continue;
             }
-            MessageWorker annotation = messageHandlerClass.getAnnotation(MessageWorker.class);
+            MessageProcessor annotation = messageHandlerClass.getAnnotation(MessageProcessor.class);
 
             //事件类型
             if (annotation.messageType() == MessageType.EVENT ){

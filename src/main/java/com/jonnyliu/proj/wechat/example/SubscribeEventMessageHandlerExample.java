@@ -1,6 +1,6 @@
 package com.jonnyliu.proj.wechat.example;
 
-import com.jonnyliu.proj.wechat.annotation.MessageWorker;
+import com.jonnyliu.proj.wechat.annotation.MessageProcessor;
 import com.jonnyliu.proj.wechat.bean.GetUserInfoParameter;
 import com.jonnyliu.proj.wechat.bean.WechatUser;
 import com.jonnyliu.proj.wechat.enums.EventType;
@@ -30,7 +30,7 @@ import java.util.Map;
  * Date: on 2016-08-22 13:47.
  */
 @Component
-@MessageWorker(messageType = MessageType.EVENT,eventType = EventType.EVENT_SUBSCRIBE)
+@MessageProcessor(messageType = MessageType.EVENT, eventType = EventType.EVENT_SUBSCRIBE)
 public class SubscribeEventMessageHandlerExample extends AbstractMessageHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SubscribeEventMessageHandlerExample.class);

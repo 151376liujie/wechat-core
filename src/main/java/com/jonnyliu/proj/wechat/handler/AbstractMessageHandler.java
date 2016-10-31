@@ -23,19 +23,19 @@ public abstract class AbstractMessageHandler implements MessageHandler {
     public final BaseResponseMessage handleMessage(BaseRequestMessage requestMessage) {
         BaseResponseMessage baseResponseMessage = null;
         try {
-            if (check(requestMessage)) {
+            if (accept(requestMessage)) {
                 preHandleMessage(requestMessage);
                 baseResponseMessage = doHandleMessage(requestMessage);
             } else {
                 if (LOGGER.isWarnEnabled()){
-                    LOGGER.warn("message check status is false,so this request message will be ignored!");
+                    LOGGER.warn("based on your custom logic,the request message:{} will be ignored!", requestMessage);
                 }
             }
         } catch (Exception e) {
-            error(requestMessage,e);
+            onError(requestMessage, e);
         } finally {
             if (baseResponseMessage != null) {
-                postHandleMessage(baseResponseMessage);
+                postHandleMessage(requestMessage, baseResponseMessage);
             }
         }
         return baseResponseMessage;
@@ -49,9 +49,9 @@ public abstract class AbstractMessageHandler implements MessageHandler {
      * @return 当该方法返回true时才会真正调用处理消息的方法，当方法返回false时，
      * 不执行真正处理消息的方法，也不会执行postHandleMessage方法，会直接返回null
      */
-    protected boolean check(BaseRequestMessage baseRequestMessage) {
+    protected boolean accept(BaseRequestMessage baseRequestMessage) {
         if (LOGGER.isDebugEnabled()){
-            LOGGER.debug("request message : {} is checking for response...");
+            LOGGER.debug("request message : {} is checking for processing or not...", baseRequestMessage);
         }
         return true;
     }
@@ -63,18 +63,19 @@ public abstract class AbstractMessageHandler implements MessageHandler {
      */
     protected void preHandleMessage(BaseRequestMessage requestMessage) {
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("用户发送给公众号的消息==>" + requestMessage);
+            LOGGER.info("用户发送给公众号的消息==>{}", requestMessage);
         }
     }
 
     /**
      * 可重写该方法实现在处理消息后对消息进行处理
      *
+     * @param requestMessage
      * @param baseResponseMessage
      */
-    protected void postHandleMessage(BaseResponseMessage baseResponseMessage) {
+    protected void postHandleMessage(BaseRequestMessage requestMessage, BaseResponseMessage baseResponseMessage) {
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("公众号发给用户的响应消息为==>" + baseResponseMessage);
+            LOGGER.info("公众号发给用户的响应消息为==>{}", baseResponseMessage);
         }
     }
 
@@ -84,8 +85,8 @@ public abstract class AbstractMessageHandler implements MessageHandler {
      * @param requestMessage
      * @param e
      */
-    protected void error(BaseRequestMessage requestMessage, Exception e) {
-        LOGGER.error("error occured when handling message {}. and error is {} ",requestMessage, e);
+    protected void onError(BaseRequestMessage requestMessage, Exception e) {
+        LOGGER.error("error occured when processing request message: {}. and the error message is: {} ", requestMessage, e);
     }
 
 }

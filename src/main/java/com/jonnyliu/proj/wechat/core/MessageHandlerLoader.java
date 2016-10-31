@@ -1,7 +1,7 @@
 package com.jonnyliu.proj.wechat.core;
 
 import com.google.common.base.Preconditions;
-import com.jonnyliu.proj.wechat.annotation.MessageWorker;
+import com.jonnyliu.proj.wechat.annotation.MessageProcessor;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.utils.ClassPathUtils;
@@ -23,14 +23,14 @@ public class MessageHandlerLoader {
     private static final Map<MessageType, Class<? extends AbstractMessageHandler>> messageHandlerMappingHolder = new HashMap<>();
 
     static {
-        Set<Class<? extends AbstractMessageHandler>> classesByAnnotation = ClassPathUtils.getClassesByAnnotation(MessageWorker.class);
-        Preconditions.checkState(!classesByAnnotation.isEmpty(), "this is no Message Handler in classpath...did you forgot to place a MessageWorker annotation in your MessageHandler class ? ");
+        Set<Class<? extends AbstractMessageHandler>> classesByAnnotation = ClassPathUtils.getClassesByAnnotation(MessageProcessor.class);
+        Preconditions.checkState(!classesByAnnotation.isEmpty(), "this is no Message Handler in classpath...did you forgot to place a MessageProcessor annotation in your MessageHandler class ? ");
 
         for (Class<? extends AbstractMessageHandler> messageHandler : classesByAnnotation) {
             if (LOGGER.isDebugEnabled()){
-                LOGGER.debug("find message handler :{} with annotation MessageWorker ",messageHandler);
+                LOGGER.debug("find message handler :{} with annotation MessageProcessor ", messageHandler);
             }
-            MessageWorker annotation = messageHandler.getAnnotation(MessageWorker.class);
+            MessageProcessor annotation = messageHandler.getAnnotation(MessageProcessor.class);
             //每种类型的消息处理器只能有一个
             if (!messageHandlerMappingHolder.containsKey(annotation.messageType())) {
                 messageHandlerMappingHolder.put(annotation.messageType(), messageHandler);

@@ -1,6 +1,6 @@
 package com.jonnyliu.proj.wechat;
 
-import com.jonnyliu.proj.wechat.annotation.MessageWorker;
+import com.jonnyliu.proj.wechat.annotation.MessageProcessor;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.utils.ClassPathUtils;
 import org.junit.Assert;
@@ -33,7 +33,7 @@ public class ClassPathUtilsTest {
     @Test
     public void testGetClassByAnnotation() {
         Set<Class<? extends AbstractMessageHandler>> classesByAnnotation =
-                ClassPathUtils.getClassesByAnnotation(MessageWorker.class);
+                ClassPathUtils.getClassesByAnnotation(MessageProcessor.class);
         System.out.println(classesByAnnotation);
     }
 

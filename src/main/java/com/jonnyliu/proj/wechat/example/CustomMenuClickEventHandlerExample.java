@@ -1,6 +1,6 @@
 package com.jonnyliu.proj.wechat.example;
 
-import com.jonnyliu.proj.wechat.annotation.MessageWorker;
+import com.jonnyliu.proj.wechat.annotation.MessageProcessor;
 import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * Created on 2016-09-07 23:37.
  */
 @Component
-@MessageWorker(messageType = MessageType.EVENT,eventType = EventType.EVENT_CUSTOM_MENU_CLICK)
+@MessageProcessor(messageType = MessageType.EVENT, eventType = EventType.EVENT_CUSTOM_MENU_CLICK)
 public class CustomMenuClickEventHandlerExample extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {

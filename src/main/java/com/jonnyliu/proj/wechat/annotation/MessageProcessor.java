@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface MessageWorker {
+public @interface MessageProcessor {
 
     //标识要处理的消息类型
     MessageType messageType() default MessageType.TEXT_MESSAGE;

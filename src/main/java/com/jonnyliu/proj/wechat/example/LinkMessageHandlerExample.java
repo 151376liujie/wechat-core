@@ -1,6 +1,6 @@
 package com.jonnyliu.proj.wechat.example;
 
-import com.jonnyliu.proj.wechat.annotation.MessageWorker;
+import com.jonnyliu.proj.wechat.annotation.MessageProcessor;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  * Date: on 2016-08-19 13:09.
  */
 @Component
-@MessageWorker(messageType = MessageType.LINK_MESSAGE)
+@MessageProcessor(messageType = MessageType.LINK_MESSAGE)
 public class LinkMessageHandlerExample extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
