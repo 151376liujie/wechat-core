@@ -23,9 +23,10 @@
     
     * 基本消息类型的处理（文本消息处理器）         
     ```java
+    @Component
     @MessageProcessor(messageType = MessageType.TEXT_MESSAGE)    
-    public class TextMessageHandler extends AbstractMessageHandler {    
-        private static final Logger LOGGER = LoggerFactory.getLogger(TextMessageHandler.class);    
+    public class TextMessageHandlerExample extends AbstractMessageHandler {    
+        private static final Logger LOGGER = LoggerFactory.getLogger(TextMessageHandlerExample.class);    
     
         public BaseResponseMessage doHandleMessage(BaseRequestMessage requestMessage) {    
                 //在这里实现你自己的业务逻辑    
@@ -35,10 +36,11 @@
     ```   
     * 关注事件类型的消息处理         
     ```java
+    @Component
     @MessageProcessor(messageType = MessageType.EVENT,eventType = EventType.EVENT_SUBSCRIBE)    
-    public class EventMessageHandlerExample extends AbstractMessageHandler {    
+    public class SubscribeEventMessageHandlerExample extends AbstractMessageHandler {    
     
-        private static final Logger LOGGER = LoggerFactory.getLogger(EventMessageHandlerExample.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(SubscribeEventMessageHandlerExample.class);
     
         @Autowired
         private WechatUserService wechatUserService;
