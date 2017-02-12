@@ -103,8 +103,10 @@ public class WechatConstant {
     public static final int WECHAT_BLACK_USER_MAX_SIZE = 20;
 
     /**
-     * 给用户备注的最大程度
+     * 给用户备注的最大长度
      */
     public static final int WECHAT_USER_REMARK_MAX_LENGTH = 30;
+
+    public static final String MENU_JOKE_CLICK_KEY = "joke";
 
 }

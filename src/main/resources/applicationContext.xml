@@ -7,11 +7,13 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <import resource="spring-redis.xml" />
+
     <context:component-scan base-package="com.jonnyliu.proj.wechat.converter"/>
 
     <!-- 所有API注入spring -->
     <context:component-scan base-package="com.jonnyliu.proj.wechat.service"/>
 
-
+    <context:component-scan base-package="com.jonnyliu.proj.wechat.manager" />
 
 </beans>

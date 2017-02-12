@@ -27,8 +27,8 @@ public abstract class AbstractMessageHandler implements MessageHandler {
                 preHandleMessage(requestMessage);
                 baseResponseMessage = doHandleMessage(requestMessage);
             } else {
-                if (LOGGER.isWarnEnabled()){
-                    LOGGER.warn("based on your custom logic,the request message:{} will be ignored!", requestMessage);
+                if (LOGGER.isInfoEnabled()){
+                    LOGGER.info("based on your custom logic,the request message:{} will be ignored!", requestMessage);
                 }
             }
         } catch (Exception e) {
@@ -62,8 +62,8 @@ public abstract class AbstractMessageHandler implements MessageHandler {
      * @param requestMessage
      */
     protected void preHandleMessage(BaseRequestMessage requestMessage) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("用户发送给公众号的消息==>{}", requestMessage);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("用户发送给公众号的消息==>{}", requestMessage);
         }
     }
 
@@ -74,8 +74,8 @@ public abstract class AbstractMessageHandler implements MessageHandler {
      * @param baseResponseMessage
      */
     protected void postHandleMessage(BaseRequestMessage requestMessage, BaseResponseMessage baseResponseMessage) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("公众号发给用户的响应消息为==>{}", baseResponseMessage);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("公众号发给用户的响应消息为==>{}", baseResponseMessage);
         }
     }
 

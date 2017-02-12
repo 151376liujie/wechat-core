@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath*:redis.properties" />
+
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="${redis.host}"/>
+        <property name="port" value="${redis.port}" />
+        <property name="usePool" value="${redis.usePool}" />
+        <property name="timeout" value="${redis.timeout}" />
+        <property name="poolConfig.maxIdle" value="${redis.maxidle}" />
+        <property name="poolConfig.minIdle" value="${redis.minidle}" />
+        <property name="poolConfig.testOnBorrow" value="${redis.testonborrow}" />
+    </bean>
+
+    <bean id="stringSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="defaultSerializer" ref="stringSerializer" />
+        <property name="enableTransactionSupport" value="true" />
+    </bean>
+
+</beans>
