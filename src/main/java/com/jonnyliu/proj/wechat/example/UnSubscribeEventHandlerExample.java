@@ -4,11 +4,13 @@ import com.jonnyliu.proj.wechat.annotation.MessageProcessor;
 import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
+import com.jonnyliu.proj.wechat.manager.JokeManager;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
 import com.jonnyliu.proj.wechat.message.request.SubOrUnSubEventRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,6 +24,9 @@ public class UnSubscribeEventHandlerExample extends AbstractMessageHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UnSubscribeEventHandlerExample.class);
 
+    @Autowired
+    private JokeManager jokeManager;
+
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
         SubOrUnSubEventRequestMessage unSubEventRequestMessage = (SubOrUnSubEventRequestMessage) baseRequestMessage;
@@ -29,6 +34,8 @@ public class UnSubscribeEventHandlerExample extends AbstractMessageHandler {
         if (LOGGER.isWarnEnabled()) {
             LOGGER.warn("用户：[{}] 取消了对公众号的关注！", fromUserName);
         }
+        //取消关注时清空微信用户的笑话浏览记录
+        jokeManager.clearViewHistory(fromUserName);
         return null;
     }
 }
