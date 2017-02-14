@@ -45,7 +45,6 @@ def saveJokesToRedis(jokes):
     pip = client.pipeline()
     for joke in jokes:
         # 每个笑话有效期为7天
-        pip.set(('joke_%d' % joke[0]), joke[1], ex=60 * 60 * 24 * 7)
-        # 将爬取过来的joke_id统一放入set集合中
-        pip.sadd('joke_ids', joke[0])
+        res = pip.setnx(('joke_%d' % joke[0]), joke[1])
+        pip.expire(('joke_%d' % joke[0]), 60 * 60 * 24 * 7)
     pip.execute()

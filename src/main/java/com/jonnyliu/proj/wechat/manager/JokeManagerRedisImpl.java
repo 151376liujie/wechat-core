@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -17,9 +18,6 @@ public class JokeManagerRedisImpl implements JokeManager {
 
     //微信用户的笑话浏览记录key
     private static final String S_KEY_JOKE_VIEW_HISTORY = "joke_view_history_%s";
-
-    //总的笑话id列表key
-    private static final String S_KEY_JOKE_IDS = "joke_ids";
 
     //单个笑话key
     public static final String KEY_JOKE = "joke_%s";
@@ -36,16 +34,23 @@ public class JokeManagerRedisImpl implements JokeManager {
     @Override
     public String getOneJoke(String wechatUserOpenId) {
         String key_joke_view_history = String.format(S_KEY_JOKE_VIEW_HISTORY,wechatUserOpenId);
+        //redis中所有未过期的笑话joke
+        Set<String> keys = redisTemplate.keys("joke_*");
+        Set<String> ks = new HashSet<>(keys.size());
+        for (String key : keys) {
+            ks.add(key.split("_")[1]);
+        }
+        //微信用户的笑话浏览记录
+        Set<String> view_history_joke_ids = redisTemplate.opsForSet().members(key_joke_view_history);
 
-        //把总的joke_id列表和微信用户的笑话浏览记录进行差集运算，得出用户还未看过的joke_id列表
-        Set<String> joke_ids = redisTemplate.opsForSet().difference(S_KEY_JOKE_IDS, key_joke_view_history);
+        ks.removeAll(view_history_joke_ids);
 
-        if (joke_ids == null || joke_ids.isEmpty()){
+        if (ks == null || ks.isEmpty()){
             return "好尴尬啊，笑话不够用了！哈哈哈哈....";
         }
 
         //随机从joke列表中选中一个joke_id
-        String joke_id = this.randomOf(joke_ids);
+        String joke_id = this.randomOf(ks);
         //根据joke_id再从joke列表中拿到笑话内容
         String joke = redisTemplate.opsForValue().get(String.format( KEY_JOKE, joke_id));
 
