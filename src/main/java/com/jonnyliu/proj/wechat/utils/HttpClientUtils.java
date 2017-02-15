@@ -77,7 +77,7 @@ public final class HttpClientUtils {
      * @return
      */
     private static Header[] buildHeaders(Map<String, String> headers) {
-        if (headers != null) {
+        if (headers != null && !headers.isEmpty()) {
             Header[] tmp = new BasicHeader[headers.size()];
             int i = 0;
             for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -86,7 +86,7 @@ public final class HttpClientUtils {
             }
             return tmp;
         }
-        return null;
+        return new Header[]{};
     }
 
     /**
