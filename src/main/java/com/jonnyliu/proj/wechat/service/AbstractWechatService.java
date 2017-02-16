@@ -5,7 +5,14 @@ import com.jonnyliu.proj.wechat.bean.AccessTokenBean;
 import com.jonnyliu.proj.wechat.service.accesstoken.AccessTokenService;
 
 /**
+<<<<<<< HEAD
  * Created by lenovo on 2017/2/16.
+=======
+ * 所有微信接口都应该继承该类来获得AccessTokenService对象及检验accessToken是否有效的方法
+ * <p/>
+ * User: jonnyliu@tcl.com <br/>
+ * Date: on 2017-02-16 16:26.
+>>>>>>> http-code-formate
  */
 public abstract class AbstractWechatService{
 
