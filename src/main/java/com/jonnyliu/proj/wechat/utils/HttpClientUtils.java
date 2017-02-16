@@ -1,6 +1,5 @@
 package com.jonnyliu.proj.wechat.utils;
 
-import com.google.common.base.Preconditions;
 import com.jonnyliu.proj.wechat.bean.NameAndValuePair;
 import com.jonnyliu.proj.wechat.constant.WechatConstant;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +21,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -146,7 +144,7 @@ public final class HttpClientUtils {
      * @return
      * @throws UnsupportedEncodingException
      */
-    public static String buildGetParam(List<NameAndValuePair<String, String>> nameAndValuePairs, Charset charset) throws UnsupportedEncodingException {
+    private static String buildGetParam(List<NameAndValuePair<String, String>> nameAndValuePairs, Charset charset) throws UnsupportedEncodingException {
         if (nameAndValuePairs == null || nameAndValuePairs.isEmpty()) {
             return null;
         }
