@@ -34,8 +34,8 @@ public final class HttpClientUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpClientUtils.class);
     private static final String NAME_VALUE_SEPARATOR = "=";
-    private static final String QUERYPARAM_SEP = "&";
-    private static final String URL_QUERYPARAM_SEPARATOR = "?";
+    private static final String QUERY_PARAM_SEP = "&";
+    private static final String URL_QUERY_PARAM_SEPARATOR = "?";
 
     private static CloseableHttpClient httpClient = HttpClients.createDefault();
 
@@ -113,7 +113,7 @@ public final class HttpClientUtils {
         if (paramStr == null) {
             request = new HttpGet(url);
         } else {
-            request = new HttpGet(url + URL_QUERYPARAM_SEPARATOR + paramStr);
+            request = new HttpGet(url + URL_QUERY_PARAM_SEPARATOR + paramStr);
         }
         request.setHeaders(buildHeaders(headers));
         String responseText = httpClient.execute(request, new AbstractResponseHandler<String>() {
@@ -156,7 +156,7 @@ public final class HttpClientUtils {
             strbui.append(encodedName);
             strbui.append(NAME_VALUE_SEPARATOR);
             strbui.append(encodedValue);
-            strbui.append(QUERYPARAM_SEP);
+            strbui.append(QUERY_PARAM_SEP);
         }
         return strbui.substring(0, strbui.length() - 1);
     }
