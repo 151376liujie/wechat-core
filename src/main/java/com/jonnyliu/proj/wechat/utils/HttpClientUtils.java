@@ -1,6 +1,5 @@
 package com.jonnyliu.proj.wechat.utils;
 
-import com.google.common.base.Preconditions;
 import com.jonnyliu.proj.wechat.bean.NameAndValuePair;
 import com.jonnyliu.proj.wechat.constant.WechatConstant;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +21,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +39,10 @@ public final class HttpClientUtils {
 
     private static CloseableHttpClient httpClient = HttpClients.createDefault();
 
+
+    public static String sendGet(String url) throws Exception {
+        return sendGet(url,null);
+    }
 
     public static String sendGet(String url, List<NameAndValuePair<String, String>> nameAndValuePairs) throws Exception {
         return sendGet(url, nameAndValuePairs, null, Charset.forName(WechatConstant.DEFAULT_CHARSET));
@@ -142,7 +144,7 @@ public final class HttpClientUtils {
      * @return
      * @throws UnsupportedEncodingException
      */
-    public static String buildGetParam(List<NameAndValuePair<String, String>> nameAndValuePairs, Charset charset) throws UnsupportedEncodingException {
+    private static String buildGetParam(List<NameAndValuePair<String, String>> nameAndValuePairs, Charset charset) throws UnsupportedEncodingException {
         if (nameAndValuePairs == null || nameAndValuePairs.isEmpty()) {
             return null;
         }
@@ -157,35 +159,6 @@ public final class HttpClientUtils {
             strbui.append(QUERYPARAM_SEP);
         }
         return strbui.substring(0, strbui.length() - 1);
-    }
-
-    /**
-     * 构建get请求的url（含参数）
-     *
-     * @param url
-     * @param nameAndValuePairs
-     * @param charset
-     * @return
-     * @throws UnsupportedEncodingException
-     */
-    public static String buildUrlWithParam(String url, List<NameAndValuePair<String, String>> nameAndValuePairs, String charset) throws UnsupportedEncodingException {
-        return url + URL_QUERYPARAM_SEPARATOR + buildGetParam(nameAndValuePairs, Charset.forName(charset));
-    }
-
-    /**
-     * 构建带accesstoken的url
-     *
-     * @param url
-     * @param token
-     * @return
-     * @throws UnsupportedEncodingException
-     */
-    public static String buildUrlWithToken(String url, String token) throws UnsupportedEncodingException {
-        Preconditions.checkNotNull(url, "invalid parameter url : empty");
-        Preconditions.checkArgument(StringUtils.isNotEmpty(token), "parameter token is not allowed to be null or empty !");
-        List<NameAndValuePair<String, String>> nameAndValuePairs = new ArrayList<>();
-        nameAndValuePairs.add(new NameAndValuePair<>("access_token", token));
-        return buildUrlWithParam(url, nameAndValuePairs, WechatConstant.DEFAULT_CHARSET);
     }
 
 }

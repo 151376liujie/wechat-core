@@ -6,17 +6,18 @@ package com.jonnyliu.proj.wechat.bean;
  * Created on 2016-08-28 18:54.
  */
 public class CreateOrEditTagParameter extends BaseBean {
-    private WechatTag tag;
 
-    public CreateOrEditTagParameter(WechatTag tag) {
+    private WechatUserTag tag;
+
+    public CreateOrEditTagParameter(WechatUserTag tag) {
         this.tag = tag;
     }
 
-    public void setTag(WechatTag tag) {
+    public void setTag(WechatUserTag tag) {
         this.tag = tag;
     }
 
-    public WechatTag getTag() {
+    public WechatUserTag getTag() {
         return tag;
     }
 }

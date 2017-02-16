@@ -33,7 +33,7 @@ public interface WechatUserService {
      * @param tagName
      * @return
      */
-    CreateTagResponse createTag(String tagName);
+    CreateWechatUserTagResponse createTag(String tagName);
 
     /**
      * 获取公众号已创建的标签
@@ -78,7 +78,6 @@ public interface WechatUserService {
 
     /**
      * 批量为指定用户取消标签
-     *
      * @param tagId
      * @param openid_list
      * @return

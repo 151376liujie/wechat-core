@@ -76,7 +76,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
      */
     private AccessTokenBean getAccessTokenFromUrl() {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        String access_token_url = WechatConstant.ACCESS_TOKEN_FETCH_URL + "?grant_type=client_credential&appid=" + WechatConfig.getAppId() + "&secret=" + WechatConfig.getAppSercet();
+        String access_token_url = WechatConstant.ACCESS_TOKEN_FETCH_URL.replaceAll("APPID",WechatConfig.getAppId()).replaceAll("APPSECRET",WechatConfig.getAppSercet());
         HttpGet get = new HttpGet(access_token_url);
         String content = null;
         try {
