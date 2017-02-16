@@ -9,78 +9,78 @@ public class WechatConstant {
     /**
      * 获取access_token的url
      */
-    public static final String ACCESS_TOKEN_FETCH_URL = "https://api.weixin.qq.com/cgi-bin/token";
+    public static final String ACCESS_TOKEN_FETCH_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
 
     /**
      * 获取用户基本信息的url
      */
-    public static final String WECHAT_USER_FETCH_URL = "https://api.weixin.qq.com/cgi-bin/user/info";
+    public static final String WECHAT_USER_FETCH_URL = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=LANG";
 
     /**
      * 批量获取用户基本信息的url
      */
-    public static final String WECHAT_USER_BATCH_FETCH_URL = "https://api.weixin.qq.com/cgi-bin/user/info/batchget";
+    public static final String WECHAT_USER_BATCH_FETCH_URL = "https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=ACCESS_TOKEN";
 
     /**
      * 创建标签url
      */
-    public static final String WECHAT_CREATE_TAG_URL = "https://api.weixin.qq.com/cgi-bin/tags/create";
+    public static final String WECHAT_CREATE_TAG_URL = "https://api.weixin.qq.com/cgi-bin/tags/create?access_token=ACCESS_TOKEN";
 
     /**
      * 获取已创建的标签url
      */
-    public static final String WECHAT_GET_TAG_URL = "https://api.weixin.qq.com/cgi-bin/tags/get";
+    public static final String WECHAT_GET_TAG_URL = "https://api.weixin.qq.com/cgi-bin/tags/get?access_token=ACCESS_TOKEN";
 
     /**
      * 编辑标签url
      */
-    public static final String WECHAT_EDIT_TAG_URL = "https://api.weixin.qq.com/cgi-bin/tags/update";
+    public static final String WECHAT_EDIT_TAG_URL = "https://api.weixin.qq.com/cgi-bin/tags/update?access_token=ACCESS_TOKEN";
 
     /**
      * 删除标签url
      */
-    public static final String WECHAT_DELETE_TAG_URL = "https://api.weixin.qq.com/cgi-bin/tags/delete";
+    public static final String WECHAT_DELETE_TAG_URL = "https://api.weixin.qq.com/cgi-bin/tags/delete?access_token=ACCESS_TOKEN";
 
     /**
      * 获取该标签下的用户列表url
      */
-    public static final String WECHAT_GET_USER_OF_TAG_URL = "https://api.weixin.qq.com/cgi-bin/user/tag/get";
+    public static final String WECHAT_GET_USER_OF_TAG_URL = "https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token=ACCESS_TOKEN";
 
     /**
      * 批量为用户打标签url
      */
-    public static final String WECHAT_BATCH_TAG_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging";
+    public static final String WECHAT_BATCH_TAG_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=ACCESS_TOKEN";
 
     /**
      * 批量为用户取消标签url
      */
-    public static final String WECHAT_BATCH_UNTAG_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging";
+    public static final String WECHAT_BATCH_UNTAG_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=ACCESS_TOKEN";
 
     /**
      * 获取用户身上标注的标签列表url
      */
-    public static final String WECHAT_GET_TAGS_OF_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/getidlist";
+    public static final String WECHAT_GET_TAGS_OF_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token=ACCESS_TOKEN";
 
 
     /**
      * 给用户备注的url
      */
-    public static final String WECHAT_REMARK_USER_URL = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark";
+    public static final String WECHAT_REMARK_USER_URL = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark?access_token=ACCESS_TOKEN";
 
     /**
      * 获取公众号的黑名单列表
      */
-    public static final String WECHAT_GET_BLACK_LIST_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/getblacklist";
+    public static final String WECHAT_GET_BLACK_LIST_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/getblacklist?access_token=ACCESS_TOKEN";
 
     /**
      * 拉黑用户url
      */
-    public static final String WECHAT_BLACK_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/batchblacklist";
+    public static final String WECHAT_BLACK_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/batchblacklist?access_token=ACCESS_TOKEN";
 
     /**
      * 取消拉黑用户url
      */
-    public static final String WECHAT_UNBLACK_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/batchunblacklist";
+    public static final String WECHAT_UNBLACK_USER_URL = "https://api.weixin.qq.com/cgi-bin/tags/members/batchunblacklist?access_token=ACCESS_TOKEN";
 
     /**
      * accesstoken的过期时间
@@ -107,6 +107,13 @@ public class WechatConstant {
      */
     public static final int WECHAT_USER_REMARK_MAX_LENGTH = 30;
 
+    /**
+     * 每日笑话菜单的key
+     */
     public static final String MENU_JOKE_CLICK_KEY = "joke";
 
+    /**
+     * 用户标签的最大长度
+     */
+    public static final int WECHAT_USER_TAG_LENGTH = 30;
 }
