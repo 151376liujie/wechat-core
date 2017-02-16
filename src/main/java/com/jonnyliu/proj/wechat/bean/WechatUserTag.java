@@ -5,7 +5,7 @@ package com.jonnyliu.proj.wechat.bean;
  * author:980463316@qq.com <br/>
  * Created on 2016-08-28 18:42.
  */
-public class WechatTag extends BaseBean {
+public class WechatUserTag extends BaseBean {
 
     private long id;
     private String name;
@@ -14,10 +14,10 @@ public class WechatTag extends BaseBean {
      */
     private long count;
 
-    public WechatTag() {
+    public WechatUserTag() {
     }
 
-    public WechatTag(long id, String name) {
+    public WechatUserTag(long id, String name) {
         this.id = id;
         this.name = name;
     }

@@ -47,10 +47,10 @@ public class WechatUserServiceTest {
     @Test
     public void testCreateTag() {
         String random = RandomStringUtils.random(4);
-        CreateTagResponse createTagResponse = wechatUserService.createTag(random);
-        Assert.assertNotNull(createTagResponse);
-        Assert.assertNotNull(createTagResponse.getTag());
-        Assert.assertTrue(createTagResponse.getTag().getId() > 0);
+        CreateWechatUserTagResponse createWechatUserTagResponse = wechatUserService.createTag(random);
+        Assert.assertNotNull(createWechatUserTagResponse);
+        Assert.assertNotNull(createWechatUserTagResponse.getTag());
+        Assert.assertTrue(createWechatUserTagResponse.getTag().getId() > 0);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class WechatUserServiceTest {
 
     @Test
     public void testEditTag() {
-        WechatTag tag = new WechatTag(100, "test1");
+        WechatUserTag tag = new WechatUserTag(100, "test1");
         CreateOrEditTagParameter parameter = new CreateOrEditTagParameter(tag);
         APIResponse apiResponse = wechatUserService.editTag(parameter);
         Assert.assertNotNull(apiResponse);

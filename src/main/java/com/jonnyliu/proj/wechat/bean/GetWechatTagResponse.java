@@ -10,13 +10,13 @@ import java.util.List;
  */
 public class GetWechatTagResponse extends BaseBean {
 
-    private List<WechatTag> tags;
+    private List<WechatUserTag> tags;
 
-    public void setTags(List<WechatTag> tags) {
+    public void setTags(List<WechatUserTag> tags) {
         this.tags = tags;
     }
 
-    public List<WechatTag> getTags() {
+    public List<WechatUserTag> getTags() {
         return tags;
     }
 }
