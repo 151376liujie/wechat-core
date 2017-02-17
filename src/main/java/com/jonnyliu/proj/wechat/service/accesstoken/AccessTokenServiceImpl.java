@@ -4,12 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jonnyliu.proj.wechat.bean.AccessTokenBean;
 import com.jonnyliu.proj.wechat.config.WechatConfig;
 import com.jonnyliu.proj.wechat.constant.WechatConstant;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import com.jonnyliu.proj.wechat.utils.HttpClientUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -75,27 +70,16 @@ public class AccessTokenServiceImpl implements AccessTokenService {
      * @return
      */
     private AccessTokenBean getAccessTokenFromUrl() {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
         String access_token_url = WechatConstant.ACCESS_TOKEN_FETCH_URL.replaceAll("APPID",WechatConfig.getAppId()).replaceAll("APPSECRET",WechatConfig.getAppSercet());
-        HttpGet get = new HttpGet(access_token_url);
         String content = null;
         try {
-            CloseableHttpResponse httpResponse = httpClient.execute(get);
-            if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                content = EntityUtils.toString(httpResponse.getEntity());
-                AccessTokenBean accessTokenBean = MAPPER.readValue(content, AccessTokenBean.class);
-                return accessTokenBean;
-            }
+            content = HttpClientUtils.sendGet(access_token_url);
+            AccessTokenBean accessTokenBean = MAPPER.readValue(content, AccessTokenBean.class);
+            return accessTokenBean;
         } catch (IOException e) {
+            LOGGER.error("http connection error :" + e.getMessage(),e);
+        } catch (Exception e) {
             LOGGER.error("failed to fetch access token. detail error msg :" + content, e);
-        } finally {
-            try {
-                if (httpClient != null) {
-                    httpClient.close();
-                }
-            } catch (IOException e) {
-                LOGGER.error(e.getMessage(), e);
-            }
         }
         return null;
     }

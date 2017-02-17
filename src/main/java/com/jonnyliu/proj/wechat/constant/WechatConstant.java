@@ -110,4 +110,8 @@ public class WechatConstant {
      * 用户标签的最大长度
      */
     public static final int WECHAT_USER_TAG_LENGTH = 30;
+    /**
+     * url中的accessToken占位符
+     */
+    public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 }
