@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,6 +24,7 @@ import java.util.List;
  */
 @Service
 public class WechatUserServiceImpl extends AbstractWechatService implements WechatUserService{
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WechatUserServiceImpl.class);
     private static final ObjectMapper MAPPER = new ObjectMapper();
@@ -41,13 +41,12 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
     public WechatUser getWechatUserInfo(GetUserInfoParameter userInfoParam) {
         Preconditions.checkNotNull(userInfoParam, " parameter is not allowed to be null or empty! ");
         AccessTokenBean accessToken = checkAccessToken();
-        String url = WechatConstant.WECHAT_USER_FETCH_URL.replaceAll("ACCESS_TOKEN",accessToken.getAccess_token())
+        String url = WechatConstant.WECHAT_USER_FETCH_URL.replaceAll(WechatConstant.ACCESS_TOKEN,accessToken.getAccess_token())
                 .replaceAll("OPENID",userInfoParam.getOpenid())
                 .replaceAll("LANG",userInfoParam.getLang());
-        List<NameAndValuePair<String, String>> nameAndValuePairs = new ArrayList<>();
         WechatUser wechatUser = null;
         try {
-            String response = HttpClientUtils.sendGet(url, nameAndValuePairs);
+            String response = HttpClientUtils.sendGet(url);
             wechatUser = MAPPER.readValue(response, WechatUser.class);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -60,7 +59,7 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
         Preconditions.checkNotNull(getUserParamList, " parameter is not allowed to be null or empty! ");
         AccessTokenBean accessToken = checkAccessToken();
         try {
-            String url = WechatConstant.WECHAT_USER_BATCH_FETCH_URL.replaceAll("ACCESS_TOKEN",accessToken.getAccess_token());
+            String url = WechatConstant.WECHAT_USER_BATCH_FETCH_URL.replaceAll(WechatConstant.ACCESS_TOKEN,accessToken.getAccess_token());
             String paramJson = MAPPER.writeValueAsString(getUserParamList);
             String postResponse = HttpClientUtils.sendPost(url, paramJson);
             if (StringUtils.isEmpty(postResponse)) {
@@ -83,7 +82,7 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
         tag.setName(tagName);
         CreateOrEditTagParameter parameter = new CreateOrEditTagParameter(tag);
         try {
-            String url = WechatConstant.WECHAT_CREATE_TAG_URL.replaceAll("ACCESS_TOKEN",accessToken.getAccess_token());
+            String url = WechatConstant.WECHAT_CREATE_TAG_URL.replaceAll(WechatConstant.ACCESS_TOKEN,accessToken.getAccess_token());
             String json = MAPPER.writeValueAsString(parameter);
             String response = HttpClientUtils.sendPost(url, json);
             CreateWechatUserTagResponse createWechatUserTagResponse = MAPPER.readValue(response, CreateWechatUserTagResponse.class);
@@ -98,7 +97,7 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
     public GetWechatTagResponse getTags() {
         AccessTokenBean accessToken = checkAccessToken();
         try {
-            String requestUrl = WechatConstant.WECHAT_GET_TAG_URL.replaceAll("ACCESS_TOKEN",accessToken.getAccess_token());
+            String requestUrl = WechatConstant.WECHAT_GET_TAG_URL.replaceAll(WechatConstant.ACCESS_TOKEN,accessToken.getAccess_token());
             String response = HttpClientUtils.sendGet(requestUrl);
             GetWechatTagResponse getWechatTagResponse = MAPPER.readValue(response, GetWechatTagResponse.class);
             return getWechatTagResponse;
@@ -113,7 +112,7 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
         Preconditions.checkNotNull(parameter, "no parameter passed !");
         AccessTokenBean accessToken = checkAccessToken();
         try {
-            String url = WechatConstant.WECHAT_EDIT_TAG_URL.replaceAll("ACCESS_TOKEN",accessToken.getAccess_token());
+            String url = WechatConstant.WECHAT_EDIT_TAG_URL.replaceAll(WechatConstant.ACCESS_TOKEN,accessToken.getAccess_token());
             String postJson = MAPPER.writeValueAsString(parameter);
             String response = HttpClientUtils.sendPost(url, postJson);
             APIResponse apiResponse = MAPPER.readValue(response, APIResponse.class);
@@ -133,7 +132,7 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
         CreateOrEditTagParameter parameter = new CreateOrEditTagParameter(tag);
         try {
             String postJson = MAPPER.writeValueAsString(parameter);
-            String url = WechatConstant.WECHAT_DELETE_TAG_URL.replaceAll("ACCESS_TOKEN",accessToken.getAccess_token());
+            String url = WechatConstant.WECHAT_DELETE_TAG_URL.replaceAll(WechatConstant.ACCESS_TOKEN,accessToken.getAccess_token());
             String response = HttpClientUtils.sendPost(url, postJson);
             APIResponse apiResponse = MAPPER.readValue(response, APIResponse.class);
             return apiResponse;
@@ -150,7 +149,7 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
         GetUsersOfTagParameter getUsersOfTagParameter = new GetUsersOfTagParameter(tagId, next_openid);
         try {
             String postJson = MAPPER.writeValueAsString(getUsersOfTagParameter);
-            String url = WechatConstant.WECHAT_GET_USER_OF_TAG_URL.replaceAll("ACCESS_TOKEN",accessToken.getAccess_token());
+            String url = WechatConstant.WECHAT_GET_USER_OF_TAG_URL.replaceAll(WechatConstant.ACCESS_TOKEN,accessToken.getAccess_token());
             String postResponse = HttpClientUtils.sendPost(url, postJson);
             GetUsersOfTagResponse getUsersOfTagResponse = MAPPER.readValue(postResponse, GetUsersOfTagResponse.class);
             return getUsersOfTagResponse;
@@ -168,7 +167,7 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
         try {
             BatchTagUsersParameter batchTagUsersParameter = new BatchTagUsersParameter(tagId, openid_list.toArray(new String[]{}));
             String jsonParam = MAPPER.writeValueAsString(batchTagUsersParameter);
-            String url = WechatConstant.WECHAT_BATCH_TAG_USER_URL.replaceAll("ACCESS_TOKEN", accessToken.getAccess_token());
+            String url = WechatConstant.WECHAT_BATCH_TAG_USER_URL.replaceAll(WechatConstant.ACCESS_TOKEN, accessToken.getAccess_token());
             String postJson = HttpClientUtils.sendPost(url, jsonParam);
             APIResponse apiResponse = MAPPER.readValue(postJson, APIResponse.class);
             return apiResponse;
@@ -187,7 +186,7 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
         try {
             BatchTagUsersParameter batchTagUsersParameter = new BatchTagUsersParameter(tagId, openid_list.toArray(new String[]{}));
             String jsonParam = MAPPER.writeValueAsString(batchTagUsersParameter);
-            String url = WechatConstant.WECHAT_BATCH_UNTAG_USER_URL.replaceAll("ACCESS_TOKEN", accessToken.getAccess_token());
+            String url = WechatConstant.WECHAT_BATCH_UNTAG_USER_URL.replaceAll(WechatConstant.ACCESS_TOKEN, accessToken.getAccess_token());
             String postJson = HttpClientUtils.sendPost(url, jsonParam);
             APIResponse apiResponse = MAPPER.readValue(postJson, APIResponse.class);
             return apiResponse;
@@ -204,7 +203,7 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
         try {
             GetTagsOfUserParameter parameter = new GetTagsOfUserParameter(openId);
             String jsonParam = MAPPER.writeValueAsString(parameter);
-            String url = WechatConstant.WECHAT_GET_TAGS_OF_USER_URL.replaceAll("ACCESS_TOKEN", accessToken.getAccess_token());
+            String url = WechatConstant.WECHAT_GET_TAGS_OF_USER_URL.replaceAll(WechatConstant.ACCESS_TOKEN, accessToken.getAccess_token());
             String postJson = HttpClientUtils.sendPost(url, jsonParam);
             GetTagsOfUserResponse apiResponse = MAPPER.readValue(postJson, GetTagsOfUserResponse.class);
             return apiResponse;
@@ -223,7 +222,7 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
         RemarkUserParameter remarkUserParameter = new RemarkUserParameter(openId, remark);
         try {
             String json = MAPPER.writeValueAsString(remarkUserParameter);
-            String url = WechatConstant.WECHAT_REMARK_USER_URL.replaceAll("ACCESS_TOKEN", accessToken.getAccess_token());
+            String url = WechatConstant.WECHAT_REMARK_USER_URL.replaceAll(WechatConstant.ACCESS_TOKEN, accessToken.getAccess_token());
             String postJson = HttpClientUtils.sendPost(url, json);
             APIResponse apiResponse = MAPPER.readValue(postJson, APIResponse.class);
             return apiResponse;
@@ -240,7 +239,7 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
                 begin_openId = "";
             }
             NameAndValuePair<String, String> nameAndValuePair = new NameAndValuePair<>("begin_openid", begin_openId);
-            String url = WechatConstant.WECHAT_GET_BLACK_LIST_URL.replaceAll("ACCESS_TOKEN", accessToken.getAccess_token());
+            String url = WechatConstant.WECHAT_GET_BLACK_LIST_URL.replaceAll(WechatConstant.ACCESS_TOKEN, accessToken.getAccess_token());
             String postJson = HttpClientUtils.sendPost(url, nameAndValuePair.toString());
             GetUserBlackListResponse getUserBlackListResponse = MAPPER.readValue(postJson, GetUserBlackListResponse.class);
             return getUserBlackListResponse;
@@ -260,7 +259,7 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
         try {
             UserOpenIdList openIdList = new UserOpenIdList();
             openIdList.setOpenid(openid_list.toArray(new String[]{}));
-            String url = WechatConstant.WECHAT_BLACK_USER_URL.replaceAll("ACCESS_TOKEN", accessToken.getAccess_token());
+            String url = WechatConstant.WECHAT_BLACK_USER_URL.replaceAll(WechatConstant.ACCESS_TOKEN, accessToken.getAccess_token());
             String postJson = HttpClientUtils.sendPost(url, openIdList.toString());
             APIResponse apiResponse = MAPPER.readValue(postJson, APIResponse.class);
             return apiResponse;
@@ -280,7 +279,7 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
         try {
             UserOpenIdList openIdList = new UserOpenIdList();
             openIdList.setOpenid(openid_list.toArray(new String[]{}));
-            String url = WechatConstant.WECHAT_UNBLACK_USER_URL.replaceAll("ACCESS_TOKEN", accessToken.getAccess_token());
+            String url = WechatConstant.WECHAT_UNBLACK_USER_URL.replaceAll(WechatConstant.ACCESS_TOKEN, accessToken.getAccess_token());
             String postJson = HttpClientUtils.sendPost(url, openIdList.toString());
             APIResponse apiResponse = MAPPER.readValue(postJson, APIResponse.class);
             return apiResponse;

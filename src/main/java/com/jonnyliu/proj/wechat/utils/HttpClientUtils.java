@@ -37,39 +37,86 @@ public final class HttpClientUtils {
     private static final String QUERY_PARAM_SEP = "&";
     private static final String URL_QUERY_PARAM_SEPARATOR = "?";
 
-    private static CloseableHttpClient httpClient = HttpClients.createDefault();
-
+    private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
     public static String sendGet(String url) throws Exception {
-        return sendGet(url,null);
+        return sendGet(url, null);
     }
 
-    public static String sendGet(String url, List<NameAndValuePair<String, String>> nameAndValuePairs) throws Exception {
+    public static String sendGet(String url, List<NameAndValuePair<String, String>> nameAndValuePairs){
         return sendGet(url, nameAndValuePairs, null, Charset.forName(WechatConstant.DEFAULT_CHARSET));
     }
 
-    public static String sendPost(String url, String jsonParam) throws Exception {
+    public static String sendPost(String url, String jsonParam){
         return sendPost(url, jsonParam, null, Charset.forName(WechatConstant.DEFAULT_CHARSET));
     }
 
-    private static String sendPost(String url, String jsonParam, Map<String, String> headers, final Charset charset) throws IOException {
+    public static String sendPost(String url, String jsonParam, Map<String, String> headers, final Charset charset) {
         if (StringUtils.isEmpty(url)) {
             LOGGER.error("URL can not be empty or null.");
         }
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Post Request:{}", url);
         }
-        HttpPost post = new HttpPost(url);
-
-        buildPostParam(post, jsonParam, charset);
-        post.setHeaders(buildHeaders(headers));
-        String responseText = httpClient.execute(post, new AbstractResponseHandler<String>() {
-            @Override
-            public String handleEntity(HttpEntity httpEntity) throws IOException {
-                return EntityUtils.toString(httpEntity, charset);
+        try {
+            HttpPost post = new HttpPost(url);
+            buildPostParam(post, jsonParam, charset);
+            post.setHeaders(buildHeaders(headers));
+            String responseText = httpClient.execute(post, new AbstractResponseHandler<String>() {
+                @Override
+                public String handleEntity(HttpEntity httpEntity) throws IOException {
+                    return EntityUtils.toString(httpEntity, charset);
+                }
+            });
+            return responseText;
+        } catch (IOException e) {
+            LOGGER.error("http connection error :" + e.getMessage(), e);
+        } finally {
+            try {
+                httpClient.close();
+            } catch (IOException e) {
             }
-        });
-        return responseText;
+        }
+        return null;
+    }
+
+    /**
+     * 发送get请求
+     *
+     * @param url               请求的URL
+     * @param nameAndValuePairs GET请求参数
+     * @param headers           请求头部参数
+     * @param charset           编码
+     * @return
+     */
+    public static String sendGet(String url, List<NameAndValuePair<String, String>> nameAndValuePairs, Map<String, String> headers, final Charset charset) {
+        if (StringUtils.isEmpty(url)) {
+            LOGGER.error("URL can not be empty or null.");
+        }
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Get Request:{}", url);
+        }
+        try {
+            String urlWithParams = buildUrlWithParams(url,nameAndValuePairs, charset);
+            HttpGet request = new HttpGet(urlWithParams);
+
+            request.setHeaders(buildHeaders(headers));
+            String responseText = httpClient.execute(request, new AbstractResponseHandler<String>() {
+                @Override
+                public String handleEntity(HttpEntity httpEntity) throws IOException {
+                    return EntityUtils.toString(httpEntity, charset);
+                }
+            });
+            return responseText;
+        } catch (IOException e) {
+            LOGGER.error("http connection error :" + e.getMessage(), e);
+        } finally {
+            try {
+                httpClient.close();
+            } catch (IOException e) {
+            }
+        }
+        return null;
     }
 
     /**
@@ -79,50 +126,16 @@ public final class HttpClientUtils {
      * @return
      */
     private static Header[] buildHeaders(Map<String, String> headers) {
-        if (headers != null && !headers.isEmpty()) {
-            Header[] tmp = new BasicHeader[headers.size()];
-            int i = 0;
-            for (Map.Entry<String, String> entry : headers.entrySet()) {
-                tmp[i] = new BasicHeader(entry.getKey(), entry.getValue());
-                i++;
-            }
-            return tmp;
+        if (headers == null || headers.isEmpty()){
+            return null;
         }
-        return new Header[]{};
-    }
-
-    /**
-     * 发送get请求
-     *
-     * @param url     请求的URL
-     * @param nameAndValuePairs  GET请求参数
-     * @param headers 请求头部参数
-     * @param charset 编码
-     * @return
-     */
-    public static String sendGet(String url, List<NameAndValuePair<String, String>> nameAndValuePairs, Map<String, String> headers, final Charset charset) throws Exception {
-        if (StringUtils.isEmpty(url)) {
-            LOGGER.error("URL can not be empty or null.");
+        Header[] tmp = new BasicHeader[headers.size()];
+        int i = 0;
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            tmp[i] = new BasicHeader(entry.getKey(), entry.getValue());
+            i++;
         }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Get Request:{}", url);
-        }
-
-        String paramStr = buildGetParam(nameAndValuePairs, charset);
-        HttpGet request;
-        if (paramStr == null) {
-            request = new HttpGet(url);
-        } else {
-            request = new HttpGet(url + URL_QUERY_PARAM_SEPARATOR + paramStr);
-        }
-        request.setHeaders(buildHeaders(headers));
-        String responseText = httpClient.execute(request, new AbstractResponseHandler<String>() {
-            @Override
-            public String handleEntity(HttpEntity httpEntity) throws IOException {
-                return EntityUtils.toString(httpEntity, charset);
-            }
-        });
-        return responseText;
+        return tmp;
     }
 
     private static void buildPostParam(HttpPost postReq, String postJsonParam, Charset charset) {
@@ -135,18 +148,19 @@ public final class HttpClientUtils {
         postReq.setEntity(entity);
     }
 
-
     /**
      * 构建get参数
      *
+     *
+     * @param url
      * @param nameAndValuePairs
      * @param charset
      * @return
      * @throws UnsupportedEncodingException
      */
-    private static String buildGetParam(List<NameAndValuePair<String, String>> nameAndValuePairs, Charset charset) throws UnsupportedEncodingException {
+    private static String buildUrlWithParams(String url, List<NameAndValuePair<String, String>> nameAndValuePairs, Charset charset) throws UnsupportedEncodingException {
         if (nameAndValuePairs == null || nameAndValuePairs.isEmpty()) {
-            return null;
+            return url;
         }
         StringBuilder strbui = new StringBuilder();
         String charsetName = charset.name();
@@ -158,7 +172,8 @@ public final class HttpClientUtils {
             strbui.append(encodedValue);
             strbui.append(QUERY_PARAM_SEP);
         }
-        return strbui.substring(0, strbui.length() - 1);
+        String paramStr = strbui.substring(0, strbui.length() - 1);
+        return url + URL_QUERY_PARAM_SEPARATOR + paramStr;
     }
 
 }
