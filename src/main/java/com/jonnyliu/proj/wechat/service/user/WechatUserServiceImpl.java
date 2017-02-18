@@ -8,6 +8,8 @@ import com.jonnyliu.proj.wechat.service.AbstractWechatService;
 import com.jonnyliu.proj.wechat.service.accesstoken.AccessTokenService;
 import com.jonnyliu.proj.wechat.utils.HttpClientUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -238,7 +240,7 @@ public class WechatUserServiceImpl extends AbstractWechatService implements Wech
             if (begin_openId == null) {
                 begin_openId = "";
             }
-            NameAndValuePair<String, String> nameAndValuePair = new NameAndValuePair<>("begin_openid", begin_openId);
+            NameValuePair nameAndValuePair = new BasicNameValuePair("begin_openid", begin_openId);
             String url = WechatConstant.WECHAT_GET_BLACK_LIST_URL.replaceAll(WechatConstant.ACCESS_TOKEN, accessToken.getAccess_token());
             String postJson = HttpClientUtils.sendPost(url, nameAndValuePair.toString());
             GetUserBlackListResponse getUserBlackListResponse = MAPPER.readValue(postJson, GetUserBlackListResponse.class);
