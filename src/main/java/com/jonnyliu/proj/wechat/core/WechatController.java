@@ -40,6 +40,9 @@ public class WechatController {
     @Autowired
     private MessageConvert messageConverter;
 
+    @Autowired
+    private WechatConfig wechatConfig;
+
     /**
      * 接收微信服务器的get请求
      *
@@ -56,7 +59,7 @@ public class WechatController {
                         @RequestParam(value = "nonce") String nonce,
                         @RequestParam(value = "echostr") String echostr) {
 
-        if (SignUtil.checkSignature(WechatConfig.getToken(), signature, timestamp, nonce)) {
+        if (SignUtil.checkSignature(wechatConfig.getToken(), signature, timestamp, nonce)) {
             return echostr;
         }
         return "";

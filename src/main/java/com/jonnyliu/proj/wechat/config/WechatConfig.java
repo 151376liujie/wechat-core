@@ -1,6 +1,6 @@
 package com.jonnyliu.proj.wechat.config;
 
-import com.jonnyliu.proj.wechat.utils.PropertiesReader;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.Serializable;
 
@@ -11,26 +11,31 @@ import java.io.Serializable;
  */
 public class WechatConfig implements Serializable {
 
-    private static final String APPID = "appId";
-    private static final String APPSERCET = "appsecret";
-    private static final String TOKEN = "token";
-    private static final String ENCODINGAESKEY = "encodingAESKey";
+    @Value("#{wechatProperties['appId']}")
+    private String appId = "appId";
 
-    public static String getAppId() {
-        return PropertiesReader.getString(APPID);
+    @Value("#{wechatProperties['appsecret']}")
+    private String appsecret;
+
+    @Value("#{wechatProperties['token']}")
+    private String token;
+    
+    @Value("#{wechatProperties['encodingAESKey']}")
+    private String encodingAESKey;
+
+    public String getAppId() {
+        return appId;
     }
 
-
-    public static String getAppSercet() {
-        return PropertiesReader.getString(APPSERCET);
+    public String getAppsecret() {
+        return appsecret;
     }
 
-    public static String getToken() {
-        return PropertiesReader.getString(TOKEN);
+    public String getToken() {
+        return token;
     }
 
-    public static String getEncodingAESKey() {
-        return PropertiesReader.getString(ENCODINGAESKEY);
+    public String getEncodingAESKey() {
+        return encodingAESKey;
     }
-
 }

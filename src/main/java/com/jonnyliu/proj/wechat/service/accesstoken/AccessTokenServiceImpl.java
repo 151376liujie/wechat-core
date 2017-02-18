@@ -7,6 +7,7 @@ import com.jonnyliu.proj.wechat.constant.WechatConstant;
 import com.jonnyliu.proj.wechat.utils.HttpClientUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -27,6 +28,9 @@ public class AccessTokenServiceImpl implements AccessTokenService {
      * 全局的获取accesstoken的锁
      */
     private final Object globalFetchTokenLock = new Object();
+
+    @Autowired
+    private WechatConfig wechatConfig;
 
     @Override
     public AccessTokenBean getAccessToken() {
@@ -70,7 +74,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
      * @return
      */
     private AccessTokenBean getAccessTokenFromUrl() {
-        String access_token_url = WechatConstant.ACCESS_TOKEN_FETCH_URL.replaceAll("APPID",WechatConfig.getAppId()).replaceAll("APPSECRET",WechatConfig.getAppSercet());
+        String access_token_url = WechatConstant.ACCESS_TOKEN_FETCH_URL.replaceAll("APPID",wechatConfig.getAppId()).replaceAll("APPSECRET",wechatConfig.getAppsecret());
         String content = null;
         try {
             content = HttpClientUtils.sendGet(access_token_url);
