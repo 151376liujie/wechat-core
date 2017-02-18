@@ -1,10 +1,10 @@
 package com.jonnyliu.proj.wechat.utils;
 
-import com.jonnyliu.proj.wechat.bean.NameAndValuePair;
 import com.jonnyliu.proj.wechat.constant.WechatConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
@@ -37,13 +37,13 @@ public final class HttpClientUtils {
     private static final String QUERY_PARAM_SEP = "&";
     private static final String URL_QUERY_PARAM_SEPARATOR = "?";
 
-    private static final CloseableHttpClient httpClient = HttpClients.createDefault();
+    private static final CloseableHttpClient httpClient = HttpClients.custom().setConnectionManagerShared(true).build();
 
     public static String sendGet(String url) throws Exception {
         return sendGet(url, null);
     }
 
-    public static String sendGet(String url, List<NameAndValuePair<String, String>> nameAndValuePairs){
+    public static String sendGet(String url, List<NameValuePair> nameAndValuePairs){
         return sendGet(url, nameAndValuePairs, null, Charset.forName(WechatConstant.DEFAULT_CHARSET));
     }
 
@@ -89,7 +89,7 @@ public final class HttpClientUtils {
      * @param charset           编码
      * @return
      */
-    public static String sendGet(String url, List<NameAndValuePair<String, String>> nameAndValuePairs, Map<String, String> headers, final Charset charset) {
+    public static String sendGet(String url, List<NameValuePair> nameAndValuePairs, Map<String, String> headers, final Charset charset) {
         if (StringUtils.isEmpty(url)) {
             LOGGER.error("URL can not be empty or null.");
         }
@@ -158,14 +158,14 @@ public final class HttpClientUtils {
      * @return
      * @throws UnsupportedEncodingException
      */
-    private static String buildUrlWithParams(String url, List<NameAndValuePair<String, String>> nameAndValuePairs, Charset charset) throws UnsupportedEncodingException {
+    private static String buildUrlWithParams(String url, List<NameValuePair> nameAndValuePairs, Charset charset) throws UnsupportedEncodingException {
         if (nameAndValuePairs == null || nameAndValuePairs.isEmpty()) {
             return url;
         }
         StringBuilder strbui = new StringBuilder();
         String charsetName = charset.name();
-        for (NameAndValuePair<String, String> nameAndValuePair : nameAndValuePairs) {
-            final String encodedName = URLEncoder.encode(nameAndValuePair.getKey(), charsetName);
+        for (NameValuePair nameAndValuePair : nameAndValuePairs) {
+            final String encodedName = URLEncoder.encode(nameAndValuePair.getName(), charsetName);
             final String encodedValue = URLEncoder.encode(nameAndValuePair.getValue(), charsetName);
             strbui.append(encodedName);
             strbui.append(NAME_VALUE_SEPARATOR);
