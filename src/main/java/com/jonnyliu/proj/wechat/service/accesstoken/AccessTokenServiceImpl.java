@@ -64,7 +64,8 @@ public class AccessTokenServiceImpl implements AccessTokenService {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("当前时间:{},token 过期截止日期:{},时间差:{}", new Object[]{currentTimeMillis, deadTime, (deadTime - currentTimeMillis) / 1000.0});
             }
-            return deadTime <= currentTimeMillis;
+            //提前200秒过期
+            return deadTime - currentTimeMillis <= WechatConstant.ACCESS_TOKEN_EXPIRED_delta;
         }
     }
 
