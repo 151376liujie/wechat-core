@@ -32,13 +32,17 @@ public class AccessTokenBean extends BaseBean {
     }
 
     public long getExpires_in() {
-
         return expires_in;
     }
 
+    /**
+     * 在调用ObjectMapper.readValue()方法时该方法会被执行，从而为deadTime等属性设置了初始值
+     * @param expires_in
+     */
     public void setExpires_in(long expires_in) {
         this.expires_in = expires_in - TIMEDELTA;
-        this.deadTime = System.currentTimeMillis() + this.expires_in * 1000;
+        long time = System.currentTimeMillis() + this.expires_in * 1000;
+        setDeadTime(time);
     }
 
     public void setDeadTime(long deadTime) {
