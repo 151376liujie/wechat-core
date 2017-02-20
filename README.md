@@ -79,7 +79,7 @@
 1. 对基本消息类型（文本、图片、音频、视频、位置、短视频、链接消息）和事件消息（关注、取消关注、上传地理位置、扫描二维码）的接收和响应的封装。
 2. 对access_token的封装,请参考[AccessTokenService](https://github.com/151376liujie/wechat-core/tree/master/src/main/java/com/jonnyliu/proj/wechat/service/accesstoken/)。
 3. 整个用户接口API的封装,请参考[WechatUserService](https://github.com/151376liujie/wechat-core/tree/master/src/main/java/com/jonnyliu/proj/wechat/service/user)
-4. **下一步准备做账号管理**
+4. **下一步准备做自定义菜单、redis实现accesstoken存储**
    
 ##不足之处
    
