@@ -1,11 +1,11 @@
 # wechat-core
-
+    一款轻量级的微信消息处理框架
 ##项目介绍
-1. 封装了微信消息接收与发送模块，可以使用注解方便的进行业务开发而不用关注消息接收和消息发送的细节。
+1. 封装了微信消息接收与发送，可以使用**注解驱动**开发，方便的进行业务开发而不需要再关注消息接收和消息发送的细节。
 
 2. 内部封装了消息处理器抽象类，该类提供处理消息前的消息过滤、默认行为日志等功能，用户可继承该类实现自己的业务。
 
-3. 将处理各个类型的消息处理器分开了,更支持将不同事件类型的消息处理器分开，只需在MessageProcessor注解中加入eventType属性指明你要处理的事件类型即可，避免在处理业务逻辑的代码中使用大段的if elseif elseif 来判断消息得类型。每个接口职责清晰明了，实现更解耦；
+3. 只需加入注解就可将处理各个类型的消息处理器分开了,更支持将不同事件类型的消息处理器分开，避免了在处理业务逻辑的代码中使用大段的if elseif elseif 来判断消息得类型的方式。每个接口职责清晰明了，实现更解耦；
 
 ##所用技术介绍
 1. 使用Java语言，集成了springMVC 和maven，没有使用什么高大上得技术，代码中的注释也很详细，相信读者朋友能很容易看得懂。
@@ -79,14 +79,10 @@
 1. 对基本消息类型（文本、图片、音频、视频、位置、短视频、链接消息）和事件消息（关注、取消关注、上传地理位置、扫描二维码）的接收和响应的封装。
 2. 对access_token的封装,请参考[AccessTokenService](https://github.com/151376liujie/wechat-core/tree/master/src/main/java/com/jonnyliu/proj/wechat/service/accesstoken/)。
 3. 整个用户接口API的封装,请参考[WechatUserService](https://github.com/151376liujie/wechat-core/tree/master/src/main/java/com/jonnyliu/proj/wechat/service/user)
-4. **下一步准备做账号管理**
-   
-##不足之处
-   
-1. 目前的功能还不够丰富，目前正在逐步追加中。
+4. **下一步准备做自定义菜单、redis实现accesstoken存储**
 
 ##联系作者
-邮箱：980463316@qq.com ,欢迎相互交流，共同进步!
+邮箱：980463316@qq.com ,欢迎提bug和建议。
 
 
 
