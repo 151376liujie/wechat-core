@@ -24,13 +24,12 @@ public class DefaultMessageConverter implements MessageConvert {
     @Override
     public BaseRequestMessage doConvert(Map<String, String> xmlMap) {
 
-        LOGGER.info("prepare to convert xml message : {}",xmlMap);
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("prepare to convert xml message : {}",xmlMap);
+        }
 
         MessageType messageType = MessageType.valueBy(xmlMap.get("MsgType"));
         Preconditions.checkNotNull(messageType, "no MsgType found!");
-        if (LOGGER.isDebugEnabled()){
-            LOGGER.debug("convert to {} message object!",messageType.getTypeStr());
-        }
 
         switch (messageType) {
             //文本消息
@@ -141,7 +140,7 @@ public class DefaultMessageConverter implements MessageConvert {
                         return customMenuClickOrViewEventRequestMessage;
                 }
             default:
-                LOGGER.warn("there is no definded message messageType {}.", messageType.getTypeStr());
+                LOGGER.warn("there is no defined message messageType {}.", messageType.getTypeStr());
 
         }
         return null;
