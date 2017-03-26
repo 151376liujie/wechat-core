@@ -22,7 +22,7 @@ import java.io.IOException;
 public class AccessTokenServiceImpl implements AccessTokenService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AccessTokenServiceImpl.class);
-    private volatile AccessTokenBean ACCESS_TOKEN_BEAN = null;
+    private  AccessTokenBean ACCESS_TOKEN_BEAN = null;
     private static final ObjectMapper MAPPER = new ObjectMapper();
     /**
      * 全局的获取accesstoken的锁
