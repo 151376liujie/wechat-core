@@ -10,13 +10,49 @@
 
     <properties>
         <spring.version>4.2.5.RELEASE</spring.version>
+        <junit.version>4.12</junit.version>
+        <commons.lang.version>3.4</commons.lang.version>
+        <guava.version>19.0</guava.version>
+        <httpclient.version>4.4</httpclient.version>
+        <servlet.api.version>3.1.0</servlet.api.version>
+        <slf4j.log4j.version>1.6.1</slf4j.log4j.version>
+        <jackson.version>2.8.0</jackson.version>
+        <jstl.version>1.2</jstl.version>
+        <jsoup.version>1.9.2</jsoup.version>
+        <xstream.version>1.4.8</xstream.version>
+        <dom4j.version>1.6.1</dom4j.version>
+        <jedis.version>2.8.1</jedis.version>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <deploy.tomcat.url>http://localhost:8080/manager/text</deploy.tomcat.url>
+                <deploy.tomcat.username>jonny</deploy.tomcat.username>
+                <deploy.tomcat.password>jonny</deploy.tomcat.password>
+                <deploy.tomcat.port>8080</deploy.tomcat.port>
+                <deploy.path>/wechat-core</deploy.path>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>online</id>
+            <properties>
+                <deploy.tomcat.url>http://120.25.1.9/manager/text</deploy.tomcat.url>
+                <deploy.tomcat.username>jonny</deploy.tomcat.username>
+                <deploy.tomcat.password>jonny</deploy.tomcat.password>
+                <deploy.tomcat.port>80</deploy.tomcat.port>
+                <deploy.path>/wechat-core</deploy.path>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -72,27 +108,27 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>2.8.1</version>
+            <version>${jedis.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
+            <version>${commons.lang.version}</version>
         </dependency>
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
+            <version>${dom4j.version}</version>
         </dependency>
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>1.4.8</version>
+            <version>${xstream.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.9.2</version>
+            <version>${jsoup.version}</version>
         </dependency>
 
         <!--<dependency>-->
@@ -103,35 +139,36 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.6.1</version>
+            <version>${slf4j.log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <version>${servlet.api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <version>${jstl.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.4</version>
+            <version>${httpclient.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.8.0</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
+            <version>${guava.version}</version>
         </dependency>
     </dependencies>
+
     <build>
         <finalName>wechat-core</finalName>
         <plugins>
@@ -149,12 +186,16 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.1</version>
                 <configuration>
-                    <port>8080</port>
-                    <path>/</path>
+                    <port>${deploy.tomcat.port}</port>
+                    <path>${deploy.path}</path>
                     <uriEncoding>UTF-8</uriEncoding>
-                    <server>tomcat7</server>
+                    <url>${deploy.tomcat.url}</url>
+                    <username>${deploy.tomcat.username}</username>
+                    <password>${deploy.tomcat.password}</password>
                 </configuration>
             </plugin>
         </plugins>
+
     </build>
+
 </project>
