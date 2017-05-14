@@ -8,7 +8,6 @@ package com.jonnyliu.proj.wechat.enums;
  */
 public interface IndexedEnum {
 
-
     Object getIndex();
 
 }

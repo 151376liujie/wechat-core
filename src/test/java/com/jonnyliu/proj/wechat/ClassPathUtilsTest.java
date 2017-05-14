@@ -36,6 +36,4 @@ public class ClassPathUtilsTest {
                 ClassPathUtils.getClassesByAnnotation(MessageProcessor.class);
         System.out.println(classesByAnnotation);
     }
-
-
 }

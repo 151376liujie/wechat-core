@@ -1,7 +1,5 @@
 package com.jonnyliu.proj.wechat.config;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import java.io.Serializable;
 
 /**
@@ -11,16 +9,12 @@ import java.io.Serializable;
  */
 public class WechatConfig implements Serializable {
 
-    @Value("#{wechatProperties['appId']}")
-    private String appId = "appId";
+    private String appId ;
 
-    @Value("#{wechatProperties['appsecret']}")
     private String appsecret;
 
-    @Value("#{wechatProperties['token']}")
     private String token;
     
-    @Value("#{wechatProperties['encodingAESKey']}")
     private String encodingAESKey;
 
     public String getAppId() {
@@ -37,5 +31,21 @@ public class WechatConfig implements Serializable {
 
     public String getEncodingAESKey() {
         return encodingAESKey;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
+
+    public void setAppsecret(String appsecret) {
+        this.appsecret = appsecret;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setEncodingAESKey(String encodingAESKey) {
+        this.encodingAESKey = encodingAESKey;
     }
 }
