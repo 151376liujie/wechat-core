@@ -10,11 +10,16 @@
        http://www.springframework.org/schema/util
        http://www.springframework.org/schema/util/spring-util.xsd">
 
+    <util:properties id="wechatPropertiezs" location="classpath:/wechat.properties,classpath:/redis.properties" />
+
     <import resource="spring-redis.xml" />
 
-    <util:properties id="wechatProperties" location="classpath:/wechat.properties" />
-
-    <bean id="wechatConfig" class="com.jonnyliu.proj.wechat.config.WechatConfig" />
+    <bean id="wechatConfig" class="com.jonnyliu.proj.wechat.config.WechatConfig" >
+        <property name="appId" value="${appId}" />
+        <property name="appsecret" value="${appsecret}" />
+        <property name="token" value="${token}" />
+        <property name="encodingAESKey" value="${encodingAESKey}" />
+    </bean>
 
     <!--微信消息转换器注入 -->
     <context:component-scan base-package="com.jonnyliu.proj.wechat.converter"/>
