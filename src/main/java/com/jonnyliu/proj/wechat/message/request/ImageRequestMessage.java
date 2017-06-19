@@ -1,11 +1,13 @@
 package com.jonnyliu.proj.wechat.message.request;
 
 import com.jonnyliu.proj.wechat.enums.MessageType;
+import lombok.Data;
 
 /**
  * 图片消息的封装
  * Created by liujie-ds8 on 2016/8/5.
  */
+@Data
 public class ImageRequestMessage extends BaseRequestMessage {
 
     /**
@@ -22,32 +24,9 @@ public class ImageRequestMessage extends BaseRequestMessage {
      */
     private String MediaId;
 
-    public String getPicUrl() {
-        return PicUrl;
-    }
-
-    public void setPicUrl(String picUrl) {
-        PicUrl = picUrl;
-    }
-
-    public String getMediaId() {
-        return MediaId;
-    }
-
-    public void setMediaId(String mediaId) {
-        MediaId = mediaId;
-    }
-
     @Override
     public String getMsgType() {
         return MessageType.IMAGE_MESSAGE.getTypeStr();
     }
 
-    public long getMsgId() {
-        return MsgId;
-    }
-
-    public void setMsgId(long msgId) {
-        MsgId = msgId;
-    }
 }

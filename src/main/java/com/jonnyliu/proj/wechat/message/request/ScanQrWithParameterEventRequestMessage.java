@@ -1,9 +1,12 @@
 package com.jonnyliu.proj.wechat.message.request;
 
+import lombok.Data;
+
 /**
  * 扫描二维码事件的消息封装
  * Created by liujie-ds8 on 2016/8/5.
  */
+@Data
 public class ScanQrWithParameterEventRequestMessage extends BaseRequestMessage {
 
     /**
@@ -22,27 +25,4 @@ public class ScanQrWithParameterEventRequestMessage extends BaseRequestMessage {
      */
     private String Ticket;
 
-    public String getEvent() {
-        return Event;
-    }
-
-    public void setEvent(String event) {
-        Event = event;
-    }
-
-    public String getEventKey() {
-        return EventKey;
-    }
-
-    public void setEventKey(String eventKey) {
-        EventKey = eventKey;
-    }
-
-    public String getTicket() {
-        return Ticket;
-    }
-
-    public void setTicket(String ticket) {
-        Ticket = ticket;
-    }
 }

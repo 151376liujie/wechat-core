@@ -1,7 +1,6 @@
 package com.jonnyliu.proj.wechat.message.response;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -9,6 +8,7 @@ import java.io.Serializable;
  * 单条图文消息
  * Created by liujie-ds8 on 2016/8/5.
  */
+@Data
 public class Article implements Serializable {
 
     /**
@@ -31,40 +31,4 @@ public class Article implements Serializable {
      */
     private String Url;
 
-    public String getTitle() {
-        return Title;
-    }
-
-    public void setTitle(String title) {
-        Title = title;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
-
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    public String getPicUrl() {
-        return PicUrl;
-    }
-
-    public void setPicUrl(String picUrl) {
-        PicUrl = picUrl;
-    }
-
-    public String getUrl() {
-        return Url;
-    }
-
-    public void setUrl(String url) {
-        Url = url;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
-    }
 }

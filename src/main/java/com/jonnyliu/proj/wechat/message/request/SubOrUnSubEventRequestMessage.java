@@ -1,9 +1,12 @@
 package com.jonnyliu.proj.wechat.message.request;
 
+import lombok.Data;
+
 /**
  * 订阅(取消订阅)的消息封装
  * Created by liujie-ds8 on 2016/8/5.
  */
+@Data
 public class SubOrUnSubEventRequestMessage extends BaseRequestMessage {
 
     /**
@@ -11,11 +14,4 @@ public class SubOrUnSubEventRequestMessage extends BaseRequestMessage {
      */
     private String Event;
 
-    public String getEvent() {
-        return Event;
-    }
-
-    public void setEvent(String event) {
-        Event = event;
-    }
 }
