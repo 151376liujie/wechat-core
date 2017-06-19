@@ -1,11 +1,13 @@
 package com.jonnyliu.proj.wechat.message.request;
 
 import com.jonnyliu.proj.wechat.enums.MessageType;
+import lombok.Data;
 
 /**
  * (短)视频消息的封装
  * Created by jonnyliu-ds8 on 2016/8/5.
  */
+@Data
 public class VideoRequestMessage extends BaseRequestMessage {
 
     /**
@@ -23,32 +25,9 @@ public class VideoRequestMessage extends BaseRequestMessage {
      */
     private String ThumbMediaId;
 
-    public String getMediaId() {
-        return MediaId;
-    }
-
-    public void setMediaId(String mediaId) {
-        MediaId = mediaId;
-    }
-
-    public String getThumbMediaId() {
-        return ThumbMediaId;
-    }
-
-    public void setThumbMediaId(String thumbMediaId) {
-        ThumbMediaId = thumbMediaId;
-    }
-
     @Override
     public String getMsgType() {
         return MessageType.VIDEO_MESSAGE.getTypeStr();
     }
 
-    public long getMsgId() {
-        return MsgId;
-    }
-
-    public void setMsgId(long msgId) {
-        MsgId = msgId;
-    }
 }

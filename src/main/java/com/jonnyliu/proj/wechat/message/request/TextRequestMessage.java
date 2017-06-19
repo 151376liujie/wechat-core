@@ -1,11 +1,13 @@
 package com.jonnyliu.proj.wechat.message.request;
 
 import com.jonnyliu.proj.wechat.enums.MessageType;
+import lombok.Data;
 
 /**
  * 文本消息的封装
  * Created by liujie-ds8 on 2016/8/5.
  */
+@Data
 public class TextRequestMessage extends BaseRequestMessage {
 
     /**
@@ -18,24 +20,9 @@ public class TextRequestMessage extends BaseRequestMessage {
      */
     private String Content;
 
-    public String getContent() {
-        return Content;
-    }
-
-    public void setContent(String content) {
-        Content = content;
-    }
-
     @Override
     public String getMsgType() {
         return MessageType.TEXT_MESSAGE.getTypeStr();
     }
 
-    public void setMsgId(long msgId) {
-        MsgId = msgId;
-    }
-
-    public long getMsgId() {
-        return MsgId;
-    }
 }

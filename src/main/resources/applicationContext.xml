@@ -10,7 +10,7 @@
        http://www.springframework.org/schema/util
        http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <util:properties id="wechatPropertiezs" location="classpath:/wechat.properties,classpath:/redis.properties" />
+    <context:property-placeholder location="classpath:/redis.properties,classpath:/wechat.properties" />
 
     <import resource="spring-redis.xml" />
 

@@ -22,6 +22,7 @@
         <xstream.version>1.4.8</xstream.version>
         <dom4j.version>1.6.1</dom4j.version>
         <jedis.version>2.8.1</jedis.version>
+        <lombok.version>1.16.16</lombok.version>
     </properties>
 
     <profiles>
@@ -36,16 +37,16 @@
             </properties>
         </profile>
 
-        <profile>
-            <id>online</id>
-            <properties>
-                <deploy.tomcat.url>http://120.25.1.9/manager/text</deploy.tomcat.url>
-                <deploy.tomcat.username>jonny</deploy.tomcat.username>
-                <deploy.tomcat.password>jonny</deploy.tomcat.password>
-                <deploy.tomcat.port>80</deploy.tomcat.port>
-                <deploy.path>/wechat-core</deploy.path>
-            </properties>
-        </profile>
+        <!--<profile>-->
+            <!--<id>online</id>-->
+            <!--<properties>-->
+                <!--<deploy.tomcat.url>http://120.25.1.9/manager/text</deploy.tomcat.url>-->
+                <!--<deploy.tomcat.username>jonny</deploy.tomcat.username>-->
+                <!--<deploy.tomcat.password>jonny</deploy.tomcat.password>-->
+                <!--<deploy.tomcat.port>80</deploy.tomcat.port>-->
+                <!--<deploy.path>/wechat-core</deploy.path>-->
+            <!--</properties>-->
+        <!--</profile>-->
     </profiles>
 
     <dependencies>
@@ -166,6 +167,13 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

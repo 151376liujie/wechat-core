@@ -1,11 +1,14 @@
 package com.jonnyliu.proj.wechat.message.response;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**
  * 图文消息的封装
  * Created by liujie-ds8 on 2016/8/5.
  */
+@Data
 public class NewsResponseMessage extends BaseResponseMessage {
 
     /**
@@ -18,20 +21,4 @@ public class NewsResponseMessage extends BaseResponseMessage {
      */
     private List<Article> Articles;
 
-
-    public int getArticleCount() {
-        return ArticleCount;
-    }
-
-    public void setArticleCount(int articleCount) {
-        ArticleCount = articleCount;
-    }
-
-    public List<Article> getArticles() {
-        return Articles;
-    }
-
-    public void setArticles(List<Article> articles) {
-        Articles = articles;
-    }
 }

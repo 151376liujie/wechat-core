@@ -1,10 +1,12 @@
 package com.jonnyliu.proj.wechat.message.request;
 
 import com.jonnyliu.proj.wechat.enums.MessageType;
+import lombok.Data;
 
 /**
  * Created by jonnyliu-ds8 on 2016/8/5.
  */
+@Data
 public class LinkRequestMessage extends BaseRequestMessage {
 
     /**
@@ -26,40 +28,9 @@ public class LinkRequestMessage extends BaseRequestMessage {
      */
     private String Url;
 
-    public String getTitle() {
-        return Title;
-    }
-
-    public void setTitle(String title) {
-        Title = title;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
-
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    public String getUrl() {
-        return Url;
-    }
-
-    public void setUrl(String url) {
-        Url = url;
-    }
-
     @Override
     public String getMsgType() {
         return MessageType.LINK_MESSAGE.getTypeStr();
     }
 
-    public void setMsgId(long msgId) {
-        MsgId = msgId;
-    }
-
-    public long getMsgId() {
-        return MsgId;
-    }
 }
