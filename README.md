@@ -75,6 +75,11 @@
     * [自定义菜单跳转事件消息处理器示例代码](https://github.com/151376liujie/wechat-core/blob/master/src/main/java/com/jonnyliu/proj/wechat/example/CustomMenuViewEventHandlerExample.java)
     * [自定义菜单点击事件消息处理器示例代码](https://github.com/151376liujie/wechat-core/blob/master/src/main/java/com/jonnyliu/proj/wechat/example/CustomMenuClickEventHandlerExample.java)
 
+## 效果演示
+
+### 扫描下方二维码关注公众号即可体验功能
+![扫描下方二维码关注公众号即可体验功能](演示示例-公众号.png)
+
 ## 已实现的功能列表
 1. 对基本消息类型（文本、图片、音频、视频、位置、短视频、链接消息）和事件消息（关注、取消关注、上传地理位置、扫描二维码）的接收和响应的封装。
 2. 对access_token的封装,请参考[AccessTokenService](https://github.com/151376liujie/wechat-core/tree/master/src/main/java/com/jonnyliu/proj/wechat/service/accesstoken/)。
