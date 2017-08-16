@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -97,9 +96,9 @@ public class WechatController {
                 LOGGER.debug("response xml : {}",responseXml);
             }
             return responseXml;
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
         } catch (NoMessageHandlerFoundException e) {
+            LOGGER.error(e.getMessage(), e);
+        } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }
         return "";

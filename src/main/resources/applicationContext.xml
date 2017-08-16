@@ -7,15 +7,16 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!-- redis.properties文件与微信框架无关,只用作示例展示使用 -->
     <context:property-placeholder location="classpath:/redis.properties,classpath:/wechat.properties" />
-
+    <!-- 该xml配置文件与微信框架无关,只用作示例展示使用 -->
     <import resource="spring-redis.xml" />
 
     <bean id="wechatConfig" class="com.jonnyliu.proj.wechat.config.WechatConfig" >
-        <property name="appId" value="${appId}" />
-        <property name="appsecret" value="${appsecret}" />
-        <property name="token" value="${token}" />
-        <property name="encodingAESKey" value="${encodingAESKey}" />
+        <property name="appId" value="${wechat.appId}"/>
+        <property name="appsecret" value="${wechat.appsecret}"/>
+        <property name="token" value="${wechat.token}"/>
+        <property name="encodingAESKey" value="${wechat.encodingAESKey}"/>
     </bean>
 
     <!--微信消息转换器注入 -->
@@ -24,6 +25,7 @@
     <!-- 所有API注入spring -->
     <context:component-scan base-package="com.jonnyliu.proj.wechat.service"/>
 
+    <!-- 该包与微信框架无关,只用作示例展示使用 -->
     <context:component-scan base-package="com.jonnyliu.proj.wechat.manager" />
 
 </beans>
