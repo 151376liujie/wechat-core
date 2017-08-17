@@ -1,14 +1,17 @@
 package com.jonnyliu.proj.wechat.example;
 
 import com.jonnyliu.proj.wechat.annotation.MessageProcessor;
+import com.jonnyliu.proj.wechat.bean.GetUserInfoParameter;
+import com.jonnyliu.proj.wechat.bean.WechatUser;
 import com.jonnyliu.proj.wechat.constant.WechatConstant;
 import com.jonnyliu.proj.wechat.enums.EventType;
+import com.jonnyliu.proj.wechat.enums.Lang;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
-import com.jonnyliu.proj.wechat.manager.JokeManager;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
 import com.jonnyliu.proj.wechat.message.request.CustomMenuClickOrViewEventRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
+import com.jonnyliu.proj.wechat.service.user.WechatUserService;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,21 +30,24 @@ public class CustomMenuClickEventHandlerExample extends AbstractMessageHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomMenuClickEventHandlerExample.class);
 
     @Autowired
-    private JokeManager jokeManager;
+    private WechatUserService wechatUserService;
 
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
 
         CustomMenuClickOrViewEventRequestMessage customMenuClickOrViewEventRequestMessage = (CustomMenuClickOrViewEventRequestMessage) baseRequestMessage;
 
-        //用户要听笑话
-        if (WechatConstant.MENU_JOKE_CLICK_KEY.equalsIgnoreCase(customMenuClickOrViewEventRequestMessage.getEventKey())) {
+        String eventKey = customMenuClickOrViewEventRequestMessage.getEventKey();
 
-            String joke = jokeManager.getOneJoke(customMenuClickOrViewEventRequestMessage.getFromUserName());
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("joke is {}",joke);
+        if (WechatConstant.MENU_MY_CLICK_KEY.equalsIgnoreCase(eventKey)) {
+            //用户点击了"我的信息"按钮
+            WechatUser userInfo = wechatUserService.getWechatUserInfo(new GetUserInfoParameter(customMenuClickOrViewEventRequestMessage.getFromUserName(), Lang.CHINESE.getLanguageCode()));
+            if (userInfo == null) {
+                return MessageUtils.buildTextResponseMessage(baseRequestMessage, "抱歉,没有获取到您的信息,请您稍后再重试.");
             }
-            return MessageUtils.buildTextResponseMessage(baseRequestMessage,joke);
+            String userInfoTemplate = "您的信息如下:\n☕openid:%s\n☕用户昵称:%s\n☕性别:%s\n☕所在国家:%s\n☕所在省份\n☕所在城市:%s";
+            String userInfoString = String.format(userInfoTemplate, userInfo.getOpenid(), userInfo.getNickname(), userInfo.getSexString(), userInfo.getCountry(), userInfo.getProvince(), userInfo.getCity());
+            return MessageUtils.buildTextResponseMessage(baseRequestMessage, userInfoString);
         }
 
         return null;

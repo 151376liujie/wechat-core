@@ -98,6 +98,10 @@ public class WechatUser implements Serializable {
         return sex;
     }
 
+    public String getSexString() {
+        return this.sex == 1 ? "男" : (this.sex == 2 ? "女" : "保密");
+    }
+
     public void setSex(int sex) {
         this.sex = sex;
     }

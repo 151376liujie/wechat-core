@@ -1,5 +1,5 @@
 # wechat-core
-    一款轻量级的微信消息处理框架
+    一款轻量级的微信消息处理框架,可以让业务代码与微信微信处理框架代码解耦,并且你根本不需要关心消息是如何发送的,你只需要关注你的业务即可.
 ## 项目介绍
 1. 封装了微信消息接收与发送，可以使用**注解驱动**开发，方便的进行业务开发而不需要再关注消息接收和消息发送的细节。
 
@@ -8,14 +8,14 @@
 3. 只需加入注解就可将处理各个类型的消息处理器分开了,更支持将不同事件类型的消息处理器分开，避免了在处理业务逻辑的代码中使用大段的if elseif elseif 来判断消息得类型的方式。每个接口职责清晰明了，实现更解耦；
 
 ## 所用技术介绍
-1. 使用Java语言，集成了springMVC 和maven，没有使用什么高大上得技术，代码中的注释也很详细，相信读者朋友能很容易看得懂。
+1. 使用jdk 1.8，集成了springMVC 和maven 3.0+，没有使用什么高大上得技术，代码中的注释也很详细，相信读者朋友能很容易看得懂。
 
 ## 项目架构剖析
 ![微信消息接收与响应示意图](微信消息接收与响应示意图.png)
 
 ## 快速入门（不含微信公众平台申请及接口url、token等配置步骤）
 
-1. 在classpath根路径下创建**wechat.properties**属性文件，配置appId、appsecret、token、encodingAESKey(**名字必须跟这个一样**)，
+1. 在classpath根路径下创建**wechat.properties**属性文件，配置wechat.appId、wechat.appsecret、wechat.token、wechat.encodingAESKey(**名字必须跟这个一样**)，
    示例如下图：![wechat.properties配置文件示例](wechat.properties配置文件示例.png)
 
 2. 编写消息处理器类，继承**AbstractMessageHandler**抽象类，实现**doHandleMessage**方法，在该类上加上@**MessageProcessor**的注解，并指明要处理的消息类型，属性messageType指明要处理得消息类型，eventType指明要处理得事件类型。当消息类型是普通消息时，eventType属性可不用指定（即使指定也无效）
@@ -30,7 +30,8 @@
     
         public BaseResponseMessage doHandleMessage(BaseRequestMessage requestMessage) {    
                 //在这里实现你自己的业务逻辑    
-            return MessageUtils.buildTextResponseMessage(requestMessage, "hello,world");     
+            TextRequestMessage textRequestMessage = (TextRequestMessage) baseRequestMessage;
+            return MessageUtils.buildTextResponseMessage(baseRequestMessage, textRequestMessage.getContent());     
         }    
     }    
     ```

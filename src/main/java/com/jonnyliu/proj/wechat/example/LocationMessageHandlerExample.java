@@ -22,7 +22,7 @@ public class LocationMessageHandlerExample extends AbstractMessageHandler {
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
         //在这里实现你自己的业务逻辑
         LocationRequestMessage locationRequestMessage = (LocationRequestMessage) baseRequestMessage;
-        String content = "您发送的地理位置消息如下：label:%s,location_x:%s,location_y:%s,scale:%s ";
+        String content = "您发送的地理位置消息如下：\nlabel:%s,\nlocation_x:%s,\nlocation_y:%s,\nscale:%s ";
         content = String.format(content,locationRequestMessage.getLabel(),locationRequestMessage.getLocation_X(),locationRequestMessage.getLocation_Y(),locationRequestMessage.getScale());
         return MessageUtils.buildTextResponseMessage(baseRequestMessage,content);
     }

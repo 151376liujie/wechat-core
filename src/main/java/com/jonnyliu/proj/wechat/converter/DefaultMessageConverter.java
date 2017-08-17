@@ -26,7 +26,7 @@ public class DefaultMessageConverter implements MessageConvert {
     public BaseRequestMessage doConvert(Map<String, String> xmlMap) throws Exception {
 
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("prepare to convert xml message : {}",xmlMap);
+            LOGGER.info("prepare to convert xml message : {}", xmlMap);
         }
 
         MessageType messageType = MessageType.valueBy(xmlMap.get("MsgType"));
@@ -34,10 +34,10 @@ public class DefaultMessageConverter implements MessageConvert {
 
         //将xmlMap中的key的首字母小写,并重新放入新的Map中,之所以要转换key的首字母大小写,因为beanutils无法通过反射找到对应set方法
         Map<String, Object> convertedMap = Maps.newHashMap();
-        xmlMap.forEach((x, y) -> {
-            char[] charArray = x.toCharArray();
+        xmlMap.forEach((key, value) -> {
+            char[] charArray = key.toCharArray();
             charArray[0] = Character.toLowerCase(charArray[0]);
-            convertedMap.put(new String(charArray), y);
+            convertedMap.put(String.valueOf(charArray), value);
         });
 
         switch (messageType) {
@@ -77,10 +77,10 @@ public class DefaultMessageConverter implements MessageConvert {
                 String event = xmlMap.get("Event");
                 EventType eventType = EventType.valueBy(event);
                 Preconditions.checkNotNull(eventType, "no event message messageType found!");
-                if (LOGGER.isDebugEnabled()){
-                    LOGGER.debug("convert to {} message object!",eventType.getTypeStr());
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("convert to {} message object!", eventType.getTypeStr());
                 }
-                switch (eventType){
+                switch (eventType) {
                     //关注、取消关注消息
                     case EVENT_SUBSCRIBE:
                     case EVENT_UNSUBSCRIBE:
@@ -106,6 +106,10 @@ public class DefaultMessageConverter implements MessageConvert {
                         CustomMenuClickOrViewEventRequestMessage customMenuClickOrViewEventRequestMessage = new CustomMenuClickOrViewEventRequestMessage();
                         BeanUtils.populate(customMenuClickOrViewEventRequestMessage, convertedMap);
                         return customMenuClickOrViewEventRequestMessage;
+                    case EVENT_LOCATION_SELECT:
+                        LocationSelectMenuEventRequestMessage locationSelectMenuEventRequestMessage = new LocationSelectMenuEventRequestMessage();
+                        BeanUtils.populate(locationSelectMenuEventRequestMessage, convertedMap);
+                        return locationSelectMenuEventRequestMessage;
                 }
             default:
                 LOGGER.warn("there is no defined message messageType {}.", messageType.getTypeStr());

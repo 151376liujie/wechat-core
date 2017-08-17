@@ -120,4 +120,13 @@ public class WechatConstant {
      * url中的accessToken占位符
      */
     public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
+
+    /**
+     * [我的信息]菜单对应的eventKey
+     */
+    public static final String MENU_MY_CLICK_KEY = "my";
+    /**
+     * [发送位置]菜单对应的eventKey
+     */
+    public static final String MENU_LOCATION_SELECT_KEY = "location_select";
 }

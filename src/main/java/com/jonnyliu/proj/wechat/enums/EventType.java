@@ -43,6 +43,8 @@ public enum EventType {
      */
     EVENT_SCAN("scan"),
 
+    EVENT_LOCATION_SELECT("location_select"),
+
     /**
      * 无意义的一个值，仅仅用于在注解中的一个默认值
      */
