@@ -17,6 +17,6 @@ public interface MessageConvert {
      * @param xmlMap 用户发送到公众号的消息
      * @return 消息对象
      */
-    BaseRequestMessage doConvert(Map<String, String> xmlMap);
+    BaseRequestMessage doConvert(Map<String, String> xmlMap) throws Exception;
 
 }

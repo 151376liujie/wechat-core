@@ -4,6 +4,7 @@ import com.jonnyliu.proj.wechat.annotation.MessageProcessor;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
+import com.jonnyliu.proj.wechat.message.request.TextRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ public class TextMessageHandlerExample extends AbstractMessageHandler {
 
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
-        return MessageUtils.buildTextResponseMessage(baseRequestMessage,"hello,world");
+        TextRequestMessage textRequestMessage = (TextRequestMessage) baseRequestMessage;
+        return MessageUtils.buildTextResponseMessage(baseRequestMessage, textRequestMessage.getContent());
     }
 }
