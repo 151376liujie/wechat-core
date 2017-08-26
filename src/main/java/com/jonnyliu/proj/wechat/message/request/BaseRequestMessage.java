@@ -10,26 +10,26 @@ import java.io.Serializable;
  * Created by liujie-ds8 on 2016/8/5.
  */
 @Data
-public class BaseRequestMessage implements Serializable{
+public class BaseRequestMessage implements Serializable {
 
     /**
      * 开发者微信号
      */
-    private String ToUserName;
+    protected String ToUserName;
 
     /**
      * 发送方帐号（一个OpenID）
      */
-    private String FromUserName;
+    protected String FromUserName;
 
     /**
      * 消息创建时间 （整型）
      */
-    private long CreateTime;
+    protected long CreateTime;
 
     /**
      * 消息类型
      */
-    private String MsgType;
+    protected String MsgType;
 
 }

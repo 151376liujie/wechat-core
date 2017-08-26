@@ -42,8 +42,28 @@ public enum EventType {
      * 用户已关注时扫描二维码事件
      */
     EVENT_SCAN("scan"),
+    /**
+     * 扫码带提示事件类型
+     */
+    EVENT_SCAN_CODE_WAIT_MSG("scancode_waitmsg"),
 
+    /**
+     * 发送位置菜单事件
+     */
     EVENT_LOCATION_SELECT("location_select"),
+    /**
+     * 系统拍照发图事件推送
+     */
+    EVENT_PIC_SYS_PHOTO("pic_sysphoto"),
+    /**
+     * 拍照或相册发图事件推送
+     */
+    EVENT_PIC_PHOTO_OR_ALBUM("pic_photo_or_album"),
+    /**
+     * 微信相册发图事件推送
+     */
+    EVENT_PIC_WEIXIN("pic_weixin"),
+
 
     /**
      * 无意义的一个值，仅仅用于在注解中的一个默认值

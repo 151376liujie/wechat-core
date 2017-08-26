@@ -6,8 +6,7 @@ import com.jonnyliu.proj.wechat.annotation.MessageProcessor;
 import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -20,23 +19,22 @@ import java.util.Map;
  * author:980463316@qq.com
  * Created on 2016-09-06 20:59.
  */
+@Slf4j
 @Component
 public class SpringMessageDispatcher implements MessageDispatcher, ApplicationContextAware {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SpringMessageDispatcher.class);
 
     private ApplicationContext context;
 
     @Override
     public AbstractMessageHandler doDispatch(String msgType, String eventType) {
-        if (LOGGER.isDebugEnabled()){
-            LOGGER.debug("message type is : {},and event type is : {}",msgType,eventType);
+        if (log.isDebugEnabled()) {
+            log.debug("message type is : {},and event type is : {}", msgType, eventType);
         }
         MessageType messageType = MessageType.valueBy(msgType);
         Preconditions.checkNotNull(messageType, "unknow messageType ");
 
         EventType eventTyp = null;
-        if (!Strings.isNullOrEmpty(eventType)){
+        if (!Strings.isNullOrEmpty(eventType)) {
             eventTyp = EventType.valueBy(eventType);
             Preconditions.checkNotNull(eventTyp, "unknow eventType !");
         }
@@ -45,8 +43,8 @@ public class SpringMessageDispatcher implements MessageDispatcher, ApplicationCo
         if (beansWithAnnotation == null || beansWithAnnotation.isEmpty()) {
             throw new RuntimeException("this is no class annotationed with @MessageProcessor,do you forgot ??");
         }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("found classes that annotationed with {} : {}", MessageProcessor.class.getSimpleName(), beansWithAnnotation);
+        if (log.isDebugEnabled()) {
+            log.debug("found classes that annotationed with {} : {}", MessageProcessor.class.getSimpleName(), beansWithAnnotation);
         }
 
         for (Map.Entry<String, Object> entry : beansWithAnnotation.entrySet()) {
@@ -59,18 +57,18 @@ public class SpringMessageDispatcher implements MessageDispatcher, ApplicationCo
             MessageProcessor annotation = messageHandlerClass.getAnnotation(MessageProcessor.class);
 
             //事件类型
-            if (annotation.messageType() == MessageType.EVENT ){
-                if (annotation.eventType() == eventTyp){
+            if (annotation.messageType() == MessageType.EVENT) {
+                if (annotation.eventType() == eventTyp) {
                     return (AbstractMessageHandler) messageHandlerInstance;
                 }
-            }else{
+            } else {
                 //普通类型
-                if(annotation.messageType() == messageType){
+                if (annotation.messageType() == messageType) {
                     return (AbstractMessageHandler) messageHandlerInstance;
                 }
             }
         }
-        LOGGER.error("no message handler found ,messageType :{},eventType :{}",msgType,eventType);
+        log.error("no message handler found ,messageType :{},eventType :{}", msgType, eventType);
         return null;
     }
 

@@ -129,4 +129,18 @@ public class WechatConstant {
      * [发送位置]菜单对应的eventKey
      */
     public static final String MENU_LOCATION_SELECT_KEY = "location_select";
+    /**
+     * [系统拍照发图]菜单对应的eventKey
+     */
+    public static final String MENU_PIC_SYS_PHOTO = "pic_sysphoto";
+    /**
+     * [拍照或相册发图]菜单对应的eventKey
+     */
+    public static final String MENU_PIC_PHOTO_OR_ALBUM = "pic_photo_or_album";
+    /**
+     * [微信相册发图]菜单对应的eventKey
+     */
+    public static final String MENU_PIC_WEIXIN = "pic_weixin";
+
+    public static final String MENU_SCAN_CODE_WAIT_MSG = "scancode_waitmsg";
 }

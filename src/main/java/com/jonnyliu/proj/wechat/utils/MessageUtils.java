@@ -15,9 +15,12 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StreamUtils;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +59,24 @@ public class MessageUtils {
         }
     });
 
+    public static Map<String, String> parseRequest2(InputStream inputStream) {
+        String string = null;
+        StreamUtils.nonClosing(inputStream);
+        try {
+            string = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(string);
+//        string = string.replaceAll("<xml>", "<" + ScanCodeEventRequestMessage.class.getSimpleName() + ">")
+//                .replaceAll("</xml>", "</" + ScanCodeEventRequestMessage.class.getSimpleName() + ">");
+        xstream.alias("xml", Object.class);
+        Object object = xstream.fromXML(string);
+        System.out.println(object);
+        Map<String, String> map = new HashMap<>();
+        return map;
+    }
+
     /**
      * 解析inputStream 返回map
      *
@@ -68,14 +89,23 @@ public class MessageUtils {
         try {
             Document document = reader.read(inputStream);
             Element rootElement = document.getRootElement();
-            List<Element> elements = rootElement.elements();
-            for (Element element : elements) {
-                map.put(element.getName(), element.getTextTrim());
-            }
+            walk(rootElement, map);
+
         } catch (DocumentException e) {
             LOGGER.error(e.getMessage(), e);
         }
         return map;
+    }
+
+    private static void walk(Element element, Map<String, String> map) {
+        if (element.isTextOnly()) {
+            map.put(element.getName(), element.getTextTrim());
+        } else {
+            List<Element> elements = element.elements();
+            for (Element ele : elements) {
+                walk(ele, map);
+            }
+        }
     }
 
     /**

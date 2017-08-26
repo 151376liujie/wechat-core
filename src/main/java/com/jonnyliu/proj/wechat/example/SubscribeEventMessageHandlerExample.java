@@ -13,8 +13,7 @@ import com.jonnyliu.proj.wechat.message.response.Article;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
 import com.jonnyliu.proj.wechat.service.user.WechatUserService;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,11 +28,10 @@ import java.util.Map;
  * User: jonnyliu@tcl.com <br/>
  * Date: on 2016-08-22 13:47.
  */
+@Slf4j
 @Component
 @MessageProcessor(messageType = MessageType.EVENT, eventType = EventType.EVENT_SUBSCRIBE)
 public class SubscribeEventMessageHandlerExample extends AbstractMessageHandler {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SubscribeEventMessageHandlerExample.class);
 
     @Autowired
     private WechatUserService wechatUserService;

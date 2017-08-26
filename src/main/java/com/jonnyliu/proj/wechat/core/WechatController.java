@@ -8,8 +8,7 @@ import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
 import com.jonnyliu.proj.wechat.utils.SignUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,11 +26,10 @@ import java.util.Map;
  * author : 980463316@qq.com <br/>
  * Created on 2016/8/5 16:29
  */
+@Slf4j
 @Controller
 @RequestMapping(value = "/wechat")
 public class WechatController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(WechatController.class);
 
     @Autowired
     private MessageDispatcher messageDispatcher;
@@ -67,6 +65,7 @@ public class WechatController {
 
     /**
      * 接收微信服务器的post请求并响应
+     *
      * @return
      */
     @ResponseBody
@@ -76,12 +75,15 @@ public class WechatController {
         try {
             inputStream = request.getInputStream();
             Map<String, String> map = MessageUtils.parseRequest(inputStream);
+//            map.forEach((key, value) -> {
+//                System.out.println(String.format("key:%s,value:%s", key, value));
+//            });
             String msgType = map.get("MsgType");
             String eventType = map.get("Event");
             //将用户发过来的消息转换成消息对象
             BaseRequestMessage requestMessage = messageConverter.doConvert(map);
             //将不同类型的消息发送给不同的消息处理器
-            AbstractMessageHandler messageHandler = messageDispatcher.doDispatch(msgType,eventType);
+            AbstractMessageHandler messageHandler = messageDispatcher.doDispatch(msgType, eventType);
             //调用消息处理器处理消息
             if (messageHandler == null) {
                 throw new NoMessageHandlerFoundException("no message handler found for message type " + msgType + " and event type " + eventType);
@@ -92,14 +94,14 @@ public class WechatController {
             }
             //构造给用户的响应消息
             String responseXml = MessageUtils.messageToXml(responseMessage);
-            if (LOGGER.isDebugEnabled()){
-                LOGGER.debug("response xml : {}",responseXml);
+            if (log.isDebugEnabled()) {
+                log.debug("response xml : {}", responseXml);
             }
             return responseXml;
         } catch (NoMessageHandlerFoundException e) {
-            LOGGER.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
         return "";
     }

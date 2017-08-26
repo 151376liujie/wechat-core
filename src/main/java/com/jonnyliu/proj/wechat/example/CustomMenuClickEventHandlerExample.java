@@ -9,12 +9,11 @@ import com.jonnyliu.proj.wechat.enums.Lang;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
-import com.jonnyliu.proj.wechat.message.request.CustomMenuClickOrViewEventRequestMessage;
+import com.jonnyliu.proj.wechat.message.request.CustomMenuClickEventRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
 import com.jonnyliu.proj.wechat.service.user.WechatUserService;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,11 +22,10 @@ import org.springframework.stereotype.Component;
  * author:980463316@qq.com
  * Created on 2016-09-07 23:37.
  */
+@Slf4j
 @Component
 @MessageProcessor(messageType = MessageType.EVENT, eventType = EventType.EVENT_CUSTOM_MENU_CLICK)
 public class CustomMenuClickEventHandlerExample extends AbstractMessageHandler {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomMenuClickEventHandlerExample.class);
 
     @Autowired
     private WechatUserService wechatUserService;
@@ -35,13 +33,13 @@ public class CustomMenuClickEventHandlerExample extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
 
-        CustomMenuClickOrViewEventRequestMessage customMenuClickOrViewEventRequestMessage = (CustomMenuClickOrViewEventRequestMessage) baseRequestMessage;
+        CustomMenuClickEventRequestMessage customMenuClickEventRequestMessage = (CustomMenuClickEventRequestMessage) baseRequestMessage;
 
-        String eventKey = customMenuClickOrViewEventRequestMessage.getEventKey();
+        String eventKey = customMenuClickEventRequestMessage.getEventKey();
 
         if (WechatConstant.MENU_MY_CLICK_KEY.equalsIgnoreCase(eventKey)) {
             //用户点击了"我的信息"按钮
-            WechatUser userInfo = wechatUserService.getWechatUserInfo(new GetUserInfoParameter(customMenuClickOrViewEventRequestMessage.getFromUserName(), Lang.CHINESE.getLanguageCode()));
+            WechatUser userInfo = wechatUserService.getWechatUserInfo(new GetUserInfoParameter(customMenuClickEventRequestMessage.getFromUserName(), Lang.CHINESE.getLanguageCode()));
             if (userInfo == null) {
                 return MessageUtils.buildTextResponseMessage(baseRequestMessage, "抱歉,没有获取到您的信息,请您稍后再重试.");
             }

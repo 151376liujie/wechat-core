@@ -7,8 +7,7 @@ import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
 import com.jonnyliu.proj.wechat.message.request.ScanQrWithParameterEventRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,16 +15,17 @@ import org.springframework.stereotype.Component;
  * author:980463316@qq.com
  * Created on 2016-09-07 23:24.
  */
+@Slf4j
 @Component
 @MessageProcessor(messageType = MessageType.EVENT, eventType = EventType.EVENT_SCAN)
 public class ScanWithParameterEventHandlerExample extends AbstractMessageHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScanWithParameterEventHandlerExample.class);
-
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
         ScanQrWithParameterEventRequestMessage scanQrWithParameterEventRequestMessage = (ScanQrWithParameterEventRequestMessage) baseRequestMessage;
-        LOGGER.info("带参数的二维码扫描:" + scanQrWithParameterEventRequestMessage.toString());
+        if (log.isInfoEnabled()) {
+            log.info("带参数的二维码扫描:" + scanQrWithParameterEventRequestMessage.toString());
+        }
         return null;
     }
 }

@@ -21,6 +21,7 @@ public class TextMessageHandlerExample extends AbstractMessageHandler {
 
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
+        System.out.println(Thread.currentThread().getName());
         TextRequestMessage textRequestMessage = (TextRequestMessage) baseRequestMessage;
         return MessageUtils.buildTextResponseMessage(baseRequestMessage, textRequestMessage.getContent());
     }
