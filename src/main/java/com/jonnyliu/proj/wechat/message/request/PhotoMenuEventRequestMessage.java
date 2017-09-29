@@ -9,6 +9,8 @@ import lombok.Data;
  */
 @Data
 public class PhotoMenuEventRequestMessage extends CustomMenuClickEventRequestMessage {
-
+    /**
+     * 发送的图片信息
+     */
     private SendPicsInfo SendPicsInfo = new SendPicsInfo();
 }

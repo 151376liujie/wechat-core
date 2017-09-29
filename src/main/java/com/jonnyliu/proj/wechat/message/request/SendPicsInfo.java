@@ -3,6 +3,7 @@ package com.jonnyliu.proj.wechat.message.request;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Author: jonny
@@ -10,9 +11,13 @@ import java.io.Serializable;
  */
 @Data
 public class SendPicsInfo implements Serializable {
-
+    /**
+     * 发送图片的数量
+     */
     private int Count;
-
-    private String PicMd5Sum;
+    /**
+     * 图片列表
+     */
+    private List<PhotoItem> PicList;
 
 }

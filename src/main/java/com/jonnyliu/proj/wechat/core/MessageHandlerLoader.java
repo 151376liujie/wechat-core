@@ -7,9 +7,9 @@ import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.utils.ClassPathUtils;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 负责消息处理器类的加载
@@ -19,7 +19,7 @@ import java.util.Set;
 @Slf4j
 public class MessageHandlerLoader {
 
-    private static final Map<MessageType, Class<? extends AbstractMessageHandler>> messageHandlerMappingHolder = new HashMap<>();
+    private static final Map<MessageType, Class<? extends AbstractMessageHandler>> messageHandlerMappingHolder = new ConcurrentHashMap<>();
 
     static {
         Set<Class<? extends AbstractMessageHandler>> classesByAnnotation = ClassPathUtils.getClassesByAnnotation(MessageProcessor.class);
