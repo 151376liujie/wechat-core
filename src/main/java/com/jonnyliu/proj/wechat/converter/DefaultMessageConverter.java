@@ -168,7 +168,8 @@ public class DefaultMessageConverter implements MessageConvert {
                         int count = Integer.parseInt(xmlMap.get("Count"));
                         String picMd5Sum = xmlMap.get("PicMd5Sum");
                         photoMenuEventRequestMessage.getSendPicsInfo().setCount(count);
-                        photoMenuEventRequestMessage.getSendPicsInfo().setPicMd5Sum(picMd5Sum);
+                        //fixme 当发送多个图片时,转换时可能会报错
+//                        photoMenuEventRequestMessage.getSendPicsInfo().setPicMd5Sum(picMd5Sum);
                         if (log.isInfoEnabled()) {
                             log.info("converted message: {}", photoMenuEventRequestMessage);
                         }
