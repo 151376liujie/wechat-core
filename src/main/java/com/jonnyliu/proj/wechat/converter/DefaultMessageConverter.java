@@ -73,7 +73,7 @@ public class DefaultMessageConverter implements MessageConvert {
                 return voiceRequestMessage;
             //视频、短视频消息
             case VIDEO_MESSAGE:
-            case SHORTVIDEO_MESSAGE:
+            case SHORT_VIDEO_MESSAGE:
                 VideoRequestMessage videoRequestMessage = new VideoRequestMessage();
                 BeanUtils.populate(videoRequestMessage, convertedMap);
                 if (log.isInfoEnabled()) {

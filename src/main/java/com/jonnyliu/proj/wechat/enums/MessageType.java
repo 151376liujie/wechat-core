@@ -26,7 +26,7 @@ public enum MessageType {
     /**
      * 短视频消息
      */
-    SHORTVIDEO_MESSAGE("shortvideo"),
+    SHORT_VIDEO_MESSAGE("shortvideo"),
     /**
      * 位置消息
      */
@@ -55,7 +55,7 @@ public enum MessageType {
     private String typeStr;
 
     public String getTypeStr() {
-        return typeStr;
+        return this.typeStr;
     }
 
     MessageType(String typeStr) {

@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.message.request;
 
+import com.jonnyliu.proj.wechat.enums.EventType;
 import lombok.Data;
 
 /**
@@ -10,8 +11,12 @@ import lombok.Data;
 public class CustomMenuViewEventRequestMessage extends CustomMenuClickEventRequestMessage {
 
     /**
-     * 菜单ID,如果是个性化菜单,则可以通过这个字段,知道是哪个规则的菜单被点击了
+     * 值为VIEW时EventKey值为设置的跳转URL
      */
-    private String MenuId;
+    protected String EventKey;
 
+    @Override
+    public String getEvent() {
+        return EventType.EVENT_CUSTOM_MENU_VIEW.getTypeStr();
+    }
 }

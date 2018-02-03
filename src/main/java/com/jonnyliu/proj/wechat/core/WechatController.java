@@ -10,11 +10,10 @@ import com.jonnyliu.proj.wechat.utils.MessageUtils;
 import com.jonnyliu.proj.wechat.utils.SignUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +26,7 @@ import java.util.Map;
  * Created on 2016/8/5 16:29
  */
 @Slf4j
-@Controller
+@RestController
 @RequestMapping(value = "/wechat")
 public class WechatController {
 
@@ -49,14 +48,13 @@ public class WechatController {
      * @param echostr
      * @return
      */
-    @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public String doGet(@RequestParam(value = "signature") String signature,
                         @RequestParam(value = "timestamp") String timestamp,
                         @RequestParam(value = "nonce") String nonce,
                         @RequestParam(value = "echostr") String echostr) {
 
-        if (SignUtil.checkSignature(wechatConfig.getToken(), signature, timestamp, nonce)) {
+        if (SignUtil.checkSignature(this.wechatConfig.getToken(), signature, timestamp, nonce)) {
             return echostr;
         }
 
@@ -68,7 +66,6 @@ public class WechatController {
      *
      * @return
      */
-    @ResponseBody
     @RequestMapping(method = RequestMethod.POST, produces = "text/xml;charset=utf-8")
     public String doPost(HttpServletRequest request, HttpServletResponse response) {
         ServletInputStream inputStream = null;
@@ -81,9 +78,9 @@ public class WechatController {
             String msgType = map.get("MsgType");
             String eventType = map.get("Event");
             //将用户发过来的消息转换成消息对象
-            BaseRequestMessage requestMessage = messageConverter.doConvert(map);
+            BaseRequestMessage requestMessage = this.messageConverter.doConvert(map);
             //将不同类型的消息发送给不同的消息处理器
-            AbstractMessageHandler messageHandler = messageDispatcher.doDispatch(msgType, eventType);
+            AbstractMessageHandler messageHandler = this.messageDispatcher.doDispatch(msgType, eventType);
             //调用消息处理器处理消息
             if (messageHandler == null) {
                 throw new NoMessageHandlerFoundException("no message handler found for message type " + msgType + " and event type " + eventType);

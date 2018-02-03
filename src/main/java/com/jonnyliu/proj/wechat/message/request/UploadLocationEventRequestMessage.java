@@ -1,17 +1,13 @@
 package com.jonnyliu.proj.wechat.message.request;
 
+import com.jonnyliu.proj.wechat.enums.EventType;
 import lombok.Data;
 
 /**
  * Created by liujie-ds8 on 2016/8/5.
  */
 @Data
-public class UploadLocationEventRequestMessage extends BaseRequestMessage {
-
-    /**
-     * 事件类型，LOCATION
-     */
-    private String Event;
+public class UploadLocationEventRequestMessage extends EventRequestMessage {
 
     /**
      * 地理位置纬度
@@ -28,4 +24,8 @@ public class UploadLocationEventRequestMessage extends BaseRequestMessage {
      */
     private String Precision;
 
+    @Override
+    public String getEvent() {
+        return EventType.EVENT_UPLOAD_LOCATION.getTypeStr();
+    }
 }

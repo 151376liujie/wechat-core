@@ -4,11 +4,11 @@ import com.jonnyliu.proj.wechat.enums.MessageType;
 import lombok.Data;
 
 /**
- * 视频消息的封装
+ * 短视频消息的封装
  * Created by jonnyliu-ds8 on 2016/8/5.
  */
 @Data
-public class VideoRequestMessage extends CommonRequestMessage {
+public class ShortVideoRequestMessage extends CommonRequestMessage {
 
     /**
      * 视频消息媒体id，可以调用多媒体文件下载接口拉取数据。
@@ -22,7 +22,7 @@ public class VideoRequestMessage extends CommonRequestMessage {
 
     @Override
     public String getMsgType() {
-        return MessageType.VIDEO_MESSAGE.getTypeStr();
+        return MessageType.SHORT_VIDEO_MESSAGE.getTypeStr();
     }
 
 }

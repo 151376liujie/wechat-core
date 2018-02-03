@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  * Date: on 2016-08-19 11:42.
  */
 @Component
-@MessageProcessor(messageType = MessageType.SHORTVIDEO_MESSAGE)
+@MessageProcessor(messageType = MessageType.SHORT_VIDEO_MESSAGE)
 public class ShortVideoMessageHandlerExample extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
@@ -25,7 +25,7 @@ public class ShortVideoMessageHandlerExample extends AbstractMessageHandler {
         String mediaId = videoRequestMessage.getMediaId();
         String thumbMediaId = videoRequestMessage.getThumbMediaId();
         String content = "您发送的短视频mediaId:%s \t,ThumbMediaId:%s ";
-        content = String.format(content,mediaId,thumbMediaId);
-        return MessageUtils.buildTextResponseMessage(baseRequestMessage,content);
+        content = String.format(content, mediaId, thumbMediaId);
+        return MessageUtils.buildTextResponseMessage(baseRequestMessage, content);
     }
 }

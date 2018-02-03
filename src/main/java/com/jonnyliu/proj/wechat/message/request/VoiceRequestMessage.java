@@ -8,17 +8,12 @@ import lombok.Data;
  * Created by jonnyliu-ds8 on 2016/8/5.
  */
 @Data
-public class VoiceRequestMessage extends BaseRequestMessage {
-
+public class VoiceRequestMessage extends CommonRequestMessage {
 
     /**
-     *消息id，64位整型
+     * 语音消息媒体id，可以调用多媒体文件下载接口拉取该媒体
      */
-    private long MsgId;
-    /**
-     * 语音消息媒体id，可以调用多媒体文件下载接口拉取数据。
-     */
-    private String MediaId;
+    private String MediaID;
 
     /**
      * 语音格式，如amr，speex等

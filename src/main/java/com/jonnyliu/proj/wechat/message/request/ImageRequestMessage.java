@@ -8,12 +8,9 @@ import lombok.Data;
  * Created by liujie-ds8 on 2016/8/5.
  */
 @Data
-public class ImageRequestMessage extends BaseRequestMessage {
+public class ImageRequestMessage extends CommonRequestMessage {
 
-    /**
-     *消息id，64位整型
-     */
-    private long MsgId;
+
     /**
      * 图片链接（由系统生成）
      */
