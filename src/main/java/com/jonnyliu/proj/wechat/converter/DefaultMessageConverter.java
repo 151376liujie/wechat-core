@@ -73,6 +73,12 @@ public class DefaultMessageConverter implements MessageConvert {
                 return voiceRequestMessage;
             //视频、短视频消息
             case VIDEO_MESSAGE:
+                ShortVideoRequestMessage shortVideoRequestMessage = new ShortVideoRequestMessage();
+                BeanUtils.populate(shortVideoRequestMessage, convertedMap);
+                if (log.isInfoEnabled()) {
+                    log.info("converted message: {}", shortVideoRequestMessage);
+                }
+                return shortVideoRequestMessage;
             case SHORT_VIDEO_MESSAGE:
                 VideoRequestMessage videoRequestMessage = new VideoRequestMessage();
                 BeanUtils.populate(videoRequestMessage, convertedMap);
@@ -99,8 +105,14 @@ public class DefaultMessageConverter implements MessageConvert {
                 switch (eventType) {
                     //关注、取消关注消息
                     case EVENT_SUBSCRIBE:
+                        SubscribeEventRequestMessage subscribeEventRequestMessage = new SubscribeEventRequestMessage();
+                        BeanUtils.populate(subscribeEventRequestMessage, convertedMap);
+                        if (log.isInfoEnabled()) {
+                            log.info("converted message: {}", subscribeEventRequestMessage);
+                        }
+                        return subscribeEventRequestMessage;
                     case EVENT_UNSUBSCRIBE:
-                        SubOrUnSubEventRequestMessage subOrUnSubEventRequestMessage = new SubOrUnSubEventRequestMessage();
+                        UnsubscribeEventRequestMessage subOrUnSubEventRequestMessage = new UnsubscribeEventRequestMessage();
                         BeanUtils.populate(subOrUnSubEventRequestMessage, convertedMap);
                         if (log.isInfoEnabled()) {
                             log.info("converted message: {}", subOrUnSubEventRequestMessage);
