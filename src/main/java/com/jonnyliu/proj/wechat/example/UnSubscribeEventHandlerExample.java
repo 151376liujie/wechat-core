@@ -5,7 +5,7 @@ import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
-import com.jonnyliu.proj.wechat.message.request.SubOrUnSubEventRequestMessage;
+import com.jonnyliu.proj.wechat.message.request.UnsubscribeEventRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class UnSubscribeEventHandlerExample extends AbstractMessageHandler {
 
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
-        SubOrUnSubEventRequestMessage unSubEventRequestMessage = (SubOrUnSubEventRequestMessage) baseRequestMessage;
+        UnsubscribeEventRequestMessage unSubEventRequestMessage = (UnsubscribeEventRequestMessage) baseRequestMessage;
         String fromUserName = unSubEventRequestMessage.getFromUserName();
         if (log.isWarnEnabled()) {
             log.warn("用户：[{}] 取消了对公众号的关注！", fromUserName);

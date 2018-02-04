@@ -90,7 +90,7 @@ public class WechatConstant {
     /**
      * accesstoken过期提前量（提前200秒过期）
      */
-    public static final long ACCESS_TOKEN_EXPIRED_delta = 200L;
+    public static final long ACCESS_TOKEN_EXPIRED_DELTA = 200L;
 
     /**
      * 默认编码

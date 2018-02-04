@@ -27,12 +27,12 @@ public class VoiceMessageHandlerExample extends AbstractMessageHandler {
         VoiceRequestMessage voiceRequestMessage = (VoiceRequestMessage) baseRequestMessage;
         String recognition = voiceRequestMessage.getRecognition();
         String format = voiceRequestMessage.getFormat();
-        String mediaId = voiceRequestMessage.getMediaId();
+        String mediaId = voiceRequestMessage.getMediaID();
 
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("Recognition",recognition);
-        paramMap.put("Format",format);
-        paramMap.put("MediaId",mediaId);
-        return MessageUtils.buildVoiceResponseMessage(baseRequestMessage,paramMap);
+        paramMap.put("Recognition", recognition);
+        paramMap.put("Format", format);
+        paramMap.put("MediaId", mediaId);
+        return MessageUtils.buildVoiceResponseMessage(baseRequestMessage, paramMap);
     }
 }

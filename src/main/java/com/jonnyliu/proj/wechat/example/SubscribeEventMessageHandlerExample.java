@@ -8,7 +8,7 @@ import com.jonnyliu.proj.wechat.enums.Lang;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
-import com.jonnyliu.proj.wechat.message.request.SubOrUnSubEventRequestMessage;
+import com.jonnyliu.proj.wechat.message.request.SubscribeEventRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.Article;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
 import com.jonnyliu.proj.wechat.service.user.WechatUserService;
@@ -39,9 +39,9 @@ public class SubscribeEventMessageHandlerExample extends AbstractMessageHandler 
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
         //关注事件消息
-        SubOrUnSubEventRequestMessage subOrUnSubEventRequestMessage = (SubOrUnSubEventRequestMessage) baseRequestMessage;
+        SubscribeEventRequestMessage subOrUnSubEventRequestMessage = (SubscribeEventRequestMessage) baseRequestMessage;
         String fromUserName = subOrUnSubEventRequestMessage.getFromUserName();
-        WechatUser wechatUserInfo = wechatUserService.getWechatUserInfo(new GetUserInfoParameter(fromUserName, Lang.CHINESE.getLanguageCode()));
+        WechatUser wechatUserInfo = this.wechatUserService.getWechatUserInfo(new GetUserInfoParameter(fromUserName, Lang.CHINESE.getLanguageCode()));
         String title = "你好！感谢您的关注！";
         if (wechatUserInfo == null) {
             return MessageUtils.buildTextResponseMessage(baseRequestMessage, title);
