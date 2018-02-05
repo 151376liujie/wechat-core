@@ -143,4 +143,6 @@ public class WechatConstant {
     public static final String MENU_PIC_WEIXIN = "pic_weixin";
 
     public static final String MENU_SCAN_CODE_WAIT_MSG = "scancode_waitmsg";
+
+    public static final String MENU_SCAN_CODE_PUSH = "scancode_push";
 }

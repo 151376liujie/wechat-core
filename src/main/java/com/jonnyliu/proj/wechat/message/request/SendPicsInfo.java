@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.message.request;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,10 +15,12 @@ public class SendPicsInfo implements Serializable {
     /**
      * 发送图片的数量
      */
-    private int Count;
+    @XStreamAlias("Count")
+    private int count;
     /**
      * 图片列表
      */
-    private List<PhotoItem> PicList;
+    @XStreamAlias("PicList")
+    private List<PhotoItem> picList;
 
 }

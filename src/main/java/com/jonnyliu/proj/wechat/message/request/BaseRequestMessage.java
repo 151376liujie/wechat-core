@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.message.request;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,21 +16,25 @@ public class BaseRequestMessage implements Serializable {
     /**
      * 开发者微信号
      */
-    protected String ToUserName;
+    @XStreamAlias("ToUserName")
+    protected String toUserName;
 
     /**
      * 发送方帐号（一个OpenID）
      */
-    protected String FromUserName;
+    @XStreamAlias("FromUserName")
+    protected String fromUserName;
 
     /**
      * 消息创建时间 （整型）
      */
-    protected long CreateTime;
+    @XStreamAlias("CreateTime")
+    protected long createTime;
 
     /**
      * 消息类型
      */
-    protected String MsgType;
+    @XStreamAlias("MsgType")
+    protected String msgType;
 
 }

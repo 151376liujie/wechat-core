@@ -47,6 +47,8 @@ public enum EventType {
      */
     EVENT_SCAN_CODE_WAIT_MSG("scancode_waitmsg"),
 
+    EVENT_SCAN_CODE_PUSH("scancode_push"),
+
     /**
      * 发送位置菜单事件
      */
@@ -74,7 +76,7 @@ public enum EventType {
     private String typeStr;
 
     public String getTypeStr() {
-        return typeStr;
+        return this.typeStr;
     }
 
     EventType(String typeStr) {

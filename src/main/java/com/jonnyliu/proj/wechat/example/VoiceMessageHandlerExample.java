@@ -27,7 +27,7 @@ public class VoiceMessageHandlerExample extends AbstractMessageHandler {
         VoiceRequestMessage voiceRequestMessage = (VoiceRequestMessage) baseRequestMessage;
         String recognition = voiceRequestMessage.getRecognition();
         String format = voiceRequestMessage.getFormat();
-        String mediaId = voiceRequestMessage.getMediaID();
+        String mediaId = voiceRequestMessage.getMediaId();
 
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("Recognition", recognition);

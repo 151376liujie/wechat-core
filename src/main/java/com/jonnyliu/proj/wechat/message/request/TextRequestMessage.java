@@ -1,6 +1,7 @@
 package com.jonnyliu.proj.wechat.message.request;
 
 import com.jonnyliu.proj.wechat.enums.MessageType;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 
 /**
@@ -8,12 +9,14 @@ import lombok.Data;
  * Created by liujie-ds8 on 2016/8/5.
  */
 @Data
+@XStreamAlias("xml")
 public class TextRequestMessage extends CommonRequestMessage {
 
     /**
      * 消息内容
      */
-    private String Content;
+    @XStreamAlias("Content")
+    private String content;
 
     @Override
     public String getMsgType() {

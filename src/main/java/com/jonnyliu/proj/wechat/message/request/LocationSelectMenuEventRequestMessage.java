@@ -1,15 +1,16 @@
 package com.jonnyliu.proj.wechat.message.request;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 
 /**
  * 选择位置发送菜单事件
  * Author: jonny
  * Time: 2017-08-17 11:36.
- * <xml><ToUserName><![CDATA[gh_e136c6e50636]]></ToUserName>
- * <FromUserName><![CDATA[oMgHVjngRipVsoxg6TuX3vz6glDg]]></FromUserName>
- * <CreateTime>1408091189</CreateTime>
- * <MsgType><![CDATA[event]]></MsgType>
+ * <xml><toUserName><![CDATA[gh_e136c6e50636]]></toUserName>
+ * <fromUserName><![CDATA[oMgHVjngRipVsoxg6TuX3vz6glDg]]></fromUserName>
+ * <createTime>1408091189</createTime>
+ * <msgType><![CDATA[event]]></msgType>
  * <Event><![CDATA[location_select]]></Event>
  * <EventKey><![CDATA[6]]></EventKey>
  * <SendLocationInfo>
@@ -22,7 +23,12 @@ import lombok.Data;
  * </xml>
  */
 @Data
-public class LocationSelectMenuEventRequestMessage extends CustomMenuClickEventRequestMessage {
+@XStreamAlias("xml")
+public class LocationSelectMenuEventRequestMessage extends EventRequestMessage {
 
-    private SendLocationInfo SendLocationInfo;
+    @XStreamAlias("EventKey")
+    private String eventKey;
+
+    @XStreamAlias("SendLocationInfo")
+    private SendLocationInfo sendLocationInfo;
 }

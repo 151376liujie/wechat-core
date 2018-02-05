@@ -1,6 +1,7 @@
 package com.jonnyliu.proj.wechat.message.request;
 
 import com.jonnyliu.proj.wechat.enums.MessageType;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 
 /**
@@ -14,7 +15,8 @@ public class EventRequestMessage extends BaseRequestMessage {
     /**
      * 事件类型
      */
-    private String Event;
+    @XStreamAlias("Event")
+    private String event;
 
     /**
      * 消息类型

@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.message.response;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 
 /**
@@ -7,8 +8,10 @@ import lombok.Data;
  * Created by liujie-ds8 on 2016/8/5.
  */
 @Data
+@XStreamAlias("xml")
 public class VoiceResponseMessage extends BaseResponseMessage {
 
-    private Voice Voice;
+    @XStreamAlias("Voice")
+    private Voice voice;
 
 }

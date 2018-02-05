@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.message.request;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -21,21 +22,26 @@ public class SendLocationInfo implements Serializable {
     /**
      * X坐标信息
      */
-    private String Location_X;
+    @XStreamAlias("Location_X")
+    private String location_X;
     /**
      * Y坐标信息
      */
-    private String Location_Y;
+    @XStreamAlias("Location_Y")
+    private String location_Y;
     /**
      * 精度,可理解为精度或者比例尺、越精细的话 scale越高
      */
-    private String Scale;
+    @XStreamAlias("Scale")
+    private String scale;
     /**
      * 地理位置的字符串信息
      */
-    private String Label;
+    @XStreamAlias("Label")
+    private String label;
     /**
      * 朋友圈POI的名字，可能为空
      */
-    private String Poiname;
+    @XStreamAlias("Poiname")
+    private String poiname;
 }

@@ -1,28 +1,33 @@
 package com.jonnyliu.proj.wechat.message.request;
 
 import com.jonnyliu.proj.wechat.enums.MessageType;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 
 /**
  * Created by jonnyliu-ds8 on 2016/8/5.
  */
 @Data
+@XStreamAlias("xml")
 public class LinkRequestMessage extends CommonRequestMessage {
 
     /**
      * 消息标题
      */
-    private String Title;
+    @XStreamAlias("Title")
+    private String title;
 
     /**
      * 消息描述
      */
-    private String Description;
+    @XStreamAlias("Description")
+    private String description;
 
     /**
      * 消息链接
      */
-    private String Url;
+    @XStreamAlias("Url")
+    private String url;
 
     @Override
     public String getMsgType() {

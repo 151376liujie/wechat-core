@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.message.response;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,6 +15,7 @@ public class Voice implements Serializable {
     /**
      * 通过素材管理中的接口上传多媒体文件，得到的id
      */
-    private String MediaId;
+    @XStreamAlias("MediaId")
+    private String mediaId;
 
 }

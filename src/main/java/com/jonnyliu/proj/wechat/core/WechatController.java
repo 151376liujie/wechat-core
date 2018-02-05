@@ -9,6 +9,7 @@ import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
 import com.jonnyliu.proj.wechat.utils.MessageUtils;
 import com.jonnyliu.proj.wechat.utils.SignUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 /**
  * 微信消息处理器的入口 <br/>
@@ -68,17 +68,13 @@ public class WechatController {
      */
     @RequestMapping(method = RequestMethod.POST, produces = "text/xml;charset=utf-8")
     public String doPost(HttpServletRequest request, HttpServletResponse response) {
-        ServletInputStream inputStream = null;
         try {
-            inputStream = request.getInputStream();
-            Map<String, String> map = MessageUtils.parseRequest(inputStream);
-//            map.forEach((key, value) -> {
-//                System.out.println(String.format("key:%s,value:%s", key, value));
-//            });
-            String msgType = map.get("MsgType");
-            String eventType = map.get("Event");
+            ServletInputStream inputStream = request.getInputStream();
+            String xml = IOUtils.toString(inputStream);
+            String msgType = MessageUtils.getMessageType(xml);
+            String eventType = MessageUtils.getEventType(xml);
             //将用户发过来的消息转换成消息对象
-            BaseRequestMessage requestMessage = this.messageConverter.doConvert(map);
+            BaseRequestMessage requestMessage = this.messageConverter.doConvert(xml);
             //将不同类型的消息发送给不同的消息处理器
             AbstractMessageHandler messageHandler = this.messageDispatcher.doDispatch(msgType, eventType);
             //调用消息处理器处理消息

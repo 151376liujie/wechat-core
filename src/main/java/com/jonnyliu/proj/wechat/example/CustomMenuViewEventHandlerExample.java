@@ -5,7 +5,7 @@ import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
-import com.jonnyliu.proj.wechat.message.request.CustomMenuClickEventRequestMessage;
+import com.jonnyliu.proj.wechat.message.request.CustomMenuViewEventRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.BaseResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,10 +21,10 @@ import org.springframework.stereotype.Component;
 public class CustomMenuViewEventHandlerExample extends AbstractMessageHandler {
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
-        CustomMenuClickEventRequestMessage customMenuClickEventRequestMessage = (CustomMenuClickEventRequestMessage) baseRequestMessage;
+        CustomMenuViewEventRequestMessage customMenuViewEventRequestMessage = (CustomMenuViewEventRequestMessage) baseRequestMessage;
 
         //在这里实现你自己的业务逻辑
-        log.info("{} 点击了[view]类型的菜单,eventKey={}", customMenuClickEventRequestMessage.getFromUserName(), customMenuClickEventRequestMessage.getEventKey());
+        log.info("{} 点击了[view]类型的菜单,eventKey={}", customMenuViewEventRequestMessage.getFromUserName(), customMenuViewEventRequestMessage.getEventKey());
         return null;
 
     }

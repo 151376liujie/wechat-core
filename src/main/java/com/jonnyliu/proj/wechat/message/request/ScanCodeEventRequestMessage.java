@@ -1,5 +1,7 @@
 package com.jonnyliu.proj.wechat.message.request;
 
+import com.jonnyliu.proj.wechat.enums.EventType;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -10,17 +12,21 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * Time: 2017-08-18 14:37.
  */
 @Data
-public class ScanCodeEventRequestMessage extends BaseRequestMessage {
+@XStreamAlias("xml")
+public class ScanCodeEventRequestMessage extends EventRequestMessage {
 
-    /**
-     * 事件类型，scancode_waitmsg
-     */
-    private String Event;
+    @XStreamAlias("EventKey")
+    private String eventKey;
 
-    private String EventKey;
+    @XStreamAlias("ScanCodeInfo")
+    private ScanCodeInfo scanCodeInfo = new ScanCodeInfo();
 
-    private ScanCodeInfo ScanCodeInfo = new ScanCodeInfo();
+    @Override
+    public String getEvent() {
+        return EventType.EVENT_SCAN_CODE_WAIT_MSG.getTypeStr();
+    }
 
+    @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
     }

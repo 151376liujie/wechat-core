@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.message.request;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,7 +12,9 @@ import java.io.Serializable;
 @Data
 public class ScanCodeInfo implements Serializable {
 
-    private String ScanType;
+    @XStreamAlias("ScanType")
+    private String scanType;
 
-    private String ScanResult;
+    @XStreamAlias("ScanResult")
+    private String scanResult;
 }

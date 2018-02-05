@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @MessageProcessor(messageType = MessageType.EVENT, eventType = EventType.EVENT_SCAN_CODE_WAIT_MSG)
-public class ScanCodeEventHandlerExample extends AbstractMessageHandler {
+public class ScanCodeWaitMsgEventHandlerExample extends AbstractMessageHandler {
 
     /**
      * 真正的处理消息的方法
