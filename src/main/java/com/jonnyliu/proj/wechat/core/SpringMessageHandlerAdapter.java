@@ -3,6 +3,7 @@ package com.jonnyliu.proj.wechat.core;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.jonnyliu.proj.wechat.annotation.MessageProcessor;
+import com.jonnyliu.proj.wechat.bean.MessageHandlerElement;
 import com.jonnyliu.proj.wechat.enums.EventType;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.handler.AbstractMessageHandler;
@@ -21,25 +22,25 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class SpringMessageDispatcher implements MessageDispatcher, ApplicationContextAware {
+public class SpringMessageHandlerAdapter implements MessageHandlerAdapter, ApplicationContextAware {
 
     private ApplicationContext context;
 
     @Override
-    public AbstractMessageHandler doDispatch(String msgType, String eventType) {
+    public AbstractMessageHandler findMessageHandler(MessageHandlerElement messageHandlerElement) {
         if (log.isDebugEnabled()) {
-            log.debug("message type is : {},and event type is : {}", msgType, eventType);
+            log.debug("message type is : {},and event type is : {}", messageHandlerElement.getMessageType(), messageHandlerElement.getEventType());
         }
-        MessageType messageType = MessageType.valueBy(msgType);
+        MessageType messageType = MessageType.valueBy(messageHandlerElement.getMessageType());
         Preconditions.checkNotNull(messageType, "unknow messageType ");
 
-        EventType eventTyp = null;
-        if (!Strings.isNullOrEmpty(eventType)) {
-            eventTyp = EventType.valueBy(eventType);
-            Preconditions.checkNotNull(eventTyp, "unknow eventType !");
+        EventType eventType = null;
+        if (!Strings.isNullOrEmpty(messageHandlerElement.getEventType())) {
+            eventType = EventType.valueBy(messageHandlerElement.getEventType());
+            Preconditions.checkNotNull(eventType, "unknow eventType !");
         }
 
-        Map<String, Object> beansWithAnnotation = context.getBeansWithAnnotation(MessageProcessor.class);
+        Map<String, Object> beansWithAnnotation = this.context.getBeansWithAnnotation(MessageProcessor.class);
         if (beansWithAnnotation == null || beansWithAnnotation.isEmpty()) {
             throw new RuntimeException("this is no class annotationed with @MessageProcessor,do you forgot ??");
         }
@@ -58,7 +59,7 @@ public class SpringMessageDispatcher implements MessageDispatcher, ApplicationCo
 
             //事件类型
             if (annotation.messageType() == MessageType.EVENT) {
-                if (annotation.eventType() == eventTyp) {
+                if (annotation.eventType() == eventType) {
                     return (AbstractMessageHandler) messageHandlerInstance;
                 }
             } else {
@@ -68,7 +69,7 @@ public class SpringMessageDispatcher implements MessageDispatcher, ApplicationCo
                 }
             }
         }
-        log.error("no message handler found ,messageType :{},eventType :{}", msgType, eventType);
+        log.error("no message handler found ,messageType :{},eventType :{}", messageHandlerElement.getMessageType(), eventType);
         return null;
     }
 

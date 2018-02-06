@@ -8,7 +8,7 @@
 3. 只需加入注解就可将处理各个类型的消息处理器分开了,更支持将不同事件类型的消息处理器分开，避免了在处理业务逻辑的代码中使用大段的if elseif elseif 来判断消息得类型的方式。每个接口职责清晰明了，实现更解耦；
 
 ## 所用技术介绍
-1. 使用jdk 1.8，lombok插件,集成了springMVC 和maven 3.0+，没有使用什么高大上得技术，代码中的注释也很详细，相信读者朋友能很容易看得懂。
+1. 使用jdk 1.8，lombok插件,集成了springMVC 和maven 3.0+，使用了少量的lambda表达式,没有使用什么高大上得技术，代码中的注释也很详细，相信读者朋友能很容易看得懂。
 
 ## 项目架构剖析
 ![微信消息接收与响应示意图](微信消息接收与响应示意图.png)
@@ -42,14 +42,11 @@
     public class SubscribeEventMessageHandlerExample extends AbstractMessageHandler {    
     
         private static final Logger LOGGER = LoggerFactory.getLogger(SubscribeEventMessageHandlerExample.class);
-    
-        @Autowired
-        private WechatUserService wechatUserService;
-    
+           
         @Override
         public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
-            //在这里实现你自己的业务逻辑
             SubOrUnSubEventRequestMessage subOrUnSubEventRequestMessage = (SubOrUnSubEventRequestMessage) baseRequestMessage;
+         //在这里实现你自己的业务逻辑
         }
     }
    ```      
@@ -70,11 +67,13 @@
 
 * 事件消息类型
     * [关注事件消息处理器示例代码](https://github.com/151376liujie/wechat-core/tree/master/src/main/java/com/jonnyliu/proj/wechat/example/SubscribeEventMessageHandlerExample.java)
-    * [取消关注事件消息处理器示例代码](https://github.com/151376liujie/wechat-core/tree/master/src/main/java/com/jonnyliu/proj/wechat/example/UnSubscribeEventHandlerExample.java)
+    * [取消关注事件消息处理器示例代码](https://github.com/151376liujie/wechat-core/tree/master/src/main/java/com/jonnyliu/proj/wechat/example/UnsubscribeEventHandlerExample.java)
     * [上传地理位置事件消息处理器示例代码](https://github.com/151376liujie/wechat-core/blob/master/src/main/java/com/jonnyliu/proj/wechat/example/UploadLocationEventHandlerExample.java)
     * [扫描二维码事件消息处理器示例代码](https://github.com/151376liujie/wechat-core/blob/master/src/main/java/com/jonnyliu/proj/wechat/example/ScanWithParameterEventHandlerExample.java)
     * [自定义菜单跳转事件消息处理器示例代码](https://github.com/151376liujie/wechat-core/blob/master/src/main/java/com/jonnyliu/proj/wechat/example/CustomMenuViewEventHandlerExample.java)
     * [自定义菜单点击事件消息处理器示例代码](https://github.com/151376liujie/wechat-core/blob/master/src/main/java/com/jonnyliu/proj/wechat/example/CustomMenuClickEventHandlerExample.java)
+    * [扫码推事件消息处理器示例代码](https://github.com/151376liujie/wechat-core/blob/master/src/main/java/com/jonnyliu/proj/wechat/example/ScanCodePushEventHandlerExample.java)
+    * [扫码推事件且弹出“消息接收中”提示框的事件消息处理器示例代码](https://github.com/151376liujie/wechat-core/blob/master/src/main/java/com/jonnyliu/proj/wechat/example/ScanCodeWaitMsgEventHandlerExample.java)
 
 ## 效果演示
 
@@ -82,10 +81,9 @@
 ![扫描下方二维码关注公众号即可体验功能](演示示例-公众号.png)
 
 ## 已实现的功能列表
-1. 对基本消息类型（文本、图片、音频、视频、位置、短视频、链接消息）和事件消息（关注、取消关注、上传地理位置、扫描二维码）的接收和响应的封装。
+1. 对基本消息类型（文本、图片、音频、视频、位置、短视频、链接消息）和事件消息（关注、取消关注、上传地理位置、扫描二维码和自定义菜单事件消息）的接收和响应的封装。
 2. 对access_token的封装,请参考[AccessTokenService](https://github.com/151376liujie/wechat-core/tree/master/src/main/java/com/jonnyliu/proj/wechat/service/accesstoken/)。
 3. 整个用户接口API的封装,请参考[WechatUserService](https://github.com/151376liujie/wechat-core/tree/master/src/main/java/com/jonnyliu/proj/wechat/service/user)
-4. **下一步准备做自定义菜单、redis实现accesstoken存储**
 
 ## 联系作者
 邮箱：980463316@qq.com ,欢迎提bug和建议。

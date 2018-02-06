@@ -1,5 +1,6 @@
 package com.jonnyliu.proj.wechat.core;
 
+import com.jonnyliu.proj.wechat.bean.MessageHandlerElement;
 import com.jonnyliu.proj.wechat.config.WechatConfig;
 import com.jonnyliu.proj.wechat.converter.MessageConvert;
 import com.jonnyliu.proj.wechat.exception.NoMessageHandlerFoundException;
@@ -31,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 public class WechatController {
 
     @Autowired
-    private MessageDispatcher messageDispatcher;
+    private MessageHandlerAdapter messageHandlerAdapter;
 
     @Autowired
     private MessageConvert messageConverter;
@@ -57,7 +58,6 @@ public class WechatController {
         if (SignUtil.checkSignature(this.wechatConfig.getToken(), signature, timestamp, nonce)) {
             return echostr;
         }
-
         return "";
     }
 
@@ -73,14 +73,15 @@ public class WechatController {
             String xml = IOUtils.toString(inputStream);
             String msgType = MessageUtils.getMessageType(xml);
             String eventType = MessageUtils.getEventType(xml);
+            MessageHandlerElement messageHandlerElement = new MessageHandlerElement(msgType, eventType);
             //将用户发过来的消息转换成消息对象
             BaseRequestMessage requestMessage = this.messageConverter.doConvert(xml);
             //将不同类型的消息发送给不同的消息处理器
-            AbstractMessageHandler messageHandler = this.messageDispatcher.doDispatch(msgType, eventType);
-            //调用消息处理器处理消息
+            AbstractMessageHandler messageHandler = this.messageHandlerAdapter.findMessageHandler(messageHandlerElement);
             if (messageHandler == null) {
                 throw new NoMessageHandlerFoundException("no message handler found for message type " + msgType + " and event type " + eventType);
             }
+            //调用消息处理器处理消息
             BaseResponseMessage responseMessage = messageHandler.handleMessage(requestMessage);
             if (responseMessage == null) {
                 return "";

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @MessageProcessor(messageType = MessageType.EVENT, eventType = EventType.EVENT_UNSUBSCRIBE)
-public class UnSubscribeEventHandlerExample extends AbstractMessageHandler {
+public class UnsubscribeEventHandlerExample extends AbstractMessageHandler {
 
     @Override
     public BaseResponseMessage doHandleMessage(BaseRequestMessage baseRequestMessage) {
