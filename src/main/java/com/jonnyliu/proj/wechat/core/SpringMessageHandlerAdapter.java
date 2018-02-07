@@ -42,7 +42,8 @@ public class SpringMessageHandlerAdapter implements MessageHandlerAdapter, Appli
 
         Map<String, Object> beansWithAnnotation = this.context.getBeansWithAnnotation(MessageProcessor.class);
         if (beansWithAnnotation == null || beansWithAnnotation.isEmpty()) {
-            throw new RuntimeException("this is no class annotationed with @MessageProcessor,do you forgot ??");
+            log.error("this is no class annotationed with @MessageProcessor,do you forgot ??");
+            return null;
         }
         if (log.isDebugEnabled()) {
             log.debug("found classes that annotationed with {} : {}", MessageProcessor.class.getSimpleName(), beansWithAnnotation);
