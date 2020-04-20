@@ -3,6 +3,7 @@ package com.jonnyliu.proj.wechat.message.request;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * 事件类型消息基类
@@ -10,6 +11,7 @@ import lombok.Data;
  * Time: 2018-02-03 23:49.
  */
 @Data
+@ToString(callSuper = true)
 public class EventRequestMessage extends BaseRequestMessage {
 
     /**

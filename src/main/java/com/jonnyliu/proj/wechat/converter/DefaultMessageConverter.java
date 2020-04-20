@@ -61,11 +61,14 @@ public class DefaultMessageConverter implements MessageConvert {
                 }
                 switch (eventType) {
                     case EVENT_SUBSCRIBE:
+                        // event 为 subscribe 的消息有两种，一种是用户关注消息，一种是 用户未关注时，进行关注后的事件推送
+                        if (MessageUtils.isScanWithUnsubscribedMessage(xml)){
+                            return MessageUtils.xml2Message(xml, ScanQrWithParameterEventRequestMessage.class);
+                        }
+                        // 用户关注消息
                         return MessageUtils.xml2Message(xml, SubscribeEventRequestMessage.class);
                     case EVENT_UNSUBSCRIBE:
                         return MessageUtils.xml2Message(xml, UnsubscribeEventRequestMessage.class);
-                    //扫描二维码时未关注公众号消息
-                    case EVENT_SCAN_SUBSCRIBE:
                         //扫描二维码时已关注公众号消息
                     case EVENT_SCAN:
                         return MessageUtils.xml2Message(xml, ScanQrWithParameterEventRequestMessage.class);

@@ -3,6 +3,7 @@ package com.jonnyliu.proj.wechat.message.request;
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * 文本消息的封装
@@ -10,6 +11,7 @@ import lombok.Data;
  */
 @Data
 @XStreamAlias("xml")
+@ToString(callSuper = true)
 public class TextRequestMessage extends CommonRequestMessage {
 
     /**

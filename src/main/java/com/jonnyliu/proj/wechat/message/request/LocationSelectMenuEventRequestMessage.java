@@ -2,6 +2,7 @@ package com.jonnyliu.proj.wechat.message.request;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * 选择位置发送菜单事件
@@ -24,6 +25,7 @@ import lombok.Data;
  */
 @Data
 @XStreamAlias("xml")
+@ToString(callSuper = true)
 public class LocationSelectMenuEventRequestMessage extends EventRequestMessage {
 
     @XStreamAlias("EventKey")
