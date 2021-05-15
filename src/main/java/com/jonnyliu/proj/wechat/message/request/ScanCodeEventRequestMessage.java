@@ -3,6 +3,7 @@ package com.jonnyliu.proj.wechat.message.request;
 import com.jonnyliu.proj.wechat.enums.EventType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
+import lombok.ToString;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -13,6 +14,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 @Data
 @XStreamAlias("xml")
+@ToString(callSuper = true)
 public class ScanCodeEventRequestMessage extends EventRequestMessage {
 
     @XStreamAlias("EventKey")

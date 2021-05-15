@@ -8,6 +8,7 @@ package com.jonnyliu.proj.wechat.message.request;
 import com.jonnyliu.proj.wechat.enums.EventType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * <xml><toUserName><![CDATA[gh_e136c6e50636]]></toUserName>
@@ -23,6 +24,7 @@ import lombok.Data;
  */
 @Data
 @XStreamAlias("xml")
+@ToString(callSuper = true)
 public class ScanCodePushEventRequestMessage extends EventRequestMessage {
 
     @XStreamAlias("EventKey")

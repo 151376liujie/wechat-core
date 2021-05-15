@@ -34,11 +34,6 @@ public enum EventType {
     EVENT_CUSTOM_MENU_VIEW("view"),
 
     /**
-     * 用户未关注时扫描二维码事件
-     */
-    EVENT_SCAN_SUBSCRIBE("subscribe"),
-
-    /**
      * 用户已关注时扫描二维码事件
      */
     EVENT_SCAN("scan"),

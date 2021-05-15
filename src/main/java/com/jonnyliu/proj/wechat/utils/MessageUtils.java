@@ -2,6 +2,7 @@ package com.jonnyliu.proj.wechat.utils;
 
 import com.jonnyliu.proj.wechat.enums.MessageType;
 import com.jonnyliu.proj.wechat.message.request.BaseRequestMessage;
+import com.jonnyliu.proj.wechat.message.request.SubscribeEventRequestMessage;
 import com.jonnyliu.proj.wechat.message.response.*;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
@@ -9,8 +10,6 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Writer;
 import java.util.List;
@@ -24,8 +23,6 @@ import java.util.regex.Pattern;
  */
 public class MessageUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MessageUtils.class);
-
     /**
      * 解析消息类型字段的正则表达式
      */
@@ -35,6 +32,16 @@ public class MessageUtils {
      * 解析事件类型字段的正则表达式
      */
     private static final Pattern EVENT_TYPE_PATTERN = Pattern.compile("\\<Event\\>\\<\\!\\[CDATA\\[(.*?)\\]\\]\\>\\<\\/Event\\>");
+
+    /**
+     * 解析事件类型字段EventKey的正则表达式
+     */
+    private static final Pattern EVENT_KEY_PATTERN = Pattern.compile("\\<EventKey\\>\\<\\!\\[CDATA\\[(.*?)\\]\\]\\>\\<\\/EventKey\\>");
+
+    /**
+     * 解析事件类型字段Ticket的正则表达式
+     */
+    private static final Pattern TICKET_PATTERN = Pattern.compile("\\<Ticket\\>\\<\\!\\[CDATA\\[(.*?)\\]\\]\\>\\<\\/Ticket\\>");
 
     /**
      * 扩展xstream，使其支持CDATA块
@@ -177,7 +184,7 @@ public class MessageUtils {
         imageResponseMessage.setCreateTime(System.currentTimeMillis());
         imageResponseMessage.setFromUserName(baseRequestMessage.getToUserName());
         Image image = new Image();
-        image.setMediaId(paramMap.get("MediaId") == null ? "" : paramMap.get("MediaId"));
+        image.setMediaId(paramMap.getOrDefault("MediaId",""));
         imageResponseMessage.setImage(image);
         return imageResponseMessage;
     }
@@ -196,11 +203,11 @@ public class MessageUtils {
         musicResponseMessage.setMsgType(MessageType.MUSIC_MESSAGE.getTypeStr());
         musicResponseMessage.setToUserName(baseRequestMessage.getFromUserName());
         Music music = new Music();
-        music.setDescription(paramMap.get("Description") == null ? "" : paramMap.get("Description"));
-        music.setHQMusicUrl(paramMap.get("HQMusicUrl") == null ? "" : paramMap.get("HQMusicUrl"));
-        music.setMusicURL(paramMap.get("MusicUrl") == null ? "" : paramMap.get("MusicUrl"));
-        music.setThumbMediaId(paramMap.get("ThumbMediaId") == null ? "" : paramMap.get("ThumbMediaId"));
-        music.setTitle(paramMap.get("Title") == null ? "" : paramMap.get("Title"));
+        music.setDescription(paramMap.getOrDefault("Description",""));
+        music.setHQMusicUrl(paramMap.getOrDefault("HQMusicUrl",""));
+        music.setMusicURL(paramMap.getOrDefault("MusicUrl", "" ));
+        music.setThumbMediaId(paramMap.getOrDefault("ThumbMediaId",""));
+        music.setTitle(paramMap.getOrDefault("Title","" ));
         musicResponseMessage.setMusic(music);
         return musicResponseMessage;
     }
@@ -219,7 +226,7 @@ public class MessageUtils {
         voiceResponseMessage.setMsgType(MessageType.VOICE_MESSAGE.getTypeStr());
         voiceResponseMessage.setCreateTime(System.currentTimeMillis());
         Voice voice = new Voice();
-        voice.setMediaId(paramMap.get("MediaId") == null ? "" : paramMap.get("MediaId"));
+        voice.setMediaId(paramMap.getOrDefault("MediaId",""));
         voiceResponseMessage.setVoice(voice);
         return voiceResponseMessage;
     }
@@ -238,9 +245,9 @@ public class MessageUtils {
         videoResponseMessage.setFromUserName(baseRequestMessage.getToUserName());
         videoResponseMessage.setMsgType(MessageType.VIDEO_MESSAGE.getTypeStr());
         Video video = new Video();
-        video.setMediaId(paramMap.get("MediaId") == null ? "" : paramMap.get("MediaId"));
-        video.setDescription(paramMap.get("Description") == null ? "" : paramMap.get("Description"));
-        video.setTitle(paramMap.get("Title") == null ? "" : paramMap.get("Title"));
+        video.setMediaId(paramMap.getOrDefault("MediaId",""));
+        video.setDescription(paramMap.getOrDefault("Description",""));
+        video.setTitle(paramMap.getOrDefault("Title","" ));
         videoResponseMessage.setVideo(video);
         return videoResponseMessage;
     }
@@ -280,6 +287,8 @@ public class MessageUtils {
 
     public static <T> T xml2Message(String xml, Class<T> clazz) {
         XStream xstream = newXStreamInstance();
+        //先忽略未知的元素，防止从xml转换成对象时报错
+        xstream.ignoreUnknownElements();
         xstream.processAnnotations(clazz);
         return (T) xstream.fromXML(xml);
     }
@@ -289,4 +298,36 @@ public class MessageUtils {
         xstream.processAnnotations(message.getClass());
         return xstream.toXML(message);
     }
+
+    /**
+     * 判断消息是否是用户未关注时，进行关注后的事件推送
+     * @return
+     */
+    public static boolean isScanWithUnsubscribedMessage(String xml) {
+        return hasEventKey(xml) && hasTicket(xml);
+    }
+
+
+    private static boolean hasEventKey(String xml) {
+        Matcher matcher = EVENT_KEY_PATTERN.matcher(xml);
+        return matcher.find();
+    }
+
+    private static boolean hasTicket(String xml) {
+        Matcher matcher = TICKET_PATTERN.matcher(xml);
+        return matcher.find();
+    }
+
+    public static void main(String[] args) {
+        String xml = "<xml><ToUserName><![CDATA[gh_f79ae2ca6f6f]]></ToUserName>\n" +
+                "<FromUserName><![CDATA[oHCzb0hR33oL-XAVcwnGja94ZCpE]]></FromUserName>\n" +
+                "<CreateTime>1587105345</CreateTime>\n" +
+                "<MsgType><![CDATA[event]]></MsgType>\n" +
+                "<Event><![CDATA[subscribe]]></Event>\n" +
+                "<EventKey><![CDATA[]]></EventKey>\n" +
+                "</xml>";
+        SubscribeEventRequestMessage message = xml2Message(xml, SubscribeEventRequestMessage.class);
+        System.out.println(message);
+    }
+
 }

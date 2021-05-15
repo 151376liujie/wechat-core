@@ -1,0 +1,14 @@
+POST http://localhost:8080/wechat/
+Content-Type: application/x-www-form-urlencoded
+
+<xml><ToUserName><![CDATA[gh_f79ae2ca6f6f]]></ToUserName>
+<FromUserName><![CDATA[oHCzb0hR33oL-XAVcwnGja94ZCpE]]></FromUserName>
+<CreateTime>1587105345</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+<EventKey><![CDATA[]]></EventKey>
+<EventKey><![CDATA[]]></EventKey>
+</xml>
+
+
+###

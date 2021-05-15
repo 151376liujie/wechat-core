@@ -68,9 +68,10 @@ public class WechatController {
      */
     @RequestMapping(method = RequestMethod.POST, produces = "text/xml;charset=utf-8")
     public String doPost(HttpServletRequest request, HttpServletResponse response) {
+        String xml = null;
         try {
             ServletInputStream inputStream = request.getInputStream();
-            String xml = IOUtils.toString(inputStream);
+            xml = IOUtils.toString(inputStream);
             String msgType = MessageUtils.getMessageType(xml);
             String eventType = MessageUtils.getEventType(xml);
             MessageHandlerElement messageHandlerElement = new MessageHandlerElement(msgType, eventType);
@@ -93,9 +94,9 @@ public class WechatController {
             }
             return responseXml;
         } catch (NoMessageHandlerFoundException e) {
-            log.error(e.getMessage(), e);
+            log.error("can not find message handler for message: [{}]", xml, e);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("message process error: ", e);
         }
         return "";
     }

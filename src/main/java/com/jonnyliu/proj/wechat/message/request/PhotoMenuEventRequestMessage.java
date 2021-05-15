@@ -3,6 +3,7 @@ package com.jonnyliu.proj.wechat.message.request;
 import com.jonnyliu.proj.wechat.enums.EventType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * 系统拍照发图菜单事件
@@ -11,6 +12,7 @@ import lombok.Data;
  */
 @Data
 @XStreamAlias("xml")
+@ToString(callSuper = true)
 public class PhotoMenuEventRequestMessage extends EventRequestMessage {
 
     @XStreamAlias("EventKey")
