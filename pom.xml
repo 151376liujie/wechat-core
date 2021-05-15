@@ -28,25 +28,7 @@
     <profiles>
         <profile>
             <id>dev</id>
-            <properties>
-                <deploy.tomcat.url>http://localhost:8080/manager/text</deploy.tomcat.url>
-                <deploy.tomcat.username>jonny</deploy.tomcat.username>
-                <deploy.tomcat.password>jonny</deploy.tomcat.password>
-                <deploy.tomcat.port>8080</deploy.tomcat.port>
-                <deploy.path>/wechat-core</deploy.path>
-            </properties>
         </profile>
-
-        <!--<profile>-->
-        <!--<id>online</id>-->
-        <!--<properties>-->
-        <!--<deploy.tomcat.url>http://120.25.1.9/manager/text</deploy.tomcat.url>-->
-        <!--<deploy.tomcat.username>jonny</deploy.tomcat.username>-->
-        <!--<deploy.tomcat.password>jonny</deploy.tomcat.password>-->
-        <!--<deploy.tomcat.port>80</deploy.tomcat.port>-->
-        <!--<deploy.path>/wechat-core</deploy.path>-->
-        <!--</properties>-->
-        <!--</profile>-->
     </profiles>
 
     <dependencies>
@@ -205,16 +187,17 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.1</version>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.40.v20210413</version>
                 <configuration>
-                    <port>${deploy.tomcat.port}</port>
-                    <path>${deploy.path}</path>
-                    <uriEncoding>UTF-8</uriEncoding>
-                    <url>${deploy.tomcat.url}</url>
-                    <username>${deploy.tomcat.username}</username>
-                    <password>${deploy.tomcat.password}</password>
+                    <webXml>/webapp/WEB-INF/web.xml</webXml>
+                    <httpConnector>
+                        <port>8080</port>
+                    </httpConnector>
+                    <webApp>
+                        <contextPath>/</contextPath>
+                    </webApp>
                 </configuration>
             </plugin>
         </plugins>
