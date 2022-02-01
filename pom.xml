@@ -19,7 +19,7 @@
         <jackson.version>2.8.11.3</jackson.version>
         <jstl.version>1.2</jstl.version>
         <jsoup.version>1.9.2</jsoup.version>
-        <xstream.version>1.4.8</xstream.version>
+        <xstream.version>1.4.19</xstream.version>
         <dom4j.version>1.6.1</dom4j.version>
         <jedis.version>2.8.1</jedis.version>
         <lombok.version>1.16.16</lombok.version>
